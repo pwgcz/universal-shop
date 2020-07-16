@@ -85,7 +85,7 @@ class Orders(models.Model):
 class OrderItem(models.Model):
     order_item_id = models.AutoField(primary_key=True)
     order = models.ForeignKey(Orders, on_delete=models.CASCADE)
-    product_detail = models.OneToOneField('ProductDetail')
+    product_detail = models.OneToOneField('ProductDetail', on_delete=models.CASCADE)
 
     quantity = models.IntegerField(_('quantity'), default=0)
 
