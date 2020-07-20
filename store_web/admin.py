@@ -54,7 +54,6 @@ class TagAdmin(admin.ModelAdmin):
     fields = ('name', 'products')
 
 
-
 admin.site.register(User, UserAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(ProductDetail, ProductDetailAdmin)

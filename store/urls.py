@@ -25,6 +25,7 @@ router.register(r'users', views.UserViewSet)
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name='index.html')),
+    path('api/', include(router.urls)),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
