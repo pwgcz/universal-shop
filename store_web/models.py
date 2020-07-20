@@ -1,5 +1,5 @@
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
-from django.contrib.auth.models import PermissionsMixin
+from django.contrib.auth.models import PermissionsMixin, AbstractUser
 from django.core.mail import send_mail
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -19,12 +19,16 @@ class UserManager(BaseUserManager):
         return user
 
     def create_user(self, email, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', False)
         extra_fields.setdefault('is_superuser', False)
         return self._create_user(email, password, **extra_fields)
 
     def create_superuser(self, email, password, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
 
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff=True.')
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
 
@@ -35,11 +39,16 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('email_address'), unique=True)
     first_name = models.CharField(_('first_name'), max_length=30, blank=True)
     last_name = models.CharField(_('last_name'), max_length=30, blank=True)
-    date_of_birth = models.DateField(_('date_of_birth'), blank=True)
-    phone = models.CharField(_('phone'), max_length=30, blank=True)
+    date_of_birth = models.DateField(_('date_of_birth'), blank=True, null=True)
+    phone = models.CharField(_('phone'), max_length=30, blank=True, null=True)
 
     date_joined = models.DateTimeField(_('date_joined'), auto_now_add=True)
     is_active = models.BooleanField(_('active'), default=True)
+    is_staff = models.BooleanField(
+        _('staff status'),
+        default=False,
+        help_text=_('Designates whether the user can log into this admin site.'),
+    )
 
     objects = UserManager()
 
@@ -60,7 +69,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
     def __str__(self):
-        return f'<User email:  {self.email}>'
+        return f'email- {self.email}'
 
 
 class Orders(models.Model):
@@ -79,7 +88,7 @@ class Orders(models.Model):
         verbose_name_plural = _('orders')
 
     def __str__(self):
-        return f'<Orders id: {self.order_id} >'
+        return f'id- {self.order_id}'
 
 
 class OrderItem(models.Model):
@@ -94,7 +103,7 @@ class OrderItem(models.Model):
         verbose_name_plural = _('order_items')
 
     def __str__(self):
-        return f'<OrderItem id: {self.order_item_id} >'
+        return f'id- {self.order_item_id}'
 
 
 class Discount(models.Model):
@@ -111,7 +120,7 @@ class Discount(models.Model):
         verbose_name_plural = _('discounts')
 
     def __str__(self):
-        return f'<Discount id: {self.discount_id}, name: {self.name}>'
+        return f'id- {self.discount_id}, name- {self.name}'
 
 
 class Address(models.Model):
@@ -130,7 +139,7 @@ class Address(models.Model):
         verbose_name_plural = _('addresses')
 
     def __str__(self):
-        return f'<Address id: {self.address_id}, full name: {self.full_name}>'
+        return f'id- {self.address_id}, full name- {self.full_name}'
 
 
 class CartItem(models.Model):
@@ -147,7 +156,7 @@ class CartItem(models.Model):
         verbose_name_plural = _('cart_items')
 
     def __str__(self):
-        return f'<CartItem id: {self.cart_item_id}>'
+        return f'id- {self.cart_item_id}'
 
 
 class Category(models.Model):
@@ -160,7 +169,7 @@ class Category(models.Model):
         verbose_name_plural = _('categories')
 
     def __str__(self):
-        return f'<Category id: {self.category_id}>'
+        return f'<id- {self.category_id}'
 
 
 class Tag(models.Model):
@@ -174,7 +183,7 @@ class Tag(models.Model):
         verbose_name_plural = _('tags')
 
     def __str__(self):
-        return f'<Tag id: {self.tag_id}, tag: {self.tag}>'
+        return f'id- {self.tag_id}, tag- {self.tag}'
 
 
 class Product(models.Model):
@@ -189,7 +198,7 @@ class Product(models.Model):
         verbose_name_plural = _('products')
 
     def __str__(self):
-        return f'<Product id: {self.product_id}, name: {self.name}>'
+        return f'id- {self.product_id}, name- {self.name}'
 
 
 class ProductDetail(models.Model):
@@ -203,5 +212,5 @@ class ProductDetail(models.Model):
         verbose_name_plural = _('product_details')
 
     def __str__(self):
-        return f'<ProductDetail id: {self.product_detail_id}>'
+        return f'id- {self.product_detail_id}'
 
