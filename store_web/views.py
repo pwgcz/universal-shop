@@ -1,3 +1,7 @@
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.reverse import reverse
+
 from .models import User, Orders, OrderItem, Discount, Address, CartItem, Category, Tag, Product, ProductDetail
 from rest_framework import viewsets, status, mixins, generics
 
@@ -46,6 +50,9 @@ class OrdersList(mixins.ListModelMixin,
                  generics.GenericAPIView):
     queryset = Orders.objects.all()
     serializer_class = OrdersSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -146,6 +153,9 @@ class AddressList(mixins.ListModelMixin,
     queryset = Address.objects.all()
     serializer_class = AddressSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(users=self.request.user)
+
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
@@ -178,6 +188,9 @@ class CartItemList(mixins.ListModelMixin,
                    generics.GenericAPIView):
     queryset = CartItem.objects.all()
     serializer_class = CartItemSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(users=self.request.user)
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -333,3 +346,20 @@ class ProductDetailDetails(mixins.RetrieveModelMixin,
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+
+
+@api_view(['GET'])
+def api_root(request, format=None):
+    return Response({
+        'users': reverse('users-list', request=request, format=format),
+        'orders': reverse('orders-list', request=request, format=format),
+        'order_items': reverse('order-items-list', request=request, format=format),
+        'discount': reverse('discounts-list', request=request, format=format),
+        'address': reverse('address-list', request=request, format=format),
+        'cart_items': reverse('cart-items-list', request=request, format=format),
+        'category': reverse('categories-list', request=request, format=format),
+        'tags': reverse('tags-list', request=request, format=format),
+        'products': reverse('products-list', request=request, format=format),
+        'product_details': reverse('product-details-list', request=request, format=format),
+    })
+
