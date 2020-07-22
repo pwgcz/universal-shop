@@ -10,13 +10,13 @@ class UserAdmin(admin.ModelAdmin):
 
 class ProductAdmin(admin.ModelAdmin):
     empty_value_display = 'unknown'
-    fields = ('category', 'name', 'price')
-    list_display = ('name', 'price')
+    fields = ('category', 'name', 'price', 'image')
+    list_display = ('name', 'price', 'image')
 
 
 class ProductDetailAdmin(admin.ModelAdmin):
     empty_value_display = 'unknown'
-    fields = ('product', 'description')
+    fields = ('product', 'description', 'file')
 
 
 class OrdersAdmin(admin.ModelAdmin):

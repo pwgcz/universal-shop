@@ -69,7 +69,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
     def __str__(self):
-        return f'email- {self.email}'
+        return f'email: {self.email}'
 
 
 class Orders(models.Model):
@@ -88,7 +88,7 @@ class Orders(models.Model):
         verbose_name_plural = _('orders')
 
     def __str__(self):
-        return f'id- {self.order_id}'
+        return f'id: {self.order_id}, user: {self.user}'
 
 
 class OrderItem(models.Model):
@@ -103,7 +103,7 @@ class OrderItem(models.Model):
         verbose_name_plural = _('order_items')
 
     def __str__(self):
-        return f'id- {self.order_item_id}'
+        return f'id: {self.order_item_id}'
 
 
 class Discount(models.Model):
@@ -120,7 +120,7 @@ class Discount(models.Model):
         verbose_name_plural = _('discounts')
 
     def __str__(self):
-        return f'id- {self.discount_id}, name- {self.name}'
+        return f'id: {self.discount_id}, name: {self.name}'
 
 
 class Address(models.Model):
@@ -139,7 +139,7 @@ class Address(models.Model):
         verbose_name_plural = _('addresses')
 
     def __str__(self):
-        return f'id- {self.address_id}, full name- {self.full_name}'
+        return f'id: {self.address_id}, full name: {self.full_name}'
 
 
 class CartItem(models.Model):
@@ -156,7 +156,7 @@ class CartItem(models.Model):
         verbose_name_plural = _('cart_items')
 
     def __str__(self):
-        return f'id- {self.cart_item_id}'
+        return f'id: {self.cart_item_id}, user: {self.users}'
 
 
 class Category(models.Model):
@@ -169,7 +169,7 @@ class Category(models.Model):
         verbose_name_plural = _('categories')
 
     def __str__(self):
-        return f'<id- {self.category_id}'
+        return f'<id: {self.category_id}, name: {self.name}'
 
 
 class Tag(models.Model):
@@ -183,7 +183,7 @@ class Tag(models.Model):
         verbose_name_plural = _('tags')
 
     def __str__(self):
-        return f'id- {self.tag_id}, tag- {self.tag}'
+        return f'id: {self.tag_id}, tag: {self.tag}'
 
 
 class Product(models.Model):
@@ -192,13 +192,14 @@ class Product(models.Model):
 
     name = models.CharField(_('name'), max_length=100)
     price = models.DecimalField(_('price'), max_digits=100, decimal_places=2)
+    image = models.ImageField(_('image'), upload_to='images', default='/images/default.jpg')
 
     class Meta:
         verbose_name = _('product')
         verbose_name_plural = _('products')
 
     def __str__(self):
-        return f'id- {self.product_id}, name- {self.name}'
+        return f'id: {self.product_id}, name: {self.name}'
 
 
 class ProductDetail(models.Model):
@@ -206,11 +207,12 @@ class ProductDetail(models.Model):
     product = models.ManyToManyField(Product)
 
     description = models.TextField(_('description'))
+    file = models.FileField(_('file'), upload_to="files", null=True, blank=True)
 
     class Meta:
         verbose_name = _('product_detail')
         verbose_name_plural = _('product_details')
 
     def __str__(self):
-        return f'id- {self.product_detail_id}'
+        return f'id: {self.product_detail_id} product: {self.product}'
 

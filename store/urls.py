@@ -9,7 +9,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 # router.register(r'users', views.UserList.as_view())
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name='index.html')),
+    path('/', TemplateView.as_view(template_name='index.html')),
     # path('api/', include(router.urls)),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),

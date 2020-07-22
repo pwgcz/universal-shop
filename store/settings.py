@@ -104,9 +104,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = 'media'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'frontend/build/static'),
+    os.path.join(BASE_DIR, 'front_end/build/static'),
 ]
 
 # REST Framework set-up
