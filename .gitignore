@@ -6,15 +6,15 @@ __pycache__
 
 
 # dependencies
-frontend/node_modules
-frontend/.pnp
+front_end/node_modules
+front_end/.pnp
 .pnp.js
 
 # testing
-frontend/coverage
+front_end/coverage
 
 # production
-frontend/build
+front_end/build
 
 # misc
 .DS_Store
