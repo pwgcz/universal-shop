@@ -8,6 +8,10 @@
   --mainGreyColor: #767B91;
   --mainLightColor: #E1E5EE;
   --brightOrangeColor: #F7C59F;
+  --mainTransition: all 0.3s linear;
+  --mainSpacing: 3px;
+ --lightShadow: 2px 5px 3px 0px rgba(0, 0, 0, 0.5);
+ --darkShadow: 4px 10px 5px 0px rgba(0, 0, 0, 0.5);
 }
 
 /* globals */
@@ -18,9 +22,9 @@ body {
   line-height: 2.2;
 }
 h1 {
-  /* font-size: 3em;
+  font-size: 3em;
   line-height: 1;
-  margin-bottom: 0.5em; */
+  margin-bottom: 0.5em;
 }
 h2 {
   /* font-size: 2em;
@@ -56,10 +60,10 @@ a {
   display: inline-block;
   text-decoration: none;
   letter-spacing: var(--mainSpacing);
-  color: var(--mainBlack);
-  background: var(--primaryColor);
+  color: var(--mainGreyColor);
+  background: var(--brightOrangeColor);
   padding: 0.4rem 0.9rem;
-  border: 3px solid var(--primaryColor);
+  border: 3px solid var(--brightOrangeColor);
   transition: var(--mainTransition);
   text-transform: uppercase;
   cursor: pointer;
@@ -162,6 +166,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
+   min-height: calc(100vh - 66px);
 }
 
 /* End of Hero */
@@ -183,7 +188,7 @@ a {
 .banner div {
   width: 10rem;
   height: 5px;
-  background: var(--primaryColor);
+  background: var(--brightOrangeColor);
   margin: 1.7rem auto;
 }
 .banner p {
