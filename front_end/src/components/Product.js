@@ -1,31 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-
-const Products = ({category, priceRange, name}) => {
-
-  const [products, setProducts] = useState([])
+import React from 'react';
 
 
-  const getProducts = () => {
-    return axios.get(`/api/products`)
-  }
-
-  useEffect(()=>{
-    getProducts()
-      .then(function (results) {
-          setProducts(results.data);
-    })
-    .catch(function (error) {
-      console.log(error.toJSON())
-    });
-
-  }, []);
-  console.log(products);
+const Product = () => {
   return (
     <div>
-
+    rumba
     </div>
   )
 }
 
-export default Products
+export default Product

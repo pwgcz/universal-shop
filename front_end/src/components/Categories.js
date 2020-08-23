@@ -16,7 +16,7 @@ const Categories = () => {
     setCategories(results.data);
     })
     .catch(function (error) {
-      console.log(error.toJSON())
+      console.log(error)
     });
   }, []);
   console.log(categories)
