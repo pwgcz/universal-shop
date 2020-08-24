@@ -1,42 +1,37 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Product from './Product'
 import axios from 'axios';
 
-const ProductsList = ({category, priceRange, name}) => {
+export default function ProductsList({category, priceRange, name}) {
 
-  const [products, setProducts] = useState([])
+  const [dataProducts, setDataProducts] = useState({products: [], isFetching: true})
 
-
-  const getProducts = () => {
-    return axios.get(`/api/products`)
-  }
-
-  useEffect(()=>{
-    getProducts()
-      .then(function (results) {
-          setProducts(results.data);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-
-  }, []);
-  console.log(products);
-  // TODO: heandle map empty array
-
-  return (
-    <section>
-      {
-          products.map(product => {
-          return(
-             <Product key={product.product_id} product={product} />
-           )
-        })
+  const fetchProducts = async () => {
+      try {
+          setDataProducts({products: dataProducts.products});
+          const response = await axios.get(`/api/products`);
+          setDataProducts({products: response.data.results, isFetching: false});
+      } catch (e) {
+          console.log(e);
+          setDataProducts({products: dataProducts.products, isFetching: false});
       }
+  };
+  useEffect(() => {
+        fetchProducts();
+    }, []);
 
-    </section>
 
+  let products = (param) => {
+    return(
+      param.map(item => {
+        return (<Product key={item.product_id} product={item} />)
+      })
+    )
+  }
+  console.log(dataProducts);
+  return (
+    <div>
+      {dataProducts.isFetching ? 'Loading ...' :  products(dataProducts.products)}
+    </div>
   )
 }
-
-export default ProductsList

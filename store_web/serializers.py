@@ -53,7 +53,7 @@ class TagSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ['product_id', 'category', 'name', 'price']
+        fields = ['product_id', 'category', 'name', 'price', 'image']
 
 
 class ProductDetailSerializer(serializers.ModelSerializer):

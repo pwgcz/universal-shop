@@ -2,24 +2,22 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const Categories = () => {
+  const [dataCategories, setDataProducts] = useState({categories: [], isFetching: true})
 
-  const [categories, setCategories] = useState([])
-
-  const getCategories = () => {
-    return axios.get(`/api/categories/`)
-  }
-
-  useEffect(()=>{
-     getCategories()
-  .then(function (results) {
-
-    setCategories(results.data);
-    })
-    .catch(function (error) {
-      console.log(error)
-    });
-  }, []);
-  console.log(categories)
+  const fetchProducts = async () => {
+      try {
+          setDataProducts({categories: dataCategories.categories});
+          const response = await axios.get(`/api/categories`);
+          setDataProducts({categories: response.data.results, isFetching: false});
+      } catch (e) {
+          console.log(e);
+          setDataProducts({categories: dataCategories.categories, isFetching: false});
+      }
+  };
+  useEffect(() => {
+        fetchProducts();
+    }, []);
+  console.log(dataCategories)
   return (
     <div>
 

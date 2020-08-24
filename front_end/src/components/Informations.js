@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import Title from './Title'
 import {FaInfo} from 'react-icons/fa';
 
-export default class Informations extends
-Component {
+export default class Informations extends Component {
   state={
     informations:[
       {
