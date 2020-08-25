@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Product from './Product'
 import axios from 'axios';
 
-export default function ProductsList({category, priceRange, name}) {
+export default function FilteredProducts({category, priceRange, name}) {
 
   const [dataProducts, setDataProducts] = useState({products: [], isFetching: true})
 
@@ -20,18 +20,24 @@ export default function ProductsList({category, priceRange, name}) {
         fetchProducts();
     }, []);
 
-
-  let products = (param) => {
+  console.log(dataProducts);
+  if(dataProducts.products.lenght === 0){
     return(
-      param.map(item => {
-        return (<Product key={item.product_id} product={item} />)
-      })
+      <div className=''>
+        <h3>No matches to given parameters</h3>
+      </div>
     )
   }
-  console.log(dataProducts);
+
+  let filteredProducts = dataProducts.products.map(item => {
+        return (<Product key={item.product_id} product={item} />)
+      })
+
   return (
-    <div>
-      {dataProducts.isFetching ? 'Loading ...' :  products(dataProducts.products)}
-    </div>
+    <section className='productgroup'>
+      <div className='productgroup-center'>
+        {filteredProducts}
+      </div>
+    </section>
   )
 }

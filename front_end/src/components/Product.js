@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 export default function Product({product}) {
-  console.log(product)
+
   const {product_id, category, name, price, image} = product
   return (
     <article className='product'>

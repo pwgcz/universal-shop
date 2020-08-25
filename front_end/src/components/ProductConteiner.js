@@ -1,11 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import ProductList from './ProductList';
+import FilteredProducts from './FilteredProducts';
+import PriceFilter from './PriceFilter';
+import SideBarOfCategories from './SideBarOfCategories'
 
 
 export default function ProductConteiner() {
 
+  const [priceRange, setPriseRange] = useState('')
+
+  const getPriceRange =(event) =>{
+    let tempRangeOfPrice = event.target.value.split(',')
+    setPriseRange({minPrice: tempRangeOfPrice[0], maxPrice: tempRangeOfPrice[1]})
+  }
+
+    console.log(priceRange)
   return (
-    <ProductList />
+    <>
+    <PriceFilter getPriceRange={getPriceRange}/>
+    <SideBarOfCategories />
+    <FilteredProducts />
+    </>
   )
 };

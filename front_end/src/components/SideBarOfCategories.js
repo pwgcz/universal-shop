@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const Categories = () => {
+export default function SideBarOfCategories(getCategory) {
   const [dataCategories, setDataProducts] = useState({categories: [], isFetching: true})
 
   const fetchProducts = async () => {
@@ -18,11 +18,24 @@ const Categories = () => {
         fetchProducts();
     }, []);
   console.log(dataCategories)
+
+  if(!dataCategories.isFetching){
+
+  }
   return (
-    <div>
+    <div className='categoriessidebar'>
+    <h3>Product Category</h3>
+    <p></p>
+      <ul className=''>
+          {dataCategories.categories.map(category =>{
+            return(<li  key={category.category_id} className=''>
+            <a href="#" className=''>
+              {category.name}
+            </a>
+             </li>)
+          })}
+        </ul>
 
     </div>
   )
 }
-
-export default Categories
