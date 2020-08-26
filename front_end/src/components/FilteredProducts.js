@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import Product from './Product'
 import axios from 'axios';
 
-export default function FilteredProducts({category, priceRange, name}) {
+export default function FilteredProducts({categoryName, priceRange}) {
 
   const [dataProducts, setDataProducts] = useState({products: [], isFetching: true})
 
   const fetchProducts = async () => {
       try {
           setDataProducts({products: dataProducts.products});
-          const response = await axios.get(`/api/products`);
+          const response = await axios.get(`/api/products?category=${categoryName}&max_price=${priceRange.maxPrice}&min_price=${priceRange.minPrice}`);
           setDataProducts({products: response.data.results, isFetching: false});
       } catch (e) {
           console.log(e);
@@ -18,9 +18,9 @@ export default function FilteredProducts({category, priceRange, name}) {
   };
   useEffect(() => {
         fetchProducts();
-    }, []);
+    }, [categoryName, priceRange]);
 
-  console.log(dataProducts);
+  console.log({categoryName, priceRange});
   if(dataProducts.products.lenght === 0){
     return(
       <div className=''>

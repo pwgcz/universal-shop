@@ -1,4 +1,5 @@
 from rest_framework.decorators import api_view
+from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
@@ -285,17 +286,23 @@ class TagDetails(mixins.RetrieveModelMixin,
 # Product
 
 
-class ProductList(mixins.ListModelMixin,
-                  mixins.CreateModelMixin,
-                  generics.GenericAPIView):
-    queryset = Product.objects.all()
+class ProductList(ListAPIView):
+
     serializer_class = ProductSerializer
 
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
+    def get_queryset(self):
+        queryset = Product.objects.all()
 
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+        category = self.request.query_params.get("category", None)
+        if category:
+            queryset = queryset.filter(category__name=category)
+
+        max_price = self.request.query_params.get('max_price', None)
+        min_price = self.request.query_params.get('min_price', None)
+        if max_price or min_price:
+            queryset = queryset.filter(price__lte=max_price, price__gte=min_price)
+
+        return queryset
 
 
 class ProductDetails(mixins.RetrieveModelMixin,

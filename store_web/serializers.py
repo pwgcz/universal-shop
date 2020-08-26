@@ -51,6 +51,10 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
+
+    category = serializers.SlugRelatedField(many=True, read_only=True, slug_field="name")\
+
+
     class Meta:
         model = Product
         fields = ['product_id', 'category', 'name', 'price', 'image']

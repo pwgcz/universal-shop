@@ -73,6 +73,7 @@ a {
 .btn-primary:hover {
   background: transparent;
   color: var(--brightOrangeColor);
+
 }
 .loading {
   text-transform: capitalize;
@@ -218,7 +219,8 @@ a {
 /* Title */
 .section-title {
   text-align: center;
-  margin-bottom: 4rem;
+  margin-top: 2rem;
+  margin-bottom: 3rem;
 }
 .section-title h4 {
   font-size: 2rem;
@@ -366,7 +368,7 @@ margin-top: 10%;
   text-transform: capitalize;
   letter-spacing: var(--mainSpacing);
 }
-.info div{
+.info p{
   width: 5rem;
   height: 5px;
   margin: 0 auto;
@@ -381,6 +383,13 @@ margin-top: 10%;
 .image img {
   display: block;
   margin:auto;
+}
+.buttons{
+  display: flex;
+  justify-content: space-around;
+}
+.buttons .btn-primary{
+  padding: 0.1rem 0.3rem;
 }
 .product-extras {
   width: 80vw;
@@ -435,7 +444,6 @@ margin-top: 10%;
 
 /* slider */
 .slider{
-  padding: 0 0;
 
   margin: 0 auto;
 }
@@ -547,8 +555,6 @@ margin-top: 10%;
   font-size: 1rem;
   text-transform: capitalize;
 
-  letter-spacing: var(--mainSpacing);
-
   display: inline-block;
   text-decoration: none;
   letter-spacing: var(--mainSpacing);
@@ -572,13 +578,13 @@ margin-top: 10%;
 .productconteiner-filter{
     padding: 2rem;
     border-right: solid var(--mainBlack) 1px ;
-    height: 80vh;
-    margin-top: 4rem;
+
+    margin-top: 1.5rem;
 }
-
-
 .productconteiner-products{
+
 }
+
 @media screen and (min-width: 992px) {
 
   .productconteiner{

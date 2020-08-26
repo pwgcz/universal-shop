@@ -17,8 +17,7 @@ export default function SideBarOfCategories({getCategoryName}) {
   useEffect(() => {
         fetchProducts();
     }, []);
-  console.log(dataCategories)
-
+console.log(getCategoryName)
   if(!dataCategories.isFetching){
 
   }

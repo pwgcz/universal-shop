@@ -45,11 +45,13 @@ export default function SingleProduct(props) {
   </article>
   <article className='info'>
   <h1>{name}</h1>
-  <div></div>
+  <p></p>
   <h3>category: {category}</h3>
   <h3>price: {price} zł</h3>
-
+    <div className='buttons'>
     <Link to='/' className='btn-primary footer'>Add to cart</Link>
+    <Link to='/products' className='btn-primary footer'>Go back shopping</Link>
+    </div>
 
   </article>
   </div>
