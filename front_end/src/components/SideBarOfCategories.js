@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-export default function SideBarOfCategories(getCategory) {
+export default function SideBarOfCategories({getCategoryName}) {
   const [dataCategories, setDataProducts] = useState({categories: [], isFetching: true})
 
   const fetchProducts = async () => {
@@ -28,11 +28,11 @@ export default function SideBarOfCategories(getCategory) {
     <p></p>
       <ul className=''>
           {dataCategories.categories.map(category =>{
-            return(<li  key={category.category_id} className=''>
-            <a href="#" className=''>
-              {category.name}
-            </a>
-             </li>)
+            return(  <li key={category.category_id} >
+                    <button onClick={getCategoryName} value={category.name}>
+                      {category.name}
+                    </button>
+           </li>)
           })}
         </ul>
 

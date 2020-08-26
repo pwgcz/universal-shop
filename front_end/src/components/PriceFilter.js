@@ -8,7 +8,7 @@ export default function PriceFilter({getPriceRange}) {
   const [priceRange, setPriceRange] = useState({minPrice: 0, maxPrice:200})
 
   const handleChange = event => {
-      setPriceRange({minPrice: event[0], maxPrice:event[1]})
+      setPriceRange({minPrice:parseInt(event[0]), maxPrice:parseInt(event[1])})
     }
 
 

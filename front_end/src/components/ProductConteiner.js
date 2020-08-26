@@ -8,18 +8,27 @@ import SideBarOfCategories from './SideBarOfCategories'
 export default function ProductConteiner() {
 
   const [priceRange, setPriseRange] = useState('')
+  const [categoryName, setCategoryName] = useState('')
 
   const getPriceRange =(event) =>{
     let tempRangeOfPrice = event.target.value.split(',')
     setPriseRange({minPrice: tempRangeOfPrice[0], maxPrice: tempRangeOfPrice[1]})
+    console.log(event)
   }
 
-    console.log(priceRange)
+  const getCategoryName =(event) =>{
+    console.log(event.target.value)
+  }
+
   return (
-    <>
-    <PriceFilter getPriceRange={getPriceRange}/>
-    <SideBarOfCategories />
-    <FilteredProducts />
-    </>
+    <section className='productconteiner'>
+      <div className='productconteiner-filter'>
+        <PriceFilter getPriceRange={getPriceRange}/>
+        <SideBarOfCategories getCategoryName={getCategoryName}/>
+      </div>
+      <div className='productconteiner-products'>
+        <FilteredProducts />
+      </div>
+    </section>
   )
 };
