@@ -1,46 +1,41 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import ListAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+from rest_framework.views import APIView
 
 from .models import User, Orders, OrderItem, Discount, Address, CartItem, Category, Tag, Product, ProductDetail
-from rest_framework import viewsets, status, mixins, generics
+from rest_framework import viewsets, status, mixins, generics, permissions
 
 from .serializers import UserSerializer, OrdersSerializer, OrderItemSerializer, DiscountSerializer, AddressSerializer, \
-    CartItemSerializer, CategorySerializer, TagSerializer, ProductSerializer, ProductDetailSerializer
+    CartItemSerializer, CategorySerializer, TagSerializer, ProductSerializer, ProductDetailSerializer, \
+    UserSerializerWithToken
 
 
 # User
 
+class UserList(APIView):
 
-class UserList(mixins.ListModelMixin,
-               mixins.CreateModelMixin,
-               generics.GenericAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+    permission_classes = (permissions.AllowAny,)
 
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+    def post(self, request, format=None):
+        serializer = UserSerializerWithToken(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class UserDetails(mixins.RetrieveModelMixin,
-                  mixins.UpdateModelMixin,
-                  mixins.DestroyModelMixin,
-                  generics.GenericAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def current_user(request):
+    """
+    Determine the current user by their token, and return their data
+    """
 
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
-
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
+    serializer = UserSerializer(request.user)
+    return Response(serializer.data)
 
 
 # Orders

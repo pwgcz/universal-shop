@@ -2,6 +2,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
 from rest_framework import routers
+from rest_framework_jwt.views import obtain_jwt_token
+
 from store_web import views
 from rest_framework.urlpatterns import format_suffix_patterns
 from django.conf import settings
@@ -9,6 +11,8 @@ from django.conf.urls.static import static
 
 # router = routers.DefaultRouter()
 # router.register(r'users', views.UserList.as_view())
+
+from store_web.views import UserList, current_user
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name='index.html')),
@@ -18,8 +22,11 @@ urlpatterns = [
     # REST API
     path('api/', views.api_root),
 
-    path('api/users/', views.UserList.as_view(), name='users-list'),
-    path('api/users/<int:pk>/', views.UserDetails.as_view()),
+    path('current_user/', current_user),
+    path('users/', UserList.as_view()),
+
+    # path('api/users/', views.UserList.as_view(), name='users-list'),
+    # path('api/users/<int:pk>/', views.UserDetails.as_view()),
 
     path('api/orders/', views.OrdersList.as_view(), name='orders-list'),
     path('api/orders/<int:pk>/', views.OrdersDetails.as_view()),
@@ -48,7 +55,9 @@ urlpatterns = [
     path('api/product-details/', views.ProductDetailList.as_view(), name='product-details-list'),
     path('api/product-details/<int:pk>/', views.ProductDetailDetails.as_view()),
 
-]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('token-auth/', obtain_jwt_token)
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 urlpatterns = format_suffix_patterns(urlpatterns)

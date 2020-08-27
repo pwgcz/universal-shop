@@ -20,7 +20,7 @@
 body {
   padding-top: 66px;
   font-family: 'Exo', sans-serif;
-  background: var(--mainLightColor);
+  background: var(--mainWhite);
   line-height: 2.2;
 }
 h1 {
@@ -28,25 +28,14 @@ h1 {
   line-height: 1;
   margin-bottom: 0.5em;
 }
-h2 {
-  /* font-size: 2em;
-  margin-bottom: 0.75em; */
-}
-h3 {
-  /* font-size: 1.5em;
-  line-height: 1;
-  margin-bottom: 1em; */
-}
+
+
 h4 {
   font-size: 1.2em;
   line-height: 1.25;
   margin-bottom: 1.25em;
 }
-h5 {
-  /* font-size: 1em;
-  font-weight: bold;
-  margin-bottom: 1.5em; */
-}
+
 h6 {
   font-size: 1em;
   font-weight: bold;
@@ -109,15 +98,21 @@ a {
   display: flex;
   justify-content: space-between;
 }
+.nav-header a{
+text-decoration: none;
+}
+
+
 .nav-btn {
   background: transparent;
   border: none;
   cursor: pointer;
   outline: none;
 }
-.nav-icon {
+.nav-header h3 {
   font-size: 1.5rem;
-  color: var(--brightOrangeColor);
+  color: var(--mainBlack);
+
 }
 .nav-links {
   height: 0;
@@ -135,9 +130,11 @@ a {
   font-size: 1rem;
   font-weight: 600;
   letter-spacing: var(--mainSpacing);
+  border-bottom: solid var(--mainGreyColor); 
 }
 .nav-links a:hover {
   color: var(--brightOrangeColor);
+  border-bottom: solid  var(--brightOrangeColor) ;
 }
 
 .show-nav {
@@ -160,6 +157,10 @@ a {
   .nav-links a {
     margin: 0 1rem;
     padding: 0.5rem 0;
+  }
+  .nav-header .btn{
+    padding: 6px 6px;
+    font-size: 15px;
   }
 }
 /* end of Navbar */

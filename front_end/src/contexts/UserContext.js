@@ -1,6 +1,6 @@
 import React, { createContext, Component } from 'react';
 
-export const UserContext = createContext();
+export const UserContext = createContext({user: {}});
 
 class UserContextProvider extends Component {
   state = {};
