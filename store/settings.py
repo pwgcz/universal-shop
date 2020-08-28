@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'store_web',
     'rest_framework',
+    'authentication',
     'corsheaders',
 ]
 
@@ -87,7 +88,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'store_web.User'
+AUTH_USER_MODEL = 'authentication.User'
 
 
 LANGUAGE_CODE = 'en-us'
@@ -132,5 +133,7 @@ CORS_ORIGIN_WHITELIST = [
     'http://localhost:8000',
 ]
 JWT_AUTH = {
-    'JWT_RESPONSE_PAYLOAD_HANDLER': 'store.utils.custom_jwt_response_handler'
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'store.utils.custom_jwt_response_handler',
+    'JWT_ALLOW_REFRESH': True,
 }
+

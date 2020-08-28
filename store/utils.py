@@ -1,4 +1,4 @@
-from store_web.serializers import UserSerializer
+from authentication.serializers import UserSerializer
 
 
 def custom_jwt_response_handler(token, user=None, request=None):

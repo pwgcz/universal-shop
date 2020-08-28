@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
 from rest_framework import routers
-from rest_framework_jwt.views import obtain_jwt_token
+from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
 
 from store_web import views
 from rest_framework.urlpatterns import format_suffix_patterns
@@ -12,7 +12,7 @@ from django.conf.urls.static import static
 # router = routers.DefaultRouter()
 # router.register(r'users', views.UserList.as_view())
 
-from store_web.views import UserList, current_user
+from authentication.views import User, current_user
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name='index.html')),
@@ -23,7 +23,7 @@ urlpatterns = [
     path('api/', views.api_root),
 
     path('current_user/', current_user),
-    path('users/', UserList.as_view()),
+    path('users/', User.as_view()),
 
     # path('api/users/', views.UserList.as_view(), name='users-list'),
     # path('api/users/<int:pk>/', views.UserDetails.as_view()),
@@ -55,7 +55,8 @@ urlpatterns = [
     path('api/product-details/', views.ProductDetailList.as_view(), name='product-details-list'),
     path('api/product-details/<int:pk>/', views.ProductDetailDetails.as_view()),
 
-    path('token-auth/', obtain_jwt_token)
+    path('token-auth/', obtain_jwt_token),
+    path('token-refresh/', refresh_jwt_token),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

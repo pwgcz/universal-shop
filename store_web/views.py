@@ -5,37 +5,13 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.views import APIView
 
-from .models import User, Orders, OrderItem, Discount, Address, CartItem, Category, Tag, Product, ProductDetail
+from authentication.serializers import UserSerializer
+from .models import Orders, OrderItem, Discount, Address, CartItem, Category, Tag, Product, ProductDetail
 from rest_framework import viewsets, status, mixins, generics, permissions
 
-from .serializers import UserSerializer, OrdersSerializer, OrderItemSerializer, DiscountSerializer, AddressSerializer, \
-    CartItemSerializer, CategorySerializer, TagSerializer, ProductSerializer, ProductDetailSerializer, \
-    UserSerializerWithToken
+from .serializers import OrdersSerializer, OrderItemSerializer, DiscountSerializer, AddressSerializer, \
+    CartItemSerializer, CategorySerializer, TagSerializer, ProductSerializer, ProductDetailSerializer
 
-
-# User
-
-class UserList(APIView):
-
-    permission_classes = (permissions.AllowAny,)
-
-    def post(self, request, format=None):
-        serializer = UserSerializerWithToken(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def current_user(request):
-    """
-    Determine the current user by their token, and return their data
-    """
-
-    serializer = UserSerializer(request.user)
-    return Response(serializer.data)
 
 
 # Orders

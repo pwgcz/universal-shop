@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Product from './Product'
 import axios from 'axios';
 
+
 export default function FilteredProducts({categoryName, priceRange}) {
 
   const [dataProducts, setDataProducts] = useState({products: [], isFetching: true})
@@ -20,10 +21,10 @@ export default function FilteredProducts({categoryName, priceRange}) {
         fetchProducts();
     }, [categoryName, priceRange]);
 
-  console.log({categoryName, priceRange});
-  if(dataProducts.products.lenght === 0){
+  console.log(dataProducts.products.length);
+  if(dataProducts.products.length === 0){
     return(
-      <div className=''>
+      <div className='error'>
         <h3>No matches to given parameters</h3>
       </div>
     )

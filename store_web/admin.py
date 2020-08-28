@@ -1,11 +1,5 @@
 from django.contrib import admin
-from .models import User, Product, Orders, ProductDetail, OrderItem, Discount, Address, Category, Tag
-
-
-class UserAdmin(admin.ModelAdmin):
-    empty_value_display = 'unknown'
-    fields = ('email', 'first_name', 'last_name', 'date_of_birth', 'phone', 'is_active', 'is_staff')
-    list_display = ('email', 'first_name', 'last_name', 'date_of_birth', 'phone', 'is_active', 'is_staff')
+from .models import Product, Orders, ProductDetail, OrderItem, Discount, Address, Category, Tag
 
 
 class ProductAdmin(admin.ModelAdmin):
@@ -54,7 +48,7 @@ class TagAdmin(admin.ModelAdmin):
     fields = ('name', 'products')
 
 
-admin.site.register(User, UserAdmin)
+
 admin.site.register(Product, ProductAdmin)
 admin.site.register(ProductDetail, ProductDetailAdmin)
 admin.site.register(Orders, OrdersAdmin)
