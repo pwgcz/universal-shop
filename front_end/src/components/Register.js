@@ -15,8 +15,8 @@ export default function Register() {
 
 
     return (
-      <form >
-          <h4>Sign Up</h4>
+      <form className='auth-form'>
+          <h4>Register</h4>
           <label htmlFor="username">Username</label>
           <input
             type="text"
@@ -31,7 +31,21 @@ export default function Register() {
             value={password}
             onChange={handle_change}
           />
-          <input type="submit" />
+
+          <label htmlFor="password">Repeat Password</label>
+          <input
+            type="password"
+            name="password"
+
+          />
+
+          <label htmlFor="password">Email</label>
+          <input
+            type="email"
+            name="email"
+          />
+
+          <button type="submit" className='btn-primary'> Register </button>
         </form>
     )
 

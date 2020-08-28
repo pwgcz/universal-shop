@@ -20,8 +20,9 @@ const handle_change = e => {
     };
 
     return (
-      <form onSubmit={e => this.props.handle_login(e, {password, userEmail})}>
+      <form className='auth-form' onSubmit={e => this.props.handle_login(e, {password, userEmail})}>
               <h4>Log In</h4>
+
               <label htmlFor="username">Username</label>
               <input
                 type="text"
@@ -29,6 +30,7 @@ const handle_change = e => {
                 value={userEmail}
                 onChange={handle_change}
               />
+
               <label htmlFor="password">Password</label>
               <input
                 type="password"
@@ -36,7 +38,8 @@ const handle_change = e => {
                 value={password}
                 onChange={handle_change}
               />
-              <input type="submit" />
+              <button type="submit" className='btn-primary'> Log in </button>
+
             </form>
     )
 

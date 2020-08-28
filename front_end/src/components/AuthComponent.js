@@ -67,9 +67,10 @@ const handleLogout = () => {
 };
 
   return(
-  <>
+  <div className='auth-conteiner'>
   <Login />
+  <div className='auth-seperator'/>
   <Register />
-  </>
+  </div>
   )
 }
