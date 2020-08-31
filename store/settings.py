@@ -132,6 +132,7 @@ CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
     'http://localhost:8000',
 ]
+
 JWT_AUTH = {
     'JWT_RESPONSE_PAYLOAD_HANDLER': 'store.utils.custom_jwt_response_handler',
     'JWT_ALLOW_REFRESH': True,

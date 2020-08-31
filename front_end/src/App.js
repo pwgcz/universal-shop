@@ -7,6 +7,7 @@ import SingleProduct from './pages/SingleProduct';
 import Auth from './pages/Auth';
 import Error from './pages/Error';
 import { Route, Switch } from 'react-router-dom';
+import UserContextProvider from './contexts/UserContext'
 
 
 import Navbar from './components/Navbar'
@@ -14,16 +15,16 @@ import Navbar from './components/Navbar'
 function App() {
   return (
     <>
-
-    <Navbar />
-    <Switch>
-      <Route exact path='/' component={Home} />
-      <Route exact path='/products' component={Products} />
-      <Route exact path='/products/:id' component={SingleProduct} />
-      <Route exact path='/auth' component={Auth} />
-      <Route component={Error} />
-    </Switch>
-
+    <UserContextProvider>
+      <Navbar />
+      <Switch>
+        <Route exact path='/' component={Home} />
+        <Route exact path='/products' component={Products} />
+        <Route exact path='/products/:id' component={SingleProduct} />
+        <Route exact path='/auth' component={Auth} />
+        <Route component={Error} />
+      </Switch>
+    </UserContextProvider>
     </>
   );
 }

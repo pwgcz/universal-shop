@@ -1,13 +1,11 @@
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view
 from rest_framework.generics import ListAPIView
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from rest_framework.views import APIView
 
 from authentication.serializers import UserSerializer
 from .models import Orders, OrderItem, Discount, Address, CartItem, Category, Tag, Product, ProductDetail
-from rest_framework import viewsets, status, mixins, generics, permissions
+from rest_framework import mixins, generics
 
 from .serializers import OrdersSerializer, OrderItemSerializer, DiscountSerializer, AddressSerializer, \
     CartItemSerializer, CategorySerializer, TagSerializer, ProductSerializer, ProductDetailSerializer
@@ -329,7 +327,6 @@ class ProductDetailDetails(mixins.RetrieveModelMixin,
 @api_view(['GET'])
 def api_root(request, format=None):
     return Response({
-        'users': reverse('users-list', request=request, format=format),
         'orders': reverse('orders-list', request=request, format=format),
         'order_items': reverse('order-items-list', request=request, format=format),
         'discount': reverse('discounts-list', request=request, format=format),
@@ -338,6 +335,5 @@ def api_root(request, format=None):
         'category': reverse('categories-list', request=request, format=format),
         'tags': reverse('tags-list', request=request, format=format),
         'products': reverse('products-list', request=request, format=format),
-        'product_details': reverse('product-details-list', request=request, format=format),
     })
 

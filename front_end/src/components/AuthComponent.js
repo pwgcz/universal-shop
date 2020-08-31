@@ -6,12 +6,6 @@ import Register from './Register';
 
 export default function Auth() {
 
-
-
-const handleLogout = () => {
-  localStorage.removeItem('token');
-};
-
   return(
   <div className='auth-conteiner'>
   <Login />

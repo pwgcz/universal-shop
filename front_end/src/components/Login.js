@@ -1,45 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import authorizationAxios from '../axiosApi'
+import {UserContext} from '../contexts/UserContext';
 
 export default function Login() {
 
-const [password, setPassword] = useState()
-const [userEmail, setUserEmail] = useState()
+const [userLog, setUserLog] = useState({email:'', password:''})
+const {user, setUser} = useContext(UserContext);
 
 
-const  handleChange = (event) => {
-  console.log(event.target.name)
-  if (event.target.name==='password'){
-    setPassword(event.target.value);
-  }else if(event.target.name==='email')
-    setUserEmail(event.target.value);
+const handleChange = (event) =>{
+  event.preventDefault();
+  const {name, value} = event.target
+  setUserLog(prevstate=>{
+    return {...prevstate, [name]: value}
+  })
 }
+console.log(user)
+
+// TODO: move to navbar
+// const handleLogout = () => {
+//   localStorage.removeItem('token');
+//   setLogedIn(false);
+// };
 
 async function handleSubmit(event) {
     event.preventDefault();
     try {
-        const data = await authorizationAxios.post('/token-auth', {
-            email: userEmail,
-            password: password
-
-        });
-        authorizationAxios.defaults.headers['Authorization'] = "JWT " + data.access;
-        localStorage.setItem('access_token', data.access);
-        return data;
+        const data = await authorizationAxios.post('/token-auth/', JSON.stringify(userLog));
+        authorizationAxios.defaults.headers['Authorization'] = "JWT " + data.data.token;
+        localStorage.setItem('access_token', data.data.token);
+        setUser.setLogedIn(true);
+        return data.data;
     } catch (error) {
         throw error;
     }
 }
 
     return (
-      <form className='auth-form' onSubmit={handleSubmit}>
+          <form className='auth-form' onSubmit={handleSubmit}>
               <h4>Log In</h4>
 
               <label htmlFor="email">Email</label>
               <input
                 type="text"
                 name="email"
-                value={userEmail}
+                value={userLog.email}
                 onChange={handleChange}
               />
 
@@ -47,12 +52,12 @@ async function handleSubmit(event) {
               <input
                 type="password"
                 name="password"
-                value={password}
+                value={userLog.password}
                 onChange={handleChange}
               />
               <button type="submit" className='btn-primary'> Log in </button>
+          </form>
 
-            </form>
     )
 
 }

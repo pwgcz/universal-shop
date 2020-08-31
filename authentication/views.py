@@ -2,15 +2,15 @@ from rest_framework import status, permissions
 from rest_framework.decorators import permission_classes, api_view
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.reverse import reverse
 from rest_framework.views import APIView
 
 from authentication.serializers import UserSerializer, UserSerializerWithToken
 
+
 # todo: 'add rate limit to view'
 
-class User(APIView):
-
-    permission_classes = (permissions.AllowAny,)
+class CreateUser(APIView):
 
     def post(self, request, format=None):
         serializer = UserSerializerWithToken(data=request.data)
@@ -23,11 +23,14 @@ class User(APIView):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def current_user(request):
-    """
-    Determine the current user by their token, and return their data
-    """
 
     serializer = UserSerializer(request.user)
     return Response(serializer.data)
 
 
+@api_view(['GET'])
+def api_root(request, format=None):
+    return Response({
+        'current_user': reverse('current_user', request=request, format=format),
+        'users': reverse('users', request=request, format=format),
+    })

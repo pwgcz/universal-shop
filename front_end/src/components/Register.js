@@ -3,74 +3,70 @@ import authorizationAxios from '../axiosApi'
 
 export default function Register() {
 
-  const [password, setPassword] = useState()
-  const [secondPassword, setSecondPassword] = useState()
-  const [userEmail, setUserEmail] = useState()
-  const [userName, setUserName] = useState()
+const [user, setUser] = useState({phone:'', password:'', secondPassword:'', userEmail:'', userName:''})
 
+  const handleChange = (event) =>{
+    event.preventDefault();
+    const {name, value} = event.target
+    setUser(prevstate=>{
+      return {...prevstate, [name]: value}
+    })
+  }
 
-  const handle_change = event => {
-
-    console.log(event.target.name)
-    if (event.target.name==='password'){
-      setPassword(event.target.value);
-    }else if(event.target.name==='email')
-      setUserEmail(event.target.value);
-    else if(event.target.name==='secondPassword'){
-      setSecondPassword(event.target.value);
-    }else if(event.target.name==='username'){
-      setUserName(event.target.value)
-    }
-      };
-
-    async function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     try {
-        const response = await authorizationAxios.post('/users', {
-            username: userName,
-            email: userEmail,
-            password: password
-        });
+        const response = await authorizationAxios.post('api_auth/users',
+          JSON.stringify(user)
+        );
         return response;
     } catch (error) {
          console.log(error.stack);
     }
 }
-
+console.log({user})
 
     return (
       <form className='auth-form' onSubmit={handleSubmit}>
           <h4>Register</h4>
-          <label htmlFor="username">Username</label>
+          <label htmlFor="userName">Username</label>
           <input
             type="text"
-            name="username"
-            value={userName}
-            onChange={handle_change}
+            name="userName"
+            value={user.userName}
+            onChange={handleChange}
           />
           <label htmlFor="password">Password</label>
           <input
             type="password"
             name="password"
-            value={password}
-            onChange={handle_change}
+            value={user.password}
+            onChange={handleChange}
           />
 
           <label htmlFor="secondPassword">Repeat Password</label>
           <input
             type="password"
             name="secondPassword"
-            value={secondPassword}
-            onChange={handle_change}
+            value={user.secondPassword}
+            onChange={handleChange}
 
           />
 
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email">*Email</label>
           <input
             type="email"
             name="email"
-            value={userEmail}
-            onChange={handle_change}
+            value={user.userEmail}
+            onChange={handleChange}
+          />
+
+          <label htmlFor="email">Phone</label>
+          <input
+            type="text"
+            name="phone"
+            value={user.phone}
+            onChange={handleChange}
           />
 
           <button type="submit" className='btn-primary'> Register </button>

@@ -597,8 +597,8 @@ margin-top: 10%;
 /* Auth  */
 
 .auth-conteiner{
-  margin: 9rem 1rem;
-
+  margin: 9rem auto;
+  width: 80vw; 
   justify-content: space-between;
   background:var(--mainLightColor);
   color: var(--mainBlack);
