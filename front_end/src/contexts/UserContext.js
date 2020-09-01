@@ -8,21 +8,15 @@ const UserContextProvider = ({children}) => {
   const [phone, setPhone]=useState('');
   const [dateJoined, setDateJoined]=useState('');
   const [isStaff, setIsStaff]=useState(false);
-  const [loggedIn, setLoggedIn]=useState(localStorage.getItem('token') ? true : false);
+  const [loggedIn, setLoggedIn]=useState(localStorage.getItem('access_token') ? true : false);
   const [dateOfBirth, setDateOfBirth]=useState('');
 
 
+
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem('access_token');
     setLoggedIn(false);
-
-
 }
-  const getUser = (event) =>{
-    console.log(event)
-  };
-
-
   const value = {
     user:{
       email: email,
@@ -31,7 +25,8 @@ const UserContextProvider = ({children}) => {
       dateJoined: dateJoined,
       isStaff: isStaff,
       loggedIn: loggedIn,
-      dateOfBirth: dateOfBirth
+      dateOfBirth: dateOfBirth,
+
     },
     setUser:{
       setEmail: setEmail,
@@ -40,8 +35,9 @@ const UserContextProvider = ({children}) => {
       setDateJoined: setDateJoined,
       setIsStaf: setIsStaff,
       setLoggedIn: setLoggedIn,
-      setDateOfBirth: setDateOfBirth
-    }
+      setDateOfBirth: setDateOfBirth,
+    },
+    logout: handleLogout
   }
 
     return (

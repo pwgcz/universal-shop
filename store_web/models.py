@@ -26,7 +26,7 @@ class Orders(models.Model):
 class OrderItem(models.Model):
     order_item_id = models.AutoField(primary_key=True)
     order = models.ForeignKey(Orders, on_delete=models.CASCADE)
-    product_detail = models.OneToOneField('ProductDetail', on_delete=models.CASCADE)
+    product = models.OneToOneField('Product', on_delete=models.CASCADE, null=True)
 
     quantity = models.IntegerField(_('quantity'), default=0)
 
@@ -59,10 +59,9 @@ class Address(models.Model):
     address_id = models.AutoField(primary_key=True)
     users = models.ManyToManyField(User)
 
-    full_name = models.CharField(_('full_name'), max_length=100, blank=True)
-    address1 = models.CharField(_('address1'), max_length=200)
-    address2 = models.CharField(_('address2'), max_length=200)
-    post_code = models.CharField(_('post_code'), max_length=5)
+    country = models.CharField(_('country'), max_length=100, blank=True)
+    street = models.CharField(_('street'), max_length=200, null=True)
+    post_code = models.CharField(_('post_code'), max_length=10)
     city = models.CharField(_('city'), max_length=100)
     phone = models.CharField(_('phone'), max_length=30)
 
@@ -71,13 +70,13 @@ class Address(models.Model):
         verbose_name_plural = _('addresses')
 
     def __str__(self):
-        return f'id: {self.address_id}, full name: {self.full_name}'
+        return f'id: {self.address_id}, full name: {self.city}'
 
 
 class CartItem(models.Model):
     cart_item_id = models.AutoField(primary_key=True)
     users = models.ManyToManyField(User)
-    product_detail = models.OneToOneField('ProductDetail', null=True, on_delete=models.SET_NULL)
+    product = models.OneToOneField('Product', null=True, on_delete=models.SET_NULL)
 
     saved_for_later = models.BooleanField(_('saved_for_later'), blank=True)
     quantity = models.IntegerField(_('quantity'), default=0)
@@ -124,7 +123,9 @@ class Product(models.Model):
 
     name = models.CharField(_('name'), max_length=100)
     price = models.DecimalField(_('price'), max_digits=100, decimal_places=2)
+    quantity = models.IntegerField(_('quantity'), default=1)
     image = models.ImageField(_('image'), upload_to='images', default='/images/default.jpg')
+    description = models.TextField(_('description'), null=True)
 
     class Meta:
         verbose_name = _('product')
@@ -132,19 +133,4 @@ class Product(models.Model):
 
     def __str__(self):
         return f'id: {self.product_id}, name: {self.name}'
-
-
-class ProductDetail(models.Model):
-    product_detail_id = models.AutoField(primary_key=True)
-    product = models.ManyToManyField(Product)
-
-    description = models.TextField(_('description'))
-    file = models.FileField(_('file'), upload_to="files", null=True, blank=True)
-
-    class Meta:
-        verbose_name = _('product_detail')
-        verbose_name_plural = _('product_details')
-
-    def __str__(self):
-        return f'id: {self.product_detail_id} product: {self.product}'
 

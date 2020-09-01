@@ -16,7 +16,7 @@ urlpatterns = [
     path('token-auth/', obtain_jwt_token),
     path('token-refresh/', refresh_jwt_token),
     path('api/', include('store_web.urls')),
-    path('api_auth/', include('authentication.urls')),
+    path('auth/', include('authentication.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

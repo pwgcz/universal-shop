@@ -4,11 +4,11 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
 from authentication.serializers import UserSerializer
-from .models import Orders, OrderItem, Discount, Address, CartItem, Category, Tag, Product, ProductDetail
+from .models import Orders, OrderItem, Discount, Address, CartItem, Category, Tag, Product
 from rest_framework import mixins, generics
 
 from .serializers import OrdersSerializer, OrderItemSerializer, DiscountSerializer, AddressSerializer, \
-    CartItemSerializer, CategorySerializer, TagSerializer, ProductSerializer, ProductDetailSerializer
+    CartItemSerializer, CategorySerializer, TagSerializer, ProductSerializer
 
 
 
@@ -117,20 +117,13 @@ class DiscountDetails(mixins.RetrieveModelMixin,
 # Address
 
 
-class AddressList(mixins.ListModelMixin,
-                  mixins.CreateModelMixin,
-                  generics.GenericAPIView):
-    queryset = Address.objects.all()
-    serializer_class = AddressSerializer
+class AddressList(ListAPIView):
+    serializer_class = ProductSerializer
 
-    def perform_create(self, serializer):
-        serializer.save(users=self.request.user)
-
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+    def get_queryset(self):
+        user_id = self.request.user.id
+        queryset = Address.objects.filter(users=user_id)
+        return queryset
 
 
 class AddressDetails(mixins.RetrieveModelMixin,
@@ -280,39 +273,6 @@ class ProductDetails(mixins.RetrieveModelMixin,
                      generics.GenericAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
-
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
-
-
-# ProductDetail
-
-
-class ProductDetailList(mixins.ListModelMixin,
-                        mixins.CreateModelMixin,
-                        generics.GenericAPIView):
-    queryset = ProductDetail.objects.all()
-    serializer_class = ProductDetailSerializer
-
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
-
-
-class ProductDetailDetails(mixins.RetrieveModelMixin,
-                           mixins.UpdateModelMixin,
-                           mixins.DestroyModelMixin,
-                           generics.GenericAPIView):
-    queryset = ProductDetail.objects.all()
-    serializer_class = ProductDetailSerializer
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)

@@ -1,16 +1,11 @@
 from django.contrib import admin
-from .models import Product, Orders, ProductDetail, OrderItem, Discount, Address, Category, Tag
+from .models import Product, Orders, OrderItem, Discount, Address, Category, Tag
 
 
 class ProductAdmin(admin.ModelAdmin):
     empty_value_display = 'unknown'
-    fields = ('category', 'name', 'price', 'image')
-    list_display = ('name', 'price', 'image')
-
-
-class ProductDetailAdmin(admin.ModelAdmin):
-    empty_value_display = 'unknown'
-    fields = ('product', 'description', 'file')
+    fields = ('category', 'name', 'price', 'image', 'quantity', 'description')
+    list_display = ('name', 'price', 'image', 'quantity', 'description')
 
 
 class OrdersAdmin(admin.ModelAdmin):
@@ -33,8 +28,8 @@ class DiscountAdmin(admin.ModelAdmin):
 
 class AddressAdmin(admin.ModelAdmin):
     empty_value_display = 'unknown'
-    fields = ('full_name', 'address1', 'address2', 'post_code', 'city', 'phone', 'users')
-    list_display = ('full_name', 'address1', 'address2', 'post_code', 'city', 'phone',)
+    fields = ('post_code', 'city', 'users', 'country', 'street')
+    list_display = ('post_code', 'city', 'country', 'street')
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -48,9 +43,7 @@ class TagAdmin(admin.ModelAdmin):
     fields = ('name', 'products')
 
 
-
 admin.site.register(Product, ProductAdmin)
-admin.site.register(ProductDetail, ProductDetailAdmin)
 admin.site.register(Orders, OrdersAdmin)
 admin.site.register(OrderItem, OrderItemAdmin)
 admin.site.register(Discount, DiscountAdmin)

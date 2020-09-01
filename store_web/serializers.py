@@ -1,4 +1,4 @@
-from .models import Orders, OrderItem, Discount, Address, CartItem, Category, Tag, Product, ProductDetail
+from .models import Orders, OrderItem, Discount, Address, CartItem, Category, Tag, Product
 from rest_framework import serializers
 
 
@@ -23,7 +23,7 @@ class DiscountSerializer(serializers.ModelSerializer):
 class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
-        fields = ['address_id', 'users', 'full_name', 'address1', 'address2', 'post_code', 'city', 'phone']
+        fields = ['address_id', 'users', 'country', 'post_code', 'city', 'phone']
 
 
 class CartItemSerializer(serializers.ModelSerializer):
@@ -52,10 +52,5 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = ['product_id', 'category', 'name', 'price', 'image']
 
-
-class ProductDetailSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ProductDetail
-        fields = ['product_detail_id', 'product', 'description']
 
 

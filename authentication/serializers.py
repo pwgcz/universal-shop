@@ -6,7 +6,7 @@ from rest_framework_jwt.settings import api_settings
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'email', 'date_of_birth', 'phone', 'date_joined', 'is_active', 'is_staff']
+        fields = ['id', 'email', 'date_of_birth', 'phone', 'date_joined', 'is_active', 'is_staff', 'user_name']
 
 
 class UserSerializerWithToken(serializers.ModelSerializer):

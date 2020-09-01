@@ -92,7 +92,7 @@ a {
   width: 100%;
   padding: 0.75rem 2rem;
   background: var(--mainGreyColor);
-  z-index: 1;
+  z-index: 2;
 }
 .nav-header {
   display: flex;
@@ -102,7 +102,17 @@ a {
 text-decoration: none;
 }
 
+.welcome-nav{
+padding: 0 3rem;
+}
+.welcome-nav p{
+  margin: 0;
+}
 
+.welcome-nav h6{
+  margin: 0;
+  height: 20px;
+}
 .nav-btn {
   background: transparent;
   border: none;
@@ -598,12 +608,11 @@ margin-top: 10%;
 
 .auth-conteiner{
   margin: 9rem auto;
-  width: 80vw; 
+  width: 80vw;
   justify-content: space-between;
   background:var(--mainLightColor);
   color: var(--mainBlack);
   padding: 1rem 1rem;
-
   text-transform: capitalize;
   letter-spacing: var(--mainSpacing);
 }
@@ -615,27 +624,27 @@ margin-top: 10%;
 
   font-size: 1.5rem;
   weight: 300;
-  border-radius: 10px;
   text-align: center;
+  outline: 0;
+  border: 0;
+  background: transparent;
+  border-bottom: 2px solid var(--brightOrangeColor);
 }
 
 .auth-conteiner button{
   display: block;
   margin: 2rem;
-
 }
 
 .auth-form{
   padding: 2rem;
   text-align: center;
-
-  /* border: solid var(--mainBlack) 1px; */
 }
 .auth-seperator{
   width: 5rem;
   height: 5px;
   margin: 0 auto;
-  background: var(--brightOrangeColor);
+  background: var(--mainGreyColor);
 }
 
 
@@ -651,14 +660,28 @@ margin-top: 10%;
 
   .auth-seperator{
     width: 5px;
-    height: 30rem;
+    height: 24rem;
     margin: auto 0;
   }
   .auth-form{
     padding:auto ;
-
   }
 
 }
 
 /* end of Auth */
+
+/* Profile */
+
+.profile-conteiner{
+  margin: 9rem auto;
+  width: 50vw;
+  display: flex;
+  justify-content: space-between;
+}
+
+@media screen and (min-width: 1524px) {
+  
+}
+
+/* end of profile */

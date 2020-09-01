@@ -1,12 +1,13 @@
 import React, { useState, useContext } from 'react';
 import authorizationAxios from '../axiosApi'
 import {UserContext} from '../contexts/UserContext';
+import { useHistory } from "react-router-dom";
 
 export default function Login() {
 
 const [userLog, setUserLog] = useState({email:'', password:''})
 const {user, setUser} = useContext(UserContext);
-
+const history = useHistory();
 
 const handleChange = (event) =>{
   event.preventDefault();
@@ -17,11 +18,6 @@ const handleChange = (event) =>{
 }
 console.log(user)
 
-// TODO: move to navbar
-// const handleLogout = () => {
-//   localStorage.removeItem('token');
-//   setLogedIn(false);
-// };
 
 async function handleSubmit(event) {
     event.preventDefault();
@@ -29,7 +25,10 @@ async function handleSubmit(event) {
         const data = await authorizationAxios.post('/token-auth/', JSON.stringify(userLog));
         authorizationAxios.defaults.headers['Authorization'] = "JWT " + data.data.token;
         localStorage.setItem('access_token', data.data.token);
-        setUser.setLogedIn(true);
+        console.log(data.data.user);
+        setUser.setLoggedIn(true);
+        setUser.setUserName(data.data.user.user_name);
+        history.push("/");
         return data.data;
     } catch (error) {
         throw error;

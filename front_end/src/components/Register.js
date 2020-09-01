@@ -16,7 +16,7 @@ const [user, setUser] = useState({phone:'', password:'', secondPassword:'', user
   async function handleSubmit(event) {
     event.preventDefault();
     try {
-        const response = await authorizationAxios.post('api_auth/users',
+        const response = await authorizationAxios.post('auth/users',
           JSON.stringify(user)
         );
         return response;

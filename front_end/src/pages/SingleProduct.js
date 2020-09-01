@@ -52,7 +52,6 @@ export default function SingleProduct(props) {
     <Link to='/' className='btn-primary footer'>Add to cart</Link>
     <Link to='/products' className='btn-primary footer'>Go back shopping</Link>
     </div>
-
   </article>
   </div>
 </section>

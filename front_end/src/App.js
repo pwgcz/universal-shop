@@ -8,6 +8,7 @@ import Auth from './pages/Auth';
 import Error from './pages/Error';
 import { Route, Switch } from 'react-router-dom';
 import UserContextProvider from './contexts/UserContext'
+import ProfilePage from './pages/ProfilePage'
 
 
 import Navbar from './components/Navbar'
@@ -22,6 +23,7 @@ function App() {
         <Route exact path='/products' component={Products} />
         <Route exact path='/products/:id' component={SingleProduct} />
         <Route exact path='/auth' component={Auth} />
+        <Route exact path='/auth/profil' component={ProfilePage} />
         <Route component={Error} />
       </Switch>
     </UserContextProvider>

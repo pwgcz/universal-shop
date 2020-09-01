@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {FaAlignJustify} from 'react-icons/fa';
 import {Link} from 'react-router-dom';
 import {UserContext} from '../contexts/UserContext';
@@ -7,22 +7,14 @@ import {UserContext} from '../contexts/UserContext';
 export default function Navbar() {
 
   const [isOpen, setIsOpen] = useState(false)
-
+  const {user, logout} = useContext(UserContext);
 
   const handleToggle = () =>{
     setIsOpen(!isOpen)
   }
-
-
+  console.log(user);
     return (
 
-      <UserContext.Consumer>{(context)=>{
-        const {email, userName, phone, isStaf,isActive, dateJoined, dateOfBirth} = context
-
-
-
-        console.log({isStaf, isActive})
-        return(
           <nav className='navbar'>
             <div className='nav-center'>
               <div className='nav-header '>
@@ -32,6 +24,12 @@ export default function Navbar() {
                 <Link to='/'>
                   <h3>Berry Shop</h3>
                 </Link>
+                {user.loggedIn ?
+                <div className='welcome-nav'>
+                <h6>Welcome, </h6>
+                <p>{user.userName}</p>
+                </div>
+                  :null}
               </div>
 
               <ul className={isOpen ? 'nav-links show-nav' : 'nav-links'}>
@@ -41,26 +39,28 @@ export default function Navbar() {
                 <li>
                   <Link to='/products'>Products</Link>
                 </li>
-                <li>
-                  {isActive ? <Link to='/auth'>Logout</Link> : <Link to='/auth'>Login/Register</Link>}
-                </li>
-                {isActive ?
+
+                {user.loggedIn ?
+                  <>
                    <li>
                       <Link to='/card'>Card</Link>
                     </li>
+                    <li>
+                       <Link to='/auth/profil'>Profile</Link>
+                     </li>
+                     </>
                     :null}
-                {isStaf ?
+                {user.isStaff ?
                    <li>
                       <Link to='/staff'>Staff panel</Link>
                     </li> :null}
+                    <li>
+                    {user.loggedIn ?   <Link to='/' ><button className='btn-primary' onClick={logout}>Logout</button></Link> :
+                      <Link to='/auth'><button className='btn-primary'>Login/Register</button></Link>}
+                    </li>
               </ul>
-
             </div>
+
           </nav>
         )
-      }}
-      </UserContext.Consumer>
-
-    )
-
 }

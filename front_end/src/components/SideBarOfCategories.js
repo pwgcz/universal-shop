@@ -6,8 +6,7 @@ export default function SideBarOfCategories({getCategoryName}) {
 
   const fetchProducts = async () => {
       try {
-          setDataProducts({categories: dataCategories.categories});
-          const response = await axios.get(`/api/categories`);
+        const response = await axios.get(`/api/categories`);
           setDataProducts({categories: response.data.results, isFetching: false});
       } catch (e) {
           console.log(e);
@@ -17,9 +16,14 @@ export default function SideBarOfCategories({getCategoryName}) {
   useEffect(() => {
         fetchProducts();
     }, []);
-console.log(getCategoryName)
-  if(!dataCategories.isFetching){
 
+  if(dataCategories.isFetching){
+    return (
+    <div className='categoriessidebar'>
+    <h3>There is Category</h3>
+    <p></p>
+    </div>
+  )
   }
   return (
     <div className='categoriessidebar'>
