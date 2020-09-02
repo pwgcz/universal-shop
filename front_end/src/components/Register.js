@@ -24,7 +24,7 @@ const [user, setUser] = useState({phone:'', password:'', secondPassword:'', user
          console.log(error.stack);
     }
 }
-console.log({user})
+
 
     return (
       <form className='auth-form' onSubmit={handleSubmit}>
@@ -53,15 +53,15 @@ console.log({user})
 
           />
 
-          <label htmlFor="email">*Email</label>
+          <label htmlFor="userEmail">*Email</label>
           <input
             type="email"
-            name="email"
+            name="userEmail"
             value={user.userEmail}
             onChange={handleChange}
           />
 
-          <label htmlFor="email">Phone</label>
+          <label htmlFor="phone">Phone</label>
           <input
             type="text"
             name="phone"

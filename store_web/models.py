@@ -59,18 +59,19 @@ class Address(models.Model):
     address_id = models.AutoField(primary_key=True)
     users = models.ManyToManyField(User)
 
-    country = models.CharField(_('country'), max_length=100, blank=True)
-    street = models.CharField(_('street'), max_length=200, null=True)
-    post_code = models.CharField(_('post_code'), max_length=10)
-    city = models.CharField(_('city'), max_length=100)
-    phone = models.CharField(_('phone'), max_length=30)
+    name = models.CharField(_('country'), max_length=256, blank=True)
+    country = models.CharField(_('country'), max_length=256, blank=True)
+    street = models.CharField(_('street'), max_length=256, null=True)
+    post_code = models.CharField(_('post_code'), max_length=256, null=True)
+    city = models.CharField(_('city'), max_length=256, null=True)
+    phone = models.CharField(_('phone'), max_length=256, null=True)
 
     class Meta:
         verbose_name = _('address')
         verbose_name_plural = _('addresses')
 
     def __str__(self):
-        return f'id: {self.address_id}, full name: {self.city}'
+        return f'id: {self.address_id}, full name: {self.name}'
 
 
 class CartItem(models.Model):

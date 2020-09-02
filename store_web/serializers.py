@@ -23,7 +23,7 @@ class DiscountSerializer(serializers.ModelSerializer):
 class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
-        fields = ['address_id', 'users', 'country', 'post_code', 'city', 'phone']
+        fields = ['address_id', 'name', 'street', 'users', 'country', 'post_code', 'city', 'phone']
 
 
 class CartItemSerializer(serializers.ModelSerializer):

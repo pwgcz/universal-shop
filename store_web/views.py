@@ -1,11 +1,13 @@
 from rest_framework.decorators import api_view
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, get_object_or_404
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+from rest_framework.views import APIView
 
 from authentication.serializers import UserSerializer
 from .models import Orders, OrderItem, Discount, Address, CartItem, Category, Tag, Product
-from rest_framework import mixins, generics
+from rest_framework import mixins, generics, status
 
 from .serializers import OrdersSerializer, OrderItemSerializer, DiscountSerializer, AddressSerializer, \
     CartItemSerializer, CategorySerializer, TagSerializer, ProductSerializer
@@ -117,30 +119,40 @@ class DiscountDetails(mixins.RetrieveModelMixin,
 # Address
 
 
-class AddressList(ListAPIView):
-    serializer_class = ProductSerializer
+class AddressList(APIView):
+    permission_classes = (IsAuthenticated,)
 
-    def get_queryset(self):
+    def post(self, request, format=None):
+        serializer = AddressSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self, request, format=None):
         user_id = self.request.user.id
-        queryset = Address.objects.filter(users=user_id)
-        return queryset
+        print(user_id)
+        address = Address.objects.filter(users=user_id)
+        serializer = AddressSerializer(address, many=True)
+        return Response(serializer.data)
 
 
-class AddressDetails(mixins.RetrieveModelMixin,
-                     mixins.UpdateModelMixin,
-                     mixins.DestroyModelMixin,
-                     generics.GenericAPIView):
-    queryset = Address.objects.all()
-    serializer_class = AddressSerializer
+class AddressDetails(APIView):
 
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
+    permission_classes = (IsAuthenticated,)
 
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
+    def put(self, request, pk, format=None):
+        address = get_object_or_404(Address, pk=pk)
+        serializer = AddressSerializer(address, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
+    def delete(self, request, pk, format=None):
+        address = get_object_or_404(Address, pk=pk)
+        address.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 # CartItem
@@ -215,9 +227,7 @@ class CategoryDetails(mixins.RetrieveModelMixin,
 # Tag
 
 
-class TagList(mixins.ListModelMixin,
-              mixins.CreateModelMixin,
-              generics.GenericAPIView):
+class TagList(generics.GenericAPIView):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
 

@@ -28,6 +28,7 @@ export default function Navbar() {
                 <div className='welcome-nav'>
                 <h6>Welcome, </h6>
                 <p>{user.userName}</p>
+
                 </div>
                   :null}
               </div>
@@ -46,7 +47,7 @@ export default function Navbar() {
                       <Link to='/card'>Card</Link>
                     </li>
                     <li>
-                       <Link to='/auth/profil'>Profile</Link>
+                       <Link to='/profil'>Profile</Link>
                      </li>
                      </>
                     :null}

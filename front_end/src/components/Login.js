@@ -16,7 +16,7 @@ const handleChange = (event) =>{
     return {...prevstate, [name]: value}
   })
 }
-console.log(user)
+
 
 
 async function handleSubmit(event) {
@@ -25,11 +25,8 @@ async function handleSubmit(event) {
         const data = await authorizationAxios.post('/token-auth/', JSON.stringify(userLog));
         authorizationAxios.defaults.headers['Authorization'] = "JWT " + data.data.token;
         localStorage.setItem('access_token', data.data.token);
-        console.log(data.data.user);
-        setUser.setLoggedIn(true);
-        setUser.setUserName(data.data.user.user_name);
-        history.push("/");
-        return data.data;
+        setUser(data.data.user)
+        history.push("/profil");
     } catch (error) {
         throw error;
     }
