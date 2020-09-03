@@ -11,6 +11,7 @@ import UserContextProvider from './contexts/UserContext';
 import ProfilePage from './pages/ProfilePage';
 import AddressForm from './components/AddressForm';
 import UserForm from './components/UserForm';
+import Cart from './components/Cart'
 
 
 import Navbar from './components/Navbar'
@@ -26,6 +27,7 @@ function App() {
         <Route exact path='/products/:id' component={SingleProduct} />
         <Route exact path='/auth' component={Auth} />
         <Route exact path='/profil' component={ProfilePage} />
+        <Route exact path='/cart' component={Cart} />
         <Route exact path='/adresses-form' component={AddressForm} />
         <Route exact path='/profile-form' component={UserForm} />
         <Route component={Error} />

@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import {UserContext} from '../contexts/UserContext'
+import { useHistory } from "react-router-dom";
 
 
 
 
 export default function SingleProduct(props) {
-
+  const {user} = useContext(UserContext);
   const [singleProduct, setSingleProduct] = useState({product: [], isFetching: true})
+  const history = useHistory();
 
   const fetchProduct = async () => {
       try {
@@ -23,9 +26,31 @@ export default function SingleProduct(props) {
         fetchProduct();
     }, []);
 
-  console.log(props.match.params.id);
-    console.log(singleProduct);
 
+
+
+    const addToCart = async () => {
+        console.log({urllll: JSON.stringify({product: parseInt(props.match.params.id)})});
+      try {
+          const response = await axios.post(`/api/cart-items/`,JSON.stringify(
+            {
+              product: parseInt(props.match.params.id),
+              users: [parseInt(user.id)]
+            }
+          )
+            , {
+            headers: {
+                'Authorization': "JWT " + localStorage.getItem('access_token'),
+                'Content-Type': 'application/json',
+                'accept': 'application/json'
+          }
+          })
+          history.push("/products");
+
+      } catch (e) {
+          console.log(e);
+        }
+    };
 
 
   if(singleProduct.product.length === 0){
@@ -49,7 +74,7 @@ export default function SingleProduct(props) {
   <h3>category: {category}</h3>
   <h3>price: {price} zł</h3>
     <div className='buttons'>
-    <Link to='/' className='btn-primary footer'>Add to cart</Link>
+    <button onClick={addToCart} className='btn-primary footer'>Add to cart</button>
     <Link to='/products' className='btn-primary footer'>Go back shopping</Link>
     </div>
   </article>

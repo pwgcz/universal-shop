@@ -1,13 +1,28 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Title from './Title';
 import { useHistory } from "react-router-dom";
+import {UserContext} from '../contexts/UserContext';
 
 
 export default function Addresses() {
+
+
+  const {addressId, setAddressId} = useContext(UserContext);
+
   const [addresses, setAdrresses] = useState({addresses:[], isFetching: true});
   const history = useHistory();
+
+
+  const changeAddress = async (event) => {
+      try {
+        await  setAddressId(parseInt(event.target.value));
+      }catch (error) {
+          throw error;
+      }
+  };
+console.log(addressId)
   const fetchAddresses = async () => {
       try {
 
@@ -19,7 +34,7 @@ export default function Addresses() {
           }
           })
 
-          console.log({response})
+
           setAdrresses({addresses: response.data, isFetching: false});
       } catch (e) {
           console.log(e);
@@ -42,7 +57,7 @@ export default function Addresses() {
                 'accept': 'application/json'
             }
           });
-                console.log(response);
+
              fetchAddresses();
             return response;
 
@@ -61,13 +76,20 @@ export default function Addresses() {
       <div className='address-center'>
         {addresses.addresses.map((item)=>{
           return(
-           <article key={item.address_id}>
-            <h6>{item.name}</h6>
-            <p>{item.country}</p>
-            <p>{item.street}</p>
-            <p>{item.post_code}</p>
-            <p>{item.city}</p>
-            <p>{item.phone}</p>
+           <article key={item.address_id} className={addressId === item.address_id ? 'spacing background':'spacing'}>
+           {addressId === item.address_id ?
+             <p> Order address</p>
+             :''}
+            <h6>Name: {item.name}</h6>
+            <p>Country: {item.country}</p>
+            <p>Street: {item.street}</p>
+            <p>Post code: {item.post_code}</p>
+            <p>City: {item.city}</p>
+            <p>Phone: {item.phone}</p>
+            { addressId === item.address_id ?
+              null:
+                <button className='btn-primary' value={item.address_id} onClick={changeAddress}>Order addrres</button>
+              }
 
             <button className='btn-primary' value={item.address_id} onClick={handleDelete}>Delete</button>
            </article>

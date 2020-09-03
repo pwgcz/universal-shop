@@ -1,5 +1,11 @@
 from django.contrib import admin
-from .models import Product, Orders, OrderItem, Discount, Address, Category, Tag
+from .models import Product, Orders, OrderItem, Discount, Address, Category, Tag, CartItem
+
+
+class CartItemAdmin(admin.ModelAdmin):
+    empty_value_display = 'unknown'
+    fields = ('quantity', 'product',)
+    list_display = ('quantity', 'product')
 
 
 class ProductAdmin(admin.ModelAdmin):
@@ -50,4 +56,6 @@ admin.site.register(Discount, DiscountAdmin)
 admin.site.register(Address, AddressAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Tag, TagAdmin)
+admin.site.register(CartItem, CartItemAdmin)
+
 

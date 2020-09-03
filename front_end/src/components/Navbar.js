@@ -12,7 +12,7 @@ export default function Navbar() {
   const handleToggle = () =>{
     setIsOpen(!isOpen)
   }
-  console.log(user);
+
     return (
 
           <nav className='navbar'>
@@ -27,7 +27,7 @@ export default function Navbar() {
                 {user.loggedIn ?
                 <div className='welcome-nav'>
                 <h6>Welcome, </h6>
-                <p>{user.userName}</p>
+                <p>{user.user_name}</p>
 
                 </div>
                   :null}
@@ -44,7 +44,7 @@ export default function Navbar() {
                 {user.loggedIn ?
                   <>
                    <li>
-                      <Link to='/card'>Card</Link>
+                      <Link to='/cart'>Cart</Link>
                     </li>
                     <li>
                        <Link to='/profil'>Profile</Link>

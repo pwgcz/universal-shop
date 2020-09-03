@@ -6,7 +6,7 @@ from rest_framework_jwt.settings import api_settings
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'email', 'date_of_birth', 'phone', 'date_joined', 'is_active', 'is_staff', 'user_name']
+        fields = ['id', 'email', 'first_name', 'last_name', 'date_of_birth', 'phone', 'date_joined', 'is_active', 'is_staff', 'user_name']
 
 
 class UserSerializerWithToken(serializers.ModelSerializer):
@@ -17,7 +17,7 @@ class UserSerializerWithToken(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'token', 'user_name', 'email', 'date_of_birth', 'phone', 'date_joined', 'is_active', 'is_staff', 'password']
+        fields = ['id', 'token', 'user_name', 'first_name', 'last_name', 'email', 'date_of_birth', 'phone', 'date_joined', 'is_active', 'is_staff', 'password']
 
     def get_token(self, obj):
         jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER

@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
-export const UserContext = createContext({user:{}, setUser: () => {}});
+export const UserContext = createContext({user:{}, fetchCurrentUser: () => {}});
 
 const UserContextProvider = ({children}) => {
 
@@ -15,15 +15,20 @@ const UserContextProvider = ({children}) => {
                 'Content-Type': 'application/json',
                 'accept': 'application/json'
               }
-              });
-          setUserObject(response.data.user)
+              })
+
+          setUserObject(response.data)
 
       } catch (e) {
           console.log(e);
-          setUser({currentUser: user.currentUser, isFetching: false});
+
       }
   };
+  const isLoggedIn =()=>{
+    setUserProperty('logged_in' ,localStorage.getItem('access_token') ? true : false);
+  }
   useEffect(() => {
+      isLoggedIn();
       fetchCurrentUser();
     }, []);
 
@@ -31,15 +36,17 @@ const UserContextProvider = ({children}) => {
   const [user, setUser] = useState({
     id:'',
     email:'',
-    userName:'',
-    firstName:'',
-    lastName:'',
+    user_name:'',
+    first_name:'',
+    last_name:'',
     phone:'',
-    dateJoined:'',
-    isStaff:false,
-    loggedIn: localStorage.getItem('access_token') ? true : false,
-    dateOfBirth: ''
+    date_joined:'',
+    is_staff:false,
+    logged_in: localStorage.getItem('access_token') ? true : false,
+    date_of_birth: ''
   })
+
+  const [addressId, setAddressId] = useState(null)
 
       const setUserProperty=(name, value)=>{setUser(prevstate=>{
         return {...prevstate, [name]: value}
@@ -49,14 +56,14 @@ const UserContextProvider = ({children}) => {
     const setUserObject=(props)=>{setUser({
       id:props.id,
       email:props.email,
-      userName:props.user_name,
-      firstName:props.first_name,
-      lastName:props.last_name,
+      user_name:props.user_name,
+      first_name:props.first_name,
+      last_name:props.last_name,
       phone:props.phone,
-      dateJoined:props.date_joined,
-      isStaff:props.is_staff,
+      date_joined:props.date_joined,
+      is_staff:props.is_staff,
       loggedIn: localStorage.getItem('access_token') ? true : false,
-      dateOfBirth: props.date_of_birth
+      date_of_birth: props.date_of_birth
     })
 }
 
@@ -81,9 +88,13 @@ const UserContextProvider = ({children}) => {
     user: user,
     setUser: setUserObject,
     setUserProperty: setUserProperty,
-    logout: handleLogout
+    fetchCurrentUser: fetchCurrentUser,
+    logout: handleLogout,
+    addressId: addressId,
+    setAddressId: setAddressId
+
   }
-console.log(user);
+
     return (
         <UserContext.Provider value={value}>
           {children}

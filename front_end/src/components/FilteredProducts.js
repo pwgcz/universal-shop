@@ -21,7 +21,7 @@ export default function FilteredProducts({categoryName, priceRange}) {
         fetchProducts();
     }, [categoryName, priceRange]);
 
-  console.log(dataProducts.products.length);
+  
   if(dataProducts.products.length === 0){
     return(
       <div className='error'>

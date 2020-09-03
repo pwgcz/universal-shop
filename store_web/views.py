@@ -17,20 +17,20 @@ from .serializers import OrdersSerializer, OrderItemSerializer, DiscountSerializ
 # Orders
 
 
-class OrdersList(mixins.ListModelMixin,
-                 mixins.CreateModelMixin,
-                 generics.GenericAPIView):
-    queryset = Orders.objects.all()
-    serializer_class = OrdersSerializer
+class OrdersList(APIView):
 
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+    def get(self, request, format=None):
+        user_id = self.request.user.id
+        orders = Orders.objects.filter(users=user_id)
+        serializer = OrdersSerializer(orders, many=True)
+        return Response(serializer.data)
 
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+    def post(self, request, format=None):
+        serializer = OrdersSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class OrdersDetails(mixins.RetrieveModelMixin,
@@ -53,17 +53,14 @@ class OrdersDetails(mixins.RetrieveModelMixin,
 # OrderItem
 
 
-class OrderItemList(mixins.ListModelMixin,
-                    mixins.CreateModelMixin,
-                    generics.GenericAPIView):
-    queryset = OrderItem.objects.all()
-    serializer_class = OrderItemSerializer
+class OrderItemList(APIView):
 
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+    def post(self, request, format=None):
+        serializer = AddressSerializer(data=request.data, many=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class OrderItemDetails(mixins.RetrieveModelMixin,
@@ -131,7 +128,6 @@ class AddressList(APIView):
 
     def get(self, request, format=None):
         user_id = self.request.user.id
-        print(user_id)
         address = Address.objects.filter(users=user_id)
         serializer = AddressSerializer(address, many=True)
         return Response(serializer.data)
@@ -158,37 +154,30 @@ class AddressDetails(APIView):
 # CartItem
 
 
-class CartItemList(mixins.ListModelMixin,
-                   mixins.CreateModelMixin,
-                   generics.GenericAPIView):
-    queryset = CartItem.objects.all()
-    serializer_class = CartItemSerializer
+class CartItemList(APIView):
+    permission_classes = (IsAuthenticated,)
 
-    def perform_create(self, serializer):
-        serializer.save(users=self.request.user)
+    def post(self, request, format=None):
+        serializer = CartItemSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
+    def get(self, request, format=None):
+        user_id = self.request.user.id
+        cart_items = CartItem.objects.filter(users=user_id)
+        serializer = CartItemSerializer(cart_items, many=True)
+        return Response(serializer.data)
 
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
 
+class CartItemDetails(APIView):
+    permission_classes = (IsAuthenticated,)
 
-class CartItemDetails(mixins.RetrieveModelMixin,
-                      mixins.UpdateModelMixin,
-                      mixins.DestroyModelMixin,
-                      generics.GenericAPIView):
-    queryset = CartItem.objects.all()
-    serializer_class = CartItemSerializer
-
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
-
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
+    def delete(self, request, pk, format=None):
+        cart_item = get_object_or_404(CartItem, pk=pk)
+        cart_item.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 # Category

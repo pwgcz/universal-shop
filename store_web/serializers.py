@@ -5,43 +5,48 @@ from rest_framework import serializers
 class OrdersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Orders
-        fields = ['order_id', 'user', 'addresses', 'discount', 'crate_date', 'modified_date', 'status', 'amount']
+        fields = "__all__"
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItem
-        fields = ['order_item_id', 'order', 'product_detail', 'quantity']
+        fields = "__all__"
 
 
 class DiscountSerializer(serializers.ModelSerializer):
     class Meta:
         model = Discount
-        fields = ['discount_id', 'name', 'discount', 'create_date', 'valid_date', 'quantity']
+        fields = "__all__"
 
 
 class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
-        fields = ['address_id', 'name', 'street', 'users', 'country', 'post_code', 'city', 'phone']
+        fields = "__all__"
 
 
 class CartItemSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = CartItem
-        fields = ['cart_item_id', 'users', 'product_detail', 'saved_for_later', 'quantity', 'time_added']
+        fields = "__all__"
+
+    def to_representation(self, instance):
+        self.fields['product'] = ProductSerializer(read_only=True)
+        return super(CartItemSerializer, self).to_representation(instance)
 
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ['category_id', 'name']
+        fields = "__all__"
 
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
-        fields = ['tag_id', 'products', 'tag']
+        fields = "__all__"
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -50,7 +55,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ['product_id', 'category', 'name', 'price', 'image']
+        fields = "__all__"
 
 
 

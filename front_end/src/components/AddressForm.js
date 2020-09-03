@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 export default function AddressForm() {
 
 const [addressData, setAddressData] = useState({name:'', country:'', street:'', post_code:'', city:'', phone:'' })
-const {user, setUser} = useContext(UserContext);
+const {user} = useContext(UserContext);
 const history = useHistory();
 
 const handleChange = (event) =>{
@@ -31,7 +31,6 @@ async function handleSubmit(event) {
         }
       });
         history.push("/profil");
-            console.log(response);
         return response;
 
     } catch (error) {

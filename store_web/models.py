@@ -6,14 +6,15 @@ from authentication.models import User
 
 class Orders(models.Model):
     order_id = models.AutoField(primary_key=True)
+
     user = models.ManyToManyField(User)
     addresses = models.ManyToManyField('Address')
     discount = models.OneToOneField('Discount', null=True, on_delete=models.SET_NULL)
 
     crate_date = models.DateTimeField(_('crate_date'), auto_now_add=True)
     modified_date = models.DateTimeField(_('modified_date'), auto_now=True)
-    status = models.CharField(_('status'), max_length=100)
-    amount = models.IntegerField(_('amount'), default=0)
+    status = models.CharField(_('status'), max_length=100,  default='pending')
+    amount = models.IntegerField(_('amount'), default=1)
 
     class Meta:
         verbose_name = _('order')
@@ -28,7 +29,7 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Orders, on_delete=models.CASCADE)
     product = models.OneToOneField('Product', on_delete=models.CASCADE, null=True)
 
-    quantity = models.IntegerField(_('quantity'), default=0)
+    quantity = models.IntegerField(_('quantity'), default=1)
 
     class Meta:
         verbose_name = _('order_item')
@@ -45,7 +46,7 @@ class Discount(models.Model):
     discount = models.DecimalField(_('discount'), max_digits=100, decimal_places=2)
     crate_date = models.DateTimeField(_('crate_date'), auto_now_add=True)
     valid_date = models.DateTimeField(_('valid_date'))
-    quantity = models.IntegerField(_('quantity'), default=0)
+    quantity = models.IntegerField(_('quantity'), default=1)
 
     class Meta:
         verbose_name = _('discount')
@@ -77,10 +78,10 @@ class Address(models.Model):
 class CartItem(models.Model):
     cart_item_id = models.AutoField(primary_key=True)
     users = models.ManyToManyField(User)
-    product = models.OneToOneField('Product', null=True, on_delete=models.SET_NULL)
+    product = models.ForeignKey('Product', on_delete=models.CASCADE)
 
-    saved_for_later = models.BooleanField(_('saved_for_later'), blank=True)
-    quantity = models.IntegerField(_('quantity'), default=0)
+    saved_for_later = models.BooleanField(_('saved_for_later'), default=False)
+    quantity = models.IntegerField(_('quantity'), default=1)
     time_added = models.DateTimeField(_('time_added'), auto_now_add=True)
 
     class Meta:
@@ -133,5 +134,5 @@ class Product(models.Model):
         verbose_name_plural = _('products')
 
     def __str__(self):
-        return f'id: {self.product_id}, name: {self.name}'
+        return f'{self.product_id}, {self.name}, {self.image}'
 

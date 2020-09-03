@@ -5,11 +5,11 @@ import { useHistory } from "react-router-dom";
 import { Link } from 'react-router-dom';
 
 export default function UserForm() {
-const {user} = useContext(UserContext);
+const {user, fetchCurrentUser} = useContext(UserContext);
 const [userData, setUserData] = useState(user)
 
 const history = useHistory();
-// TODO: isue: after submit user lost token  
+// TODO: isue: after submit user lost token
 const handleChange = (event) =>{
   event.preventDefault();
   const {name, value} = event.target
@@ -17,8 +17,8 @@ const handleChange = (event) =>{
     return {...prevstate, [name]: value}
   })
 }
-async function handleSubmit() {
-
+async function handleSubmit(event) {
+  event.preventDefault();
     try {
         const response = await axios.put(`auth/update/${user.id}/`,JSON.stringify(userData) ,
         {
@@ -29,7 +29,9 @@ async function handleSubmit() {
         }
       });
 
-            console.log(response);
+        fetchCurrentUser();
+        history.push("/profil");
+
         return response;
 
     } catch (error) {
@@ -71,13 +73,7 @@ async function handleSubmit() {
                 value={userData.date_of_birth}
                 onChange={handleChange}
               />
-              <label htmlFor="email">Enmail</label>
-              <input
-                type="email"
-                name="email"
-                value={userData.email}
-                onChange={handleChange}
-              />
+  
               <label htmlFor="password">Phone</label>
               <input
                 type="text"
