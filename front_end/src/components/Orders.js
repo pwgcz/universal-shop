@@ -10,8 +10,6 @@ export default function Orders() {
   const [orders, setOtders] = useState({orders:[], isFetching: true});
   const {user} = useContext(UserContext);
 
-
-
   const fetchOrders = async () => {
       try {
 
@@ -33,8 +31,32 @@ export default function Orders() {
         fetchOrders();
     }, []);
 
+
+    if(orders.orders.length === 0){
+      return(<>
+        <Title title='My orders' />
+        <h3> You do not had any orders</h3>
+        </>
+      )
+    }
     return(
       <>
+      <Title title='My orders' />
+      <div className='list-conteiner'>
+      <ul>
+      {orders.orders.map((item, index)=>{
+        return(
+         <li key={item.order_id} className='list-view'>
+          <p>Ordered: {item.crate_date}</p>
+          <p>Modified: {item.modified_date}</p>
+          <p>Status: {item.status}</p>
+          <Link to={`/order-detail/${item.order_id}`} className="btn-primary">Ditails</Link>
+         </li>
+       )
+      })}
+      </ul>
+      </div>
+      <div className='seperator'/>
       </>
     )
 

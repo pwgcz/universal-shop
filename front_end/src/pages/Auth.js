@@ -1,7 +1,6 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
-import AuthComponent from '../components/AuthComponent';
-
+import Login from '../components/Login';
+import Register from '../components/Register';
 
 
 
@@ -10,7 +9,11 @@ export default function Auth() {
 
   return(
   <>
-    <AuthComponent />
+  <div className='auth-conteiner'>
+  <Login />
+  <div className='auth-seperator'/>
+  <Register />
+  </div>
   </>
   )
 }

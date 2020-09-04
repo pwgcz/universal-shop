@@ -3,13 +3,17 @@ import axios from 'axios';
 import {UserContext} from '../contexts/UserContext';
 import { useHistory } from "react-router-dom";
 import { Link } from 'react-router-dom';
+import Form from './Form';
+import InputForm from './InputForm';
+
 
 export default function UserForm() {
 const {user, fetchCurrentUser} = useContext(UserContext);
+console.log({user});
 const [userData, setUserData] = useState(user)
 
 const history = useHistory();
-// TODO: isue: after submit user lost token
+
 const handleChange = (event) =>{
   event.preventDefault();
   const {name, value} = event.target
@@ -20,6 +24,7 @@ const handleChange = (event) =>{
 async function handleSubmit(event) {
   event.preventDefault();
     try {
+
         const response = await axios.put(`auth/update/${user.id}/`,JSON.stringify(userData) ,
         {
         headers: {
@@ -37,55 +42,18 @@ async function handleSubmit(event) {
     } catch (error) {
         throw error;
     }
-}
+}console.log(userData);
+
     return (
-      <div className='container'>
-          <form className='form-container' onSubmit={handleSubmit}>
-              <h4>User Profile</h4>
-
-              <label htmlFor="user_name">User Name</label>
-              <input
-                type="text"
-                name="user_name"
-                value={userData.user_name}
-                onChange={handleChange}
-              />
-
-              <label htmlFor="first_name">First name</label>
-              <input
-                type="text"
-                name="first_name"
-                value={userData.first_name}
-                onChange={handleChange}
-              />
-
-              <label htmlFor="last_name">Last name</label>
-              <input
-                type="text"
-                name="last_name"
-                value={userData.last_name}
-                onChange={handleChange}
-              />
-              <label htmlFor="date_of_birth">Date of birth</label>
-              <input
-                type="text"
-                name="date_of_birth"
-                value={userData.date_of_birth}
-                onChange={handleChange}
-              />
-  
-              <label htmlFor="password">Phone</label>
-              <input
-                type="text"
-                name="phone"
-                value={userData.phone}
-                onChange={handleChange}
-              />
-              <button type="submit" className='btn-primary'> update </button>
-              <button className='btn-primary'><Link to='/profil'>Go back</Link></button>
-          </form>
-
-        </div>
+      <Form submitButton='Update Profile' handleSubmit={handleSubmit} >
+       <h4> User Profile</h4>
+        <InputForm name='user_name' type='text' labelName='User Name' handleChange={handleChange} inputValue={userData.user_name} />
+        <InputForm name='first_name' type='text' labelName='First Name' handleChange={handleChange} inputValue={userData.first_name} />
+        <InputForm name='last_name' type='text' labelName='Last Name' handleChange={handleChange} inputValue={userData.last_name} />
+        <InputForm name='date_of_birth' type='text' labelName='Date of birth' handleChange={handleChange} inputValue={userData.date_of_birth} />
+        <InputForm name='phone' type='text' labelName='Phone' handleChange={handleChange} inputValue={userData.phone} />
+        <Link to='/profil' className='btn-primary' >Go back</Link>
+      </Form>
     )
 
 }

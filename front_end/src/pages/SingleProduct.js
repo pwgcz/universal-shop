@@ -4,9 +4,6 @@ import { Link } from 'react-router-dom';
 import {UserContext} from '../contexts/UserContext'
 import { useHistory } from "react-router-dom";
 
-
-
-
 export default function SingleProduct(props) {
   const {user} = useContext(UserContext);
   const [singleProduct, setSingleProduct] = useState({product: [], isFetching: true})
@@ -26,13 +23,29 @@ export default function SingleProduct(props) {
         fetchProduct();
     }, []);
 
-
-
-
-    const addToCart = async () => {
-        console.log({urllll: JSON.stringify({product: parseInt(props.match.params.id)})});
+    const addOrderItem = async () => {
       try {
-          const response = await axios.post(`/api/cart-items/`,JSON.stringify(
+          const response = await axios.post(`/api/order-item/`,JSON.stringify(
+            {
+              product: parseInt(props.match.params.id),
+            }
+          )
+            , {
+            headers: {
+                'Authorization': "JWT " + localStorage.getItem('access_token'),
+                'Content-Type': 'application/json',
+                'accept': 'application/json'
+          }
+          })
+          history.push("/products");
+
+      } catch (e) {
+          console.log(e);
+        }
+    };
+    const addToCart = async () => {
+      try {
+           await axios.post(`/api/cart-items/`,JSON.stringify(
             {
               product: parseInt(props.match.params.id),
               users: [parseInt(user.id)]

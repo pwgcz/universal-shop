@@ -1,4 +1,4 @@
-from .models import Orders, OrderItem, Discount, Address, CartItem, Category, Tag, Product
+from .models import Orders, OrderItem, Address, CartItem, Category, Tag, Product
 from rest_framework import serializers
 
 
@@ -13,11 +13,9 @@ class OrderItemSerializer(serializers.ModelSerializer):
         model = OrderItem
         fields = "__all__"
 
-
-class DiscountSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Discount
-        fields = "__all__"
+    def to_representation(self, instance):
+        self.fields['product'] = ProductSerializer(read_only=True)
+        return super(OrderItemSerializer, self).to_representation(instance)
 
 
 class AddressSerializer(serializers.ModelSerializer):

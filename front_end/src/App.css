@@ -693,8 +693,8 @@ margin-top: 10%;
   width: 90vw;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
-  grid-row-gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  grid-row-gap: 1rem;
   grid-column-gap: 50px;
 }
 
@@ -733,6 +733,12 @@ margin-top: 10%;
   display: block;
   margin: 2rem;
 }
+
+.form-container a{
+  width: 30%;
+  margin: 2rem auto;
+  display: block;
+}
 .container{
 
   padding: 2rem;
@@ -748,35 +754,40 @@ margin-top: 10%;
 /* end of Form */
 
 
-/* cart */
-.cart-conteiner{
+/* list view */
+.list-conteiner{
   width: 70vw;
   margin: 1rem auto;
 }
 
 
-.cart-conteiner li{
+.list-conteiner li{
   list-style-type: none;
   border-bottom:  solid var(--mainBlack) 1px;
   letter-spacing: var(--mainSpacing);
   margin:2rem;
 
 }
-.cart-conteiner .list-cart{
+.list-conteiner .list-view{
   display: flex;
   justify-content: space-around;
 }
-.cart-conteiner h6{
+.list-conteiner h6{
+  display: inline;
   margin: 2rem;
 }
-.cart-conteiner img{
+.list-conteiner img{
   margin-bottom: 1rem;
   width: 15%;
   display: inline;
   transition: var(--mainTransition);
 }
-.cart-conteiner button{
+.list-conteiner button{
   height: 2rem;
   margin:2rem;
 }
-/* end of cart */
+.list-conteiner a{
+  height: 3rem;
+  margin:2rem;
+}
+/* end of list view */

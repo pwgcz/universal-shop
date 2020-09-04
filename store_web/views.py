@@ -5,16 +5,12 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.views import APIView
 
-from authentication.serializers import UserSerializer
-from .models import Orders, OrderItem, Discount, Address, CartItem, Category, Tag, Product
+
+from .models import Orders, OrderItem, Address, CartItem, Category, Tag, Product
 from rest_framework import mixins, generics, status
 
-from .serializers import OrdersSerializer, OrderItemSerializer, DiscountSerializer, AddressSerializer, \
+from .serializers import OrdersSerializer, OrderItemSerializer, AddressSerializer, \
     CartItemSerializer, CategorySerializer, TagSerializer, ProductSerializer
-
-
-
-# Orders
 
 
 class OrdersList(APIView):
@@ -33,87 +29,29 @@ class OrdersList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class OrdersDetails(mixins.RetrieveModelMixin,
-                    mixins.UpdateModelMixin,
-                    mixins.DestroyModelMixin,
-                    generics.GenericAPIView):
-    queryset = Orders.objects.all()
-    serializer_class = UserSerializer
-
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
-
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
-
-
-# OrderItem
+class OrdersDetails(APIView):
+    def get(self, request, pk, format=None):
+        order = get_object_or_404(Orders, pk=pk)
+        serializer = OrdersSerializer(order)
+        return Response(serializer.data)
 
 
 class OrderItemList(APIView):
 
     def post(self, request, format=None):
-        serializer = AddressSerializer(data=request.data, many=True)
+        serializer = OrderItemSerializer(data=request.data, many=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class OrderItemDetails(mixins.RetrieveModelMixin,
-                       mixins.UpdateModelMixin,
-                       mixins.DestroyModelMixin,
-                       generics.GenericAPIView):
-    queryset = OrderItem.objects.all()
-    serializer_class = OrderItemSerializer
+class OrderItemDetails(APIView):
 
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
-
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
-
-
-# Discount
-
-
-class DiscountList(mixins.ListModelMixin,
-                   mixins.CreateModelMixin,
-                   generics.GenericAPIView):
-    queryset = Discount.objects.all()
-    serializer_class = DiscountSerializer
-
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
-
-
-class DiscountDetails(mixins.RetrieveModelMixin,
-                      mixins.UpdateModelMixin,
-                      mixins.DestroyModelMixin,
-                      generics.GenericAPIView):
-    queryset = Discount.objects.all()
-    serializer_class = DiscountSerializer
-
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
-
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
-
-
-# Address
+    def get(self, request, pk, format=None):
+        order_item = OrderItem.objects.filter(order=pk)
+        serializer = OrderItemSerializer(order_item, many=True)
+        return Response(serializer.data)
 
 
 class AddressList(APIView):
@@ -151,9 +89,6 @@ class AddressDetails(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-# CartItem
-
-
 class CartItemList(APIView):
     permission_classes = (IsAuthenticated,)
 
@@ -170,6 +105,13 @@ class CartItemList(APIView):
         serializer = CartItemSerializer(cart_items, many=True)
         return Response(serializer.data)
 
+    def delete(self, request, format=None):
+        user_id = self.request.user.id
+        cart_item = CartItem.objects.filter(users=user_id)
+        cart_item.delete()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class CartItemDetails(APIView):
     permission_classes = (IsAuthenticated,)
@@ -178,9 +120,6 @@ class CartItemDetails(APIView):
         cart_item = get_object_or_404(CartItem, pk=pk)
         cart_item.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-# Category
 
 
 class CategoryList(mixins.ListModelMixin,
@@ -213,8 +152,6 @@ class CategoryDetails(mixins.RetrieveModelMixin,
         return self.destroy(request, *args, **kwargs)
 
 
-# Tag
-
 
 class TagList(generics.GenericAPIView):
     queryset = Tag.objects.all()
@@ -242,9 +179,6 @@ class TagDetails(mixins.RetrieveModelMixin,
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
-
-
-# Product
 
 
 class ProductList(ListAPIView):
@@ -288,7 +222,6 @@ def api_root(request, format=None):
     return Response({
         'orders': reverse('orders-list', request=request, format=format),
         'order_items': reverse('order-items-list', request=request, format=format),
-        'discount': reverse('discounts-list', request=request, format=format),
         'address': reverse('address-list', request=request, format=format),
         'cart_items': reverse('cart-items-list', request=request, format=format),
         'category': reverse('categories-list', request=request, format=format),

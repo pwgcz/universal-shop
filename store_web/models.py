@@ -7,9 +7,8 @@ from authentication.models import User
 class Orders(models.Model):
     order_id = models.AutoField(primary_key=True)
 
-    user = models.ManyToManyField(User)
+    users = models.ManyToManyField(User)
     addresses = models.ManyToManyField('Address')
-    discount = models.OneToOneField('Discount', null=True, on_delete=models.SET_NULL)
 
     crate_date = models.DateTimeField(_('crate_date'), auto_now_add=True)
     modified_date = models.DateTimeField(_('modified_date'), auto_now=True)
@@ -21,13 +20,13 @@ class Orders(models.Model):
         verbose_name_plural = _('orders')
 
     def __str__(self):
-        return f'id: {self.order_id}, user: {self.user}'
+        return f'id: {self.order_id}, user: {self.users}'
 
 
 class OrderItem(models.Model):
     order_item_id = models.AutoField(primary_key=True)
     order = models.ForeignKey(Orders, on_delete=models.CASCADE)
-    product = models.OneToOneField('Product', on_delete=models.CASCADE, null=True)
+    product = models.ForeignKey('Product', on_delete=models.CASCADE, null=True)
 
     quantity = models.IntegerField(_('quantity'), default=1)
 
@@ -37,23 +36,6 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f'id: {self.order_item_id}'
-
-
-class Discount(models.Model):
-    discount_id = models.AutoField(primary_key=True)
-
-    name = models.CharField(_('name'), max_length=50, blank=True)
-    discount = models.DecimalField(_('discount'), max_digits=100, decimal_places=2)
-    crate_date = models.DateTimeField(_('crate_date'), auto_now_add=True)
-    valid_date = models.DateTimeField(_('valid_date'))
-    quantity = models.IntegerField(_('quantity'), default=1)
-
-    class Meta:
-        verbose_name = _('discount')
-        verbose_name_plural = _('discounts')
-
-    def __str__(self):
-        return f'id: {self.discount_id}, name: {self.name}'
 
 
 class Address(models.Model):

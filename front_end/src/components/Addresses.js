@@ -22,7 +22,6 @@ export default function Addresses() {
           throw error;
       }
   };
-console.log(addressId)
   const fetchAddresses = async () => {
       try {
 
@@ -96,11 +95,8 @@ console.log(addressId)
          )
        })}
       </div>
-
     )
-
   }
-
   return(
   <div className='conteiner'>
       <Title title='Adrresses' />

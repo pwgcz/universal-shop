@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, Orders, OrderItem, Discount, Address, Category, Tag, CartItem
+from .models import Product, Orders, OrderItem, Address, Category, Tag, CartItem
 
 
 class CartItemAdmin(admin.ModelAdmin):
@@ -22,14 +22,8 @@ class OrdersAdmin(admin.ModelAdmin):
 
 class OrderItemAdmin(admin.ModelAdmin):
     empty_value_display = 'unknown'
-    fields = ('order', 'quantity')
-    list_display = ('order', 'quantity')
-
-
-class DiscountAdmin(admin.ModelAdmin):
-    empty_value_display = 'unknown'
-    fields = ('name', 'discount', 'crate_date', 'valid_date', 'quantity')
-    list_display = ('name', 'discount', 'crate_date', 'valid_date', 'quantity')
+    fields = ('order', 'quantity', 'product')
+    list_display = ('order', 'quantity', 'product')
 
 
 class AddressAdmin(admin.ModelAdmin):
@@ -52,7 +46,6 @@ class TagAdmin(admin.ModelAdmin):
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Orders, OrdersAdmin)
 admin.site.register(OrderItem, OrderItemAdmin)
-admin.site.register(Discount, DiscountAdmin)
 admin.site.register(Address, AddressAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Tag, TagAdmin)

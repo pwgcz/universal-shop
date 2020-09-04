@@ -3,20 +3,21 @@ import axios from 'axios';
 import {UserContext} from '../contexts/UserContext';
 import Title from './Title';
 import {Link} from 'react-router-dom';
-
+import { useHistory } from "react-router-dom";
 
 export default function Cart() {
 
   const [cartItems, setCartItems] = useState({cart:[0], isFetching: true});
   const {user, addressId} = useContext(UserContext);
-  console.log(cartItems.cart)
+  const history = useHistory();
 
-const mkaeOrder = async () =>{
+
+const makeOrder = async () =>{
   try{
 
-    await axios.post('api/orders/',JSON.stringify(
+    const response = await axios.post('api/orders/',JSON.stringify(
      {
-       user: [parseInt(user.id)],
+       users: [parseInt(user.id)],
        addresses: [addressId]
      }
    ),
@@ -26,42 +27,45 @@ const mkaeOrder = async () =>{
         'Content-Type': 'application/json',
         'accept': 'application/json'
     }
-  });
-  console.log(cartItems.cart.map((item)=>{
-    return(
-      JSON.stringify(
-       {
-         product: parseInt(item.product.product_id),
-       }
-     )
-   )
-  }))
-
-    await axios.post('api/order-items/',
-    cartItems.cart.map((item)=>{
+  })
+  console.log(  JSON.stringify(cartItems.cart.map((item)=>{
       return(
-        JSON.stringify(
          {
-           users: user.id,
+           order:response.data.order_id,
            product: parseInt(item.product.product_id),
          }
-       )
      )
-   })
-    ,
+    })),);
+    await axios.post('api/order-items/',
+    JSON.stringify(cartItems.cart.map((item)=>{
+      return(
+         {
+           order:response.data.order_id,
+           product: parseInt(item.product.product_id),
+         }
+     )
+    })),
     {
     headers: {
         'Authorization': "JWT " + localStorage.getItem('access_token'),
         'Content-Type': 'application/json',
         'accept': 'application/json'
     }
-  });
+  })
 
+  await axios.delete('api/cart-items/',
+  {
+  headers: {
+      'Authorization': "JWT " + localStorage.getItem('access_token'),
+      'Content-Type': 'application/json',
+      'accept': 'application/json'
+  }
+})
+history.push('/profil')
   }  catch (error) {
         throw error;
     }
 }
-
   const fetchCartItems = async () => {
       try {
           const response = await axios.get(`/api/cart-items`, {
@@ -71,7 +75,6 @@ const mkaeOrder = async () =>{
                 'accept': 'application/json'
           }
           })
-          console.log(response.data);
           setCartItems({cart: response.data, isFetching: false});
       } catch (e) {
           console.log(e);
@@ -94,10 +97,8 @@ const mkaeOrder = async () =>{
                 'accept': 'application/json'
             }
           });
-
             fetchCartItems();
             return response;
-
         } catch (error) {
             throw error;
         }
@@ -122,7 +123,7 @@ const mkaeOrder = async () =>{
         {cartItems.cart.map((item, index)=>{
           return(
 
-           <li key={item.cart_item_id} className='list-cart'>
+           <li key={item.cart_item_id} className='list-view'>
            <img src={item.product.image} alt={item.product.name}/>
             <h6>{item.product.name}</h6>
             <button onClick={handleDelete} value={item.cart_item_id} className='btn-primary'>remove</button>
@@ -130,7 +131,7 @@ const mkaeOrder = async () =>{
          )
         })}
         </ul>
-        <button onClick={mkaeOrder} className='btn-primary'>Buy</button>
+        <button onClick={makeOrder} className='btn-primary'>Buy</button>
         </>
       )
     }
@@ -138,9 +139,9 @@ const mkaeOrder = async () =>{
     return(
       <>
       <Title title='Cart' />
-      <div className='cart-conteiner'>
+      <div className='list-conteiner'>
 
-{productGroup()}
+      {productGroup()}
 
       </div>
       </>

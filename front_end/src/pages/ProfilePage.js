@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Addresses from '../components/Addresses';
 import ProfileInfo from '../components/ProfileInfo';
+import Orders from '../components/Orders';
 
 export default function ProfilePage() {
 
@@ -12,6 +13,7 @@ export default function ProfilePage() {
     <div className='profile-conteiner'>
       <ProfileInfo />
       <Addresses />
+      <Orders />
     </div>
     )
 

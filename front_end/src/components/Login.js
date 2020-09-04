@@ -2,6 +2,8 @@ import React, { useState, useContext } from 'react';
 import authorizationAxios from '../axiosApi'
 import {UserContext} from '../contexts/UserContext';
 import { useHistory } from "react-router-dom";
+import Form from './Form';
+import InputForm from './InputForm';
 
 export default function Login() {
 

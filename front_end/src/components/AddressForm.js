@@ -3,6 +3,8 @@ import axios from 'axios';
 import {UserContext} from '../contexts/UserContext';
 import { useHistory } from "react-router-dom";
 import { Link } from 'react-router-dom';
+import Form from './Form';
+import InputForm from './InputForm';
 
 export default function AddressForm() {
 
@@ -17,7 +19,6 @@ const handleChange = (event) =>{
     return {...prevstate, [name]: value}
   })
 }
-
 
 async function handleSubmit(event) {
     event.preventDefault();
@@ -39,59 +40,17 @@ async function handleSubmit(event) {
 }
 
     return (
-        <div className='container'>
-          <form className='form-container' onSubmit={handleSubmit}>
-              <h4> Addresses</h4>
 
-              <label htmlFor="name">Name</label>
-              <input
-                type="text"
-                name="name"
-                value={addressData.name}
-                onChange={handleChange}
-              />
-
-              <label htmlFor="country">Country</label>
-              <input
-                type="text"
-                name="country"
-                value={addressData.country}
-                onChange={handleChange}
-              />
-
-              <label htmlFor="street">Street</label>
-              <input
-                type="text"
-                name="street"
-                value={addressData.street}
-                onChange={handleChange}
-              />
-              <label htmlFor="post_code">Post code</label>
-              <input
-                type="text"
-                name="post_code"
-                value={addressData.post_code}
-                onChange={handleChange}
-              />
-              <label htmlFor="password">City</label>
-              <input
-                type="text"
-                name="city"
-                value={addressData.city}
-                onChange={handleChange}
-              />
-              <label htmlFor="password">Phone</label>
-              <input
-                type="text"
-                name="phone"
-                value={addressData.phone}
-                onChange={handleChange}
-              />
-              <button type="submit" className='btn-primary'> add </button>
-              <button className='btn-primary'><Link to='/profil'>Go back</Link></button>
-          </form>
-        </div>
-
+      <Form submitButton='Add new category' name='Category' handleSubmit={handleSubmit} >
+       <h4> Addresses</h4>
+        <InputForm name='name' type='text' labelName='Name' handleChange={handleChange} value={addressData.name} />
+        <InputForm name='country' type='text' labelName='Country' handleChange={handleChange} value={addressData.country} />
+        <InputForm name='street' type='text' labelName='Street' handleChange={handleChange} value={addressData.street} />
+        <InputForm name='post_code' type='text' labelName='Post code' handleChange={handleChange} value={addressData.post_code} />
+        <InputForm name='city' type='text' labelName='City' handleChange={handleChange} value={addressData.city} />
+        <InputForm name='phone' type='text' labelName='Phone' handleChange={handleChange} value={addressData.phone} />
+        <Link className='btn-primary' to='/profil'>Go back</Link>
+      </Form>
     )
 
 }
