@@ -1,9 +1,14 @@
-import React from 'react';
+import React from "react";
 
-export default function InputForm({ name, labelName, inputValue, type, handleChange}) {
-
-    return(
-      <>
+export default function InputForm({
+  name,
+  labelName,
+  inputValue,
+  type,
+  handleChange,
+}) {
+  return (
+    <>
       <label htmlFor={name}>{labelName}</label>
       <input
         type={type}
@@ -11,7 +16,6 @@ export default function InputForm({ name, labelName, inputValue, type, handleCha
         value={inputValue}
         onChange={handleChange}
       />
-      </>
-    )
-
+    </>
+  );
 }

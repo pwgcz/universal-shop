@@ -1,13 +1,13 @@
 from rest_framework.decorators import api_view
 from rest_framework.generics import ListAPIView, get_object_or_404
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.views import APIView
 
 
 from .models import Orders, OrderItem, Address, CartItem, Category, Tag, Product
-from rest_framework import mixins, generics, status
+from rest_framework import status
 
 from .serializers import OrdersSerializer, OrderItemSerializer, AddressSerializer, \
     CartItemSerializer, CategorySerializer, TagSerializer, ProductSerializer
@@ -21,6 +21,22 @@ class OrdersList(APIView):
         serializer = OrdersSerializer(orders, many=True)
         return Response(serializer.data)
 
+
+class OrdersDetails(APIView):
+
+    def get(self, request, pk, format=None):
+        order = get_object_or_404(Orders, pk=pk)
+        serializer = OrdersSerializer(order)
+        return Response(serializer.data)
+
+
+class OrdersListStaff(APIView):
+
+    def get(self, request, format=None):
+        orders = Orders.objects.all()
+        serializer = OrdersSerializer(orders, many=True)
+        return Response(serializer.data)
+
     def post(self, request, format=None):
         serializer = OrdersSerializer(data=request.data)
         if serializer.is_valid():
@@ -29,11 +45,12 @@ class OrdersList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class OrdersDetails(APIView):
-    def get(self, request, pk, format=None):
+class OrdersDetailsStaff(APIView):
+
+    def delete(self, request, pk, format=None):
         order = get_object_or_404(Orders, pk=pk)
-        serializer = OrdersSerializer(order)
-        return Response(serializer.data)
+        order.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class OrderItemList(APIView):
@@ -114,7 +131,6 @@ class CartItemList(APIView):
 
 
 class CartItemDetails(APIView):
-    permission_classes = (IsAuthenticated,)
 
     def delete(self, request, pk, format=None):
         cart_item = get_object_or_404(CartItem, pk=pk)
@@ -122,63 +138,30 @@ class CartItemDetails(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class CategoryList(mixins.ListModelMixin,
-                   mixins.CreateModelMixin,
-                   generics.GenericAPIView):
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
+class CategoryList(APIView):
 
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+    def get(self, request, format=None):
+        categories = Category.objects.all()
+        serializer = CategorySerializer(categories, many=True)
+        return Response(serializer.data)
 
 
-class CategoryDetails(mixins.RetrieveModelMixin,
-                      mixins.UpdateModelMixin,
-                      mixins.DestroyModelMixin,
-                      generics.GenericAPIView):
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
+class CategoryDetailsStaff(APIView):
 
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
-
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
+    def delete(self, request, pk, format=None):
+        category = get_object_or_404(Category, pk=pk)
+        category.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+class CategoryListStaff(APIView):
 
-class TagList(generics.GenericAPIView):
-    queryset = Tag.objects.all()
-    serializer_class = TagSerializer
-
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
-
-
-class TagDetails(mixins.RetrieveModelMixin,
-                 mixins.UpdateModelMixin,
-                 mixins.DestroyModelMixin,
-                 generics.GenericAPIView):
-    queryset = Tag.objects.all()
-    serializer_class = TagSerializer
-
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
-
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
+    def post(self, request, format=None):
+        serializer = CategorySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ProductList(ListAPIView):
@@ -200,21 +183,44 @@ class ProductList(ListAPIView):
         return queryset
 
 
-class ProductDetails(mixins.RetrieveModelMixin,
-                     mixins.UpdateModelMixin,
-                     mixins.DestroyModelMixin,
-                     generics.GenericAPIView):
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
+class ProductDetails(APIView):
 
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
+    def get(self, request, pk, format=None):
+        products = Product.objects.get(pk=pk)
+        serializer = ProductSerializer(products)
+        return Response(serializer.data)
 
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
 
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
+class ProductDetailsStaff(APIView):
+
+    def put(self, request, pk, format=None):
+        product = get_object_or_404(Product, pk=pk)
+        serializer = ProductSerializer(product, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        product = get_object_or_404(Product, pk=pk)
+        product.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class TagList(APIView):
+    def get(self, request, format=None):
+        tag = Tag.objects.all()
+        serializer = TagSerializer(tag, many=True)
+        return Response(serializer.data)
+
+
+class TagDetails(APIView):
+
+    def get(self, request, pk, format=None):
+        tag = Tag.objects.get(pk=pk)
+        serializer = TagSerializer(tag)
+        return Response(serializer.data)
+
 
 
 @api_view(['GET'])

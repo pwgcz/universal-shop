@@ -5,6 +5,9 @@ urlpatterns = [
     path('orders/', views.OrdersList.as_view(), name='orders-list'),
     path('orders/<int:pk>/', views.OrdersDetails.as_view()),
 
+    path('staff/orders/', views.OrdersListStaff.as_view(), name='orders-list-staff'),
+    path('staff/orders/<int:pk>/', views.OrdersDetailsStaff.as_view()),
+
     path('order-items/', views.OrderItemList.as_view(), name='order-items-list'),
     path('order-items/<int:pk>/', views.OrderItemDetails.as_view()),
 
@@ -15,12 +18,16 @@ urlpatterns = [
     path('cart-items/<int:pk>/', views.CartItemDetails.as_view()),
 
     path('categories/', views.CategoryList.as_view(), name='categories-list'),
-    path('categories/<int:pk>/', views.CategoryDetails.as_view()),
+
+    path('staff/categories/', views.CategoryListStaff.as_view(), name='categories-list'),
+    path('staff/categories/<int:pk>/', views.CategoryDetailsStaff.as_view()),
 
     path('tags/', views.TagList.as_view(), name='tags-list'),
     path('tags/<int:pk>/', views.TagDetails.as_view()),
 
     path('products/', views.ProductList.as_view(), name='products-list'),
     path('products/<int:pk>/', views.ProductDetails.as_view()),
+
+    path('staff/products/<int:pk>/', views.ProductDetailsStaff.as_view()),
 
 ]
