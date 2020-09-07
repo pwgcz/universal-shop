@@ -10,11 +10,9 @@ export default function ProductForm() {
   const history = useHistory();
   const [product, setProduct] = useState({
     name: "",
-    prce: "",
-    quantity: "",
-    image: "",
-    description: "",
+    price: "",
     category: "",
+    images:null,
   });
 
   const handleChange = (event) => {
@@ -24,25 +22,44 @@ export default function ProductForm() {
       return { ...prevstate, [name]: value };
     });
   };
+  const handleImageChange = (event) => {
+    console.log(event.target.files);
+    setProduct({...product, images:event.target.files[0]});
+
+  };
 
   async function handleSubmit(event) {
     event.preventDefault();
+
+    let formData = new FormData();
+
+    if (product.images) {
+      formData.append('image', product.images, product.images.name);
+    }
+    formData.append('name', product.name);
+    formData.append('price', product.price);
+    formData.append('quantity', product.quantity);
+    formData.append('description', product.description);
+    formData.append('category', product.category);
+
+    console.log(formData);
+
     try {
       const response = await axios.post(
-        "api/products/",
-        JSON.stringify(product),
+        "api/staff/products/",
+        formData,
         {
           headers: {
             Authorization: "JWT " + localStorage.getItem("access_token"),
-            "Content-Type": "application/json",
+            "Content-Type": 'multipart/form-data',
             accept: "application/json",
           },
         }
       );
       history.push("/staff");
       return response;
-    } catch (error) {
-      throw error;
+    } catch (e) {
+      console.log(e);
     }
   }
 
@@ -57,7 +74,7 @@ export default function ProductForm() {
         inputValue={product.name}
       />
       <InputForm
-        name="prce"
+        name="price"
         type="text"
         labelName="Price"
         handleChange={handleChange}
@@ -71,10 +88,11 @@ export default function ProductForm() {
         inputValue={product.quantity}
       />
       <InputForm
+        accept="image/png, image/jpeg"
         name="image"
-        type="text"
+        type="file"
         labelName="Image"
-        handleChange={handleChange}
+        handleChange={handleImageChange}
         inputValue={product.image}
       />
       <InputForm

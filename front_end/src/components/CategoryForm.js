@@ -14,16 +14,14 @@ export default function CategoryForm() {
   const handleChange = (event) => {
     event.preventDefault();
     const { name, value } = event.target;
-    setCategory((prevstate) => {
-      return { [name]: value };
-    });
+    setCategory({ name, value })
   };
 
-  async function handleSubmit(event) {
+  async function handleSubmit (event) {
     event.preventDefault();
     try {
-      const response = await axios.post(
-        "api/categories/",
+      await axios.post(
+        "api/staff/categories/",
         JSON.stringify(category),
         {
           headers: {
@@ -34,9 +32,8 @@ export default function CategoryForm() {
         }
       );
       history.push("/staff");
-      return response;
-    } catch (error) {
-      throw error;
+    } catch (e) {
+      console.log(e);
     }
   }
 

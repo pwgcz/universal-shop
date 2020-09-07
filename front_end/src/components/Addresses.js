@@ -17,8 +17,8 @@ export default function Addresses() {
   const changeAddress = async (event) => {
     try {
       await setAddressId(parseInt(event.target.value));
-    } catch (error) {
-      throw error;
+    } catch (e) {
+      console.log(e);
     }
   };
   const fetchAddresses = async () => {
@@ -41,7 +41,7 @@ export default function Addresses() {
     fetchAddresses();
   }, []);
 
-  async function handleDelete(event) {
+  async function handleDelete (event) {
     event.preventDefault();
     let id = event.target.value;
     try {
@@ -55,8 +55,8 @@ export default function Addresses() {
 
       fetchAddresses();
       return response;
-    } catch (error) {
-      throw error;
+    } catch (e) {
+      console.log(e);
     }
   }
 

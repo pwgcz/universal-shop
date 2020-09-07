@@ -191,6 +191,16 @@ class ProductDetails(APIView):
         return Response(serializer.data)
 
 
+class ProductListStaff(APIView):
+
+    def post(self, request, format=None):
+        serializer = ProductSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 class ProductDetailsStaff(APIView):
 
     def put(self, request, pk, format=None):

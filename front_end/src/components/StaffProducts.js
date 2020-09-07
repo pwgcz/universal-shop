@@ -19,6 +19,26 @@ export default function StaffProducts () {
     fetchProducts();
   }, []);
 
+
+  async function handleDelete (event) {
+    event.preventDefault();
+    let id = event.target.value;
+    try {
+      const response = await axios.delete(`api/staff/categories/${id}/`, {
+        headers: {
+          Authorization: "JWT " + localStorage.getItem("access_token"),
+          "Content-Type": "application/json",
+          accept: "application/json",
+        },
+      });
+
+      fetchProducts();
+      return response;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   if (products.length === 0) {
     return (
       <div className="error">
@@ -51,6 +71,7 @@ export default function StaffProducts () {
                 >
                   Update
                 </Link>
+                <button value={item.product_id} className='btn-primary' onClick={handleDelete}>Delete</button>
 
               </li>
             );

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 export default function StaffCategories () {
   const [categories, setCategories] = useState([]);
 
-  const fetchOrderss = async () => {
+  const fetchCategories = async () => {
     try {
       const response = await axios.get(
         `/api/categories/`
@@ -16,8 +16,28 @@ export default function StaffCategories () {
     }
   };
   useEffect(() => {
-    fetchOrderss();
+    fetchCategories();
   }, []);
+
+
+  async function handleDelete (event) {
+    event.preventDefault();
+    let id = event.target.value;
+    try {
+      const response = await axios.delete(`api/staff/categories/${id}/`, {
+        headers: {
+          Authorization: "JWT " + localStorage.getItem("access_token"),
+          "Content-Type": "application/json",
+          accept: "application/json",
+        },
+      });
+
+      fetchCategories();
+      return response;
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   if (categories.length === 0) {
     return (
@@ -36,7 +56,7 @@ export default function StaffCategories () {
             return (
               <li key={item.category_id} className="list-view">
                 <p>name: {item.name} </p>
-                <button className='btn-primary'>Delete</button>
+                <button value={item.category_id} onClick={handleDelete} className='btn-primary'>Delete</button>
               </li>
             );
           })}
