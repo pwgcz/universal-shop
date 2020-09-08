@@ -8,7 +8,6 @@ import InputForm from "./InputForm";
 
 export default function UserForm() {
   const { user, fetchCurrentUser } = useContext(UserContext);
-  console.log({ user });
   const [userData, setUserData] = useState(user);
 
   const history = useHistory();
@@ -40,10 +39,10 @@ export default function UserForm() {
 
       return response;
     } catch (error) {
-      throw error;
+      console.log(error);
     }
   }
-  console.log(userData);
+
 
   return (
     <Form submitButton="Update Profile" handleSubmit={handleSubmit}>

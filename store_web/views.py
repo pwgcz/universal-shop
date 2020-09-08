@@ -1,6 +1,6 @@
 from rest_framework.decorators import api_view
 from rest_framework.generics import ListAPIView, get_object_or_404
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAuthenticated, IsAdminUser, BasePermission
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.views import APIView
@@ -11,6 +11,13 @@ from rest_framework import status
 
 from .serializers import OrdersSerializer, OrderItemSerializer, AddressSerializer, \
     CartItemSerializer, CategorySerializer, TagSerializer, ProductSerializer
+
+
+class IsStaffUser(BasePermission):
+
+    def has_permission(self, request, view):
+
+        return bool(request.user and request.user.is_staff)
 
 
 class OrdersList(APIView):
@@ -155,9 +162,11 @@ class CategoryDetailsStaff(APIView):
 
 
 class CategoryListStaff(APIView):
+    permission_classes = (IsAuthenticated, IsStaffUser)
 
     def post(self, request, format=None):
         serializer = CategorySerializer(data=request.data)
+        print(request.user.is_staff)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -192,6 +201,7 @@ class ProductDetails(APIView):
 
 
 class ProductListStaff(APIView):
+    permission_classes = (IsAuthenticated, IsStaffUser)
 
     def post(self, request, format=None):
         serializer = ProductSerializer(data=request.data)
@@ -202,6 +212,8 @@ class ProductListStaff(APIView):
 
 
 class ProductDetailsStaff(APIView):
+    
+    permission_classes = (IsAuthenticated, IsStaffUser)
 
     def put(self, request, pk, format=None):
         product = get_object_or_404(Product, pk=pk)
@@ -218,6 +230,7 @@ class ProductDetailsStaff(APIView):
 
 
 class TagList(APIView):
+
     def get(self, request, format=None):
         tag = Tag.objects.all()
         serializer = TagSerializer(tag, many=True)

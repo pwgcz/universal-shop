@@ -16,9 +16,10 @@ import ProductForm from "./components/ProductForm";
 import Cart from "./components/Cart";
 import OrderDetail from "./pages/OrderDetail";
 import StaffPage from "./pages/StaffPage";
+import ProductFormUpdate from './components/ProductFormUpdate';
 
 import Navbar from "./components/Navbar";
-
+// TODO update form of product ?pasing params in urls?
 function App() {
   return (
     <>
@@ -37,6 +38,7 @@ function App() {
           <Route exact path="/profile-form" component={UserForm} />
           <Route exact path="/category-form" component={CategoryForm} />
           <Route exact path="/product-form" component={ProductForm} />
+          <Route exact path="/product-form/" component={ProductFormUpdate} />
           <Route component={Error} />
         </Switch>
       </UserContextProvider>

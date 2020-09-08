@@ -13,8 +13,7 @@ export default function CategoryForm() {
 
   const handleChange = (event) => {
     event.preventDefault();
-    const { name, value } = event.target;
-    setCategory({ name, value })
+    setCategory({ name: event.target.value })
   };
 
   async function handleSubmit (event) {

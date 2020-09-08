@@ -66,7 +66,7 @@ export default function StaffProducts () {
                 </Link>
 
                 <Link
-                  to={`/product/${item.order_id}`}
+                  to={`/product-form-update/${item.product_id}`}
                   className="btn-primary"
                 >
                   Update

@@ -47,7 +47,7 @@ export default function Navbar() {
               </li>
             </>
           ) : null}
-          {user.isStaff ? (
+          {user.is_staff ? (
             <li>
               <Link to="/staff">Staff panel</Link>
             </li>
