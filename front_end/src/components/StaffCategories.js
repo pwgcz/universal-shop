@@ -1,23 +1,32 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import Paginator from '../components/Paginator';
 
 export default function StaffCategories () {
+
   const [categories, setCategories] = useState([]);
+  const [activePage, setActivePage] = useState(1);
+  const [count, setCount] = useState(0);
+
+  const handlePageChange = (pageNumber) => {
+    setActivePage(pageNumber)
+  }
 
   const fetchCategories = async () => {
     try {
       const response = await axios.get(
-        `/api/categories/`
+        `/api/categories?page=${activePage}`
       );
       setCategories(response.data);
+      setCount(response.data.length);
     } catch (e) {
       console.log(e);
     }
   };
   useEffect(() => {
     fetchCategories();
-  }, []);
+  }, [activePage]);
 
 
   async function handleDelete (event) {
@@ -63,6 +72,7 @@ export default function StaffCategories () {
         </ul>
       </div>
       <div className="seperator" />
+      <Paginator activePage={activePage} count={count} handlePageChange={handlePageChange} />
     </>
   );
 }

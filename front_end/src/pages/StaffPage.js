@@ -8,7 +8,7 @@ import StaffOrders from '../components/StaffOrders';
 export default function StaffPage () {
 
   return (
-    <div className="list-conteiner">
+    <div className="list-wraper">
       <Title title="Category" />
       <StaffCategories />
 

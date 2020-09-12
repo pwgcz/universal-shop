@@ -7,7 +7,7 @@ import { UserContext } from "../contexts/UserContext";
 import Form from "./Form";
 import InputForm from "./InputForm";
 
-export default function CategoryForm() {
+export default function CategoryForm () {
   const history = useHistory();
   const [category, setCategory] = useState({ name: "" });
 

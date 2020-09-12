@@ -1,9 +1,9 @@
 import React, { useState, useContext } from "react";
-import authorizationAxios from "../axiosApi";
 import { UserContext } from "../contexts/UserContext";
 import { useHistory } from "react-router-dom";
 import Form from "./Form";
 import InputForm from "./InputForm";
+import axios from 'axios';
 
 export default function Login() {
   const [userLog, setUserLog] = useState({ email: "", password: "" });
@@ -21,17 +21,23 @@ export default function Login() {
   async function handleSubmit(event) {
     event.preventDefault();
     try {
-      const data = await authorizationAxios.post(
+      const data = await axios.post(
         "/token-auth/",
-        JSON.stringify(userLog)
+        JSON.stringify(userLog),{
+          headers: {
+            Authorization: "JWT " + localStorage.getItem("access_token"),
+            "Content-Type": "application/json",
+            accept: "application/json",
+          }
+        }
       );
-      authorizationAxios.defaults.headers["Authorization"] =
+      axios.defaults.headers["Authorization"] =
         "JWT " + data.data.token;
       localStorage.setItem("access_token", data.data.token);
       setUser(data.data.user);
       history.push("/profil");
     } catch (error) {
-      throw error;
+      console.log(error);
     }
   }
 
@@ -41,6 +47,7 @@ export default function Login() {
 
       <label htmlFor="email">Email</label>
       <input
+        className = 'start-input'
         type="text"
         name="email"
         value={userLog.email}
@@ -49,6 +56,7 @@ export default function Login() {
 
       <label htmlFor="password">Password</label>
       <input
+        className = 'start-input'
         type="password"
         name="password"
         value={userLog.password}

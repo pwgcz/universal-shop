@@ -16,6 +16,7 @@ class Orders(models.Model):
     amount = models.IntegerField(_('amount'), default=1)
 
     class Meta:
+        ordering = ['-crate_date']
         verbose_name = _('order')
         verbose_name_plural = _('orders')
 

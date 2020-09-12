@@ -11,6 +11,7 @@ from authentication.serializers import UserSerializer, UserSerializerWithToken
 # todo: 'add rate limit to view'
 
 class CreateUser(APIView):
+
     def post(self, request, format=None):
         serializer = UserSerializerWithToken(data=request.data)
         if serializer.is_valid():

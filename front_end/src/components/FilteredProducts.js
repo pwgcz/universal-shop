@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Product from "./Product";
 import axios from "axios";
+import Paginator from "./Paginator";
+
 
 export default function FilteredProducts({ categoryName, priceRange }) {
   const [dataProducts, setDataProducts] = useState({
@@ -8,21 +10,32 @@ export default function FilteredProducts({ categoryName, priceRange }) {
     isFetching: true,
   });
 
+  const [activePage, setActivePage] = useState(1);
+  const [count, setCount] = useState(0);
+
   const fetchProducts = async () => {
     try {
       setDataProducts({ products: dataProducts.products });
       const response = await axios.get(
-        `/api/products?category=${categoryName}&max_price=${priceRange.maxPrice}&min_price=${priceRange.minPrice}`
+        `/api/products?category=${categoryName}&max_price=${priceRange.maxPrice}&min_price=${priceRange.minPrice}&page=${activePage}`
       );
       setDataProducts({ products: response.data.results, isFetching: false });
+      setCount(response.data.count)
     } catch (e) {
       console.log(e);
-      setDataProducts({ products: dataProducts.products, isFetching: false });
     }
   };
+
+
   useEffect(() => {
     fetchProducts();
-  }, [categoryName, priceRange]);
+  }, [categoryName, priceRange, activePage]);
+
+
+  const handlePageChange = (pageNumber) => {
+    setActivePage(pageNumber)
+  }
+
 
   if (dataProducts.products.length === 0) {
     return (
@@ -32,13 +45,14 @@ export default function FilteredProducts({ categoryName, priceRange }) {
     );
   }
 
-  let filteredProducts = dataProducts.products.map((item) => {
-    return <Product key={item.product_id} product={item} />;
+  const filteredProducts = dataProducts.products.map((item) => {
+    return <Product key={item.product_id} product={item} />
   });
 
   return (
     <section className="productgroup">
       <div className="productgroup-center">{filteredProducts}</div>
+      <Paginator activePage={activePage} count={count} handlePageChange={handlePageChange} />
     </section>
   );
 }

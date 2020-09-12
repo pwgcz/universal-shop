@@ -3,7 +3,9 @@ import Banner from "../components/Banner";
 import { Link } from "react-router-dom";
 import Informations from "../components/Informations";
 
+
 const Home = () => {
+
   return (
     <>
       <div className="contentWrapper">

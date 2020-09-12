@@ -64,9 +64,9 @@ export default function Cart() {
       });
       history.push("/profil");
     } catch (error) {
-      throw error;
+      console.log(error);
     }
-  };
+    };
   const fetchCartItems = async () => {
     try {
       const response = await axios.get(`/api/cart-items`, {

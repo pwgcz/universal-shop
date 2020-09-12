@@ -1,23 +1,32 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import Paginator from '../components/Paginator';
 
 export default function StaffProducts () {
+
   const [orders, setOrders] = useState([]);
+  const [activePage, setActivePage] = useState(1);
+  const [count, setCount] = useState(0);
+
+  const handlePageChange = (pageNumber) => {
+    setActivePage(pageNumber)
+  }
 
   const fetchOrders = async () => {
     try {
       const response = await axios.get(
-        `/api/staff/orders/`
+        `/api/staff/orders?page=${activePage}`
       );
       setOrders(response.data);
+      setCount(response.data.length);
     } catch (e) {
       console.log(e);
     }
   };
   useEffect(() => {
     fetchOrders();
-  }, []);
+  }, [activePage]);
 
   if (orders.length === 0) {
     return (
@@ -50,6 +59,7 @@ export default function StaffProducts () {
         </ul>
       </div>
       <div className="seperator" />
+      <Paginator activePage={activePage} count={count} handlePageChange={handlePageChange} />
     </>
   );
 

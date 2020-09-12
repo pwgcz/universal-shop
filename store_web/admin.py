@@ -16,7 +16,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 class OrdersAdmin(admin.ModelAdmin):
     empty_value_display = 'unknown'
-    fields = ('discount', 'addresses')
+    fields = ('addresses',)
     list_display = ('crate_date', 'modified_date', 'status', 'amount')
 
 

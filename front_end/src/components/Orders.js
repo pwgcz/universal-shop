@@ -1,24 +1,25 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { UserContext } from "../contexts/UserContext";
 import Title from "./Title";
 import { Link } from "react-router-dom";
+import Paginator from '../components/Paginator';
 
-export default function Orders() {
+export default function Orders () {
   const [orders, setOtders] = useState({ orders: [], isFetching: true });
-  const { user } = useContext(UserContext);
+  const [activePage, setActivePage] = useState(1);
+  const [count, setCount] = useState(0);
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get(`/api/orders/`, {
+      const response = await axios.get(`/api/orders?page=${activePage}`, {
         headers: {
           Authorization: "JWT " + localStorage.getItem("access_token"),
           "Content-Type": "application/json",
           accept: "application/json",
         },
       });
-      console.log(response.data);
       setOtders({ orders: response.data, isFetching: false });
+      setCount(response.data.length);
     } catch (e) {
       console.log(e);
       setOtders({ orders: orders.orders, isFetching: true });
@@ -26,7 +27,11 @@ export default function Orders() {
   };
   useEffect(() => {
     fetchOrders();
-  }, []);
+  }, [activePage]);
+
+  const handlePageChange = (pageNumber) => {
+    setActivePage(pageNumber)
+  }
 
   if (orders.orders.length === 0) {
     return (
@@ -59,6 +64,7 @@ export default function Orders() {
         </ul>
       </div>
       <div className="seperator" />
+      <Paginator activePage={activePage} count={count} handlePageChange={handlePageChange} />
     </>
   );
 }

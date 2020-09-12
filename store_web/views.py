@@ -21,6 +21,14 @@ class IsStaffUser(BasePermission):
 
 
 class OrdersList(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, format=None):
+        serializer = OrdersSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request, format=None):
         user_id = self.request.user.id
@@ -30,6 +38,7 @@ class OrdersList(APIView):
 
 
 class OrdersDetails(APIView):
+    permission_classes = (IsAuthenticated,)
 
     def get(self, request, pk, format=None):
         order = get_object_or_404(Orders, pk=pk)
