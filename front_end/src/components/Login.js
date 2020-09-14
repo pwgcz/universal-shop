@@ -1,8 +1,7 @@
 import React, { useState, useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
 import { useHistory } from "react-router-dom";
-import Form from "./Form";
-import InputForm from "./InputForm";
+import { useAlert } from 'react-alert'
 import axios from 'axios';
 
 export default function Login() {
@@ -17,6 +16,8 @@ export default function Login() {
       return { ...prevstate, [name]: value };
     });
   };
+
+  const alerts = useAlert()
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -36,13 +37,24 @@ export default function Login() {
       localStorage.setItem("access_token", data.data.token);
       setUser(data.data.user);
       history.push("/profil");
+      alerts.show('successfully Log in', {
+        timeout: 0,
+        type: 'success'
+      })
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
+      if (error.response.status === 400) {
+        alerts.show('Invalid Emai or Password', {
+          timeout: 0,
+          type: 'error'
+        })
+      }
     }
   }
 
   return (
     <form className="auth-form" onSubmit={handleSubmit}>
+
       <h4>Log In</h4>
 
       <label htmlFor="email">Email</label>

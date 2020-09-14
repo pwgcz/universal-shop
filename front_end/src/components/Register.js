@@ -3,9 +3,9 @@ import axios from "axios";
 import classnames from 'classnames';
 import Cookies from 'js-cookie';
 import { useAlert } from 'react-alert'
+import CSRFToken from './CSRFToken';
 
-export default function Register() {
-  const csrftoken = Cookies.get('csrftoken');
+export default function Register () {
   const alerts = useAlert();
 
   const [user, setUser] = useState({
@@ -32,11 +32,6 @@ const [secondPassword, setSecondPassword] = useState("");
   const paswordRegExp = RegExp(
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
   );
-
-  const handleChangeSecondPassword = (event) => {
-    event.preventDefault();
-    setSecondPassword(event.target.value);
-  }
 
   const handleChange = (event) => {
     event.preventDefault();
@@ -98,6 +93,7 @@ const [secondPassword, setSecondPassword] = useState("");
     return value === '' ;
   }
 
+  const csrftoken = Cookies.get('csrftoken');
   async function handleSubmit (event) {
     event.preventDefault();
 
@@ -123,15 +119,28 @@ const [secondPassword, setSecondPassword] = useState("");
           timeout: 0,
           type: 'success'
         })
-      } catch (e) {
-        console.log(e);
-      }
-    }
-  }
+      } catch (error) {
+        console.log(error.response);
+        if (error.response.status === 500) {
+          alerts.show('user with this email exist', {
+            timeout: 0,
+            type: 'error'
+          })
+        }
 
+      }
+    }else{
+      alerts.show('Invalid Register Form', {
+        timeout: 0,
+        type: 'error'
+      })
+    }
+
+  }
 
   return (
     <form className="auth-form" onSubmit={handleSubmit}>
+      <CSRFToken />
       <h4>Register</h4>
       <label htmlFor="user_name">Username</label>
       <input

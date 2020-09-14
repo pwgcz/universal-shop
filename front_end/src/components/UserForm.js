@@ -70,14 +70,15 @@ export default function UserForm() {
       />
       <InputForm
         name="date_of_birth"
-        type="text"
+        type="date"
         labelName="Date of birth"
         handleChange={handleChange}
         inputValue={userData.date_of_birth}
       />
       <InputForm
+        pattern="[0-9]{9}"
         name="phone"
-        type="text"
+        type="tel"
         labelName="Phone"
         handleChange={handleChange}
         inputValue={userData.phone}

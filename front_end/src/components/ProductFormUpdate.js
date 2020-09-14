@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Title from "./Title";
@@ -6,16 +6,37 @@ import { useHistory } from "react-router-dom";
 import Form from "./Form";
 import InputForm from "./InputForm";
 
-export default function ProductFormUpdate ({ name, price, category, quantity, image, description }) {
+export default function ProductFormUpdate (props) {
   const history = useHistory();
   const [product, setProduct] = useState({
-    name: name,
-    price: price,
-    category: category,
-    quantity: quantity,
-    images: image,
-    description: description
+    name: '',
+    price: '',
+    category: '',
+    quantity: '',
+    images: '',
+    description: ''
   });
+
+  const fetchProduct = async () => {
+    try {
+      const response = await axios.get(
+        `/api/products/${props.match.params.id}`
+      );
+      console.log(response.data);
+      setProduct({
+        name: response.data.name,
+        price: response.data.price,
+        category: response.data.category,
+        quantity: response.data.quantity,
+        description: response.data.description
+      })
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  useEffect(() => {
+    fetchProduct();
+  }, []);
 
   const handleChange = (event) => {
     event.preventDefault();
@@ -24,7 +45,7 @@ export default function ProductFormUpdate ({ name, price, category, quantity, im
       return { ...prevstate, [name]: value };
     });
   };
-  
+
   const handleImageChange = (event) => {
     console.log(event.target.files);
     setProduct({...product, images:event.target.files[0]});
@@ -35,6 +56,7 @@ export default function ProductFormUpdate ({ name, price, category, quantity, im
     event.preventDefault();
 
     let formData = new FormData();
+
 
     if (product.images) {
       formData.append('image', product.images, product.images.name);
@@ -49,7 +71,7 @@ export default function ProductFormUpdate ({ name, price, category, quantity, im
 
     try {
       const response = await axios.post(
-        "api/staff/products/",
+        "/api/staff/products/",
         formData,
         {
           headers: {
@@ -67,7 +89,7 @@ export default function ProductFormUpdate ({ name, price, category, quantity, im
   }
 
   return (
-    <Form submitButton="Add" handleSubmit={handleSubmit}>
+    <Form submitButton="Update" handleSubmit={handleSubmit}>
       <h4>Product</h4>
       <InputForm
         name="name"
@@ -81,7 +103,7 @@ export default function ProductFormUpdate ({ name, price, category, quantity, im
         type="text"
         labelName="Price"
         handleChange={handleChange}
-        inputValue={product.prce}
+        inputValue={product.price}
       />
       <InputForm
         name="quantity"

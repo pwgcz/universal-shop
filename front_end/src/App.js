@@ -38,7 +38,7 @@ function App() {
           <Route exact path="/profile-form" component={UserForm} />
           <Route exact path="/category-form" component={CategoryForm} />
           <Route exact path="/product-form" component={ProductForm} />
-          <Route exact path="/product-form/" component={ProductFormUpdate} />
+          <Route exact path="/product-form-update/:id" component={ProductFormUpdate} />
           <Route component={Error} />
         </Switch>
       </UserContextProvider>

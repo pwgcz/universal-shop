@@ -30,7 +30,7 @@ export default function StaffProducts () {
     event.preventDefault();
     let id = event.target.value;
     try {
-      const response = await axios.delete(`api/staff/categories/${id}/`, {
+      const response = await axios.delete(`api/staff/products/${id}/`, {
         headers: {
           Authorization: "JWT " + localStorage.getItem("access_token"),
           "Content-Type": "application/json",

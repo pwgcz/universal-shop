@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
+import { useAlert } from 'react-alert'
 
 export const UserContext = createContext({
   user: {},
@@ -69,6 +70,7 @@ const UserContextProvider = ({ children }) => {
     });
   };
 
+  const alerts = useAlert()
   const handleLogout = () => {
     localStorage.removeItem("access_token");
     setUser({
@@ -83,6 +85,10 @@ const UserContextProvider = ({ children }) => {
       loggedIn: false,
       dateOfBirth: "",
     });
+    alerts.show('successfully logout', {
+      timeout: 0,
+      type: 'success'
+    })
   };
 
   const value = {

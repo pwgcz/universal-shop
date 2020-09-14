@@ -23,7 +23,7 @@ export default function ProductForm() {
     });
   };
   const handleImageChange = (event) => {
-    console.log(event.target.files);
+
     setProduct({...product, images:event.target.files[0]});
 
   };
@@ -46,7 +46,7 @@ export default function ProductForm() {
 
     try {
       const response = await axios.post(
-        "api/staff/products/",
+        "/api/staff/products/",
         formData,
         {
           headers: {
@@ -93,7 +93,7 @@ export default function ProductForm() {
         type="file"
         labelName="Image"
         handleChange={handleImageChange}
-        inputValue={product.image}
+        inputValue={product.images}
       />
       <InputForm
         name="description"
