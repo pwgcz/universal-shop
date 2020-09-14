@@ -83,8 +83,8 @@ export default function ProductFormUpdate (props) {
       );
       history.push("/staff");
       return response;
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log(error);
     }
   }
 

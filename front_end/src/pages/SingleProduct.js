@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
 import { useHistory } from "react-router-dom";
+import { useAlert } from 'react-alert';
 
 export default function SingleProduct (props) {
   const { user } = useContext(UserContext);
@@ -28,6 +29,7 @@ export default function SingleProduct (props) {
     fetchProduct();
   }, []);
 
+  const alerts = useAlert()
   const addOrderItem = async () => {
     try {
       const response = await axios.post(
@@ -48,6 +50,7 @@ export default function SingleProduct (props) {
       console.log(e);
     }
   };
+
   const addToCart = async () => {
     try {
       await axios.post(
@@ -65,8 +68,15 @@ export default function SingleProduct (props) {
         }
       );
       history.push("/products");
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log(error);
+      if (error.response.status === 401) {
+        alerts.show('you must login to add item to cart', {
+          timeout: 0,
+          type: 'info'
+        })
+      }
+
     }
   };
 

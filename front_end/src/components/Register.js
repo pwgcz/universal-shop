@@ -129,7 +129,7 @@ const [secondPassword, setSecondPassword] = useState("");
         }
 
       }
-    }else{
+    } else {
       alerts.show('Invalid Register Form', {
         timeout: 0,
         type: 'error'

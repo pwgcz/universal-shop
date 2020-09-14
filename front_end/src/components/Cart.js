@@ -4,11 +4,14 @@ import { UserContext } from "../contexts/UserContext";
 import Title from "./Title";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import { useAlert } from 'react-alert'
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState({ cart: [0], isFetching: true });
   const { user, addressId } = useContext(UserContext);
   const history = useHistory();
+  const alerts = useAlert();
+
 
   const makeOrder = async () => {
     try {
@@ -64,9 +67,15 @@ export default function Cart() {
       });
       history.push("/profil");
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
+      if (error.response.status === 400) {
+        alerts.show('choose adresses to make order on your profile site', {
+          timeout: 0,
+          type: 'info'
+        })
+      }
     }
-    };
+  };
   const fetchCartItems = async () => {
     try {
       const response = await axios.get(`/api/cart-items`, {
@@ -100,7 +109,7 @@ export default function Cart() {
       fetchCartItems();
       return response;
     } catch (error) {
-      throw error;
+      console.log(error);
     }
   }
 

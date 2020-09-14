@@ -5,12 +5,19 @@ import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Form from "./Form";
 import InputForm from "./InputForm";
+import 'react-phone-number-input/style.css'
+import PhoneInput from 'react-phone-number-input'
 
-export default function UserForm() {
+export default function UserForm () {
   const { user, fetchCurrentUser } = useContext(UserContext);
   const [userData, setUserData] = useState(user);
-
   const history = useHistory();
+
+  const handleChangePhone = (value) => {
+    setUserData((prevstate) => {
+      return { ...prevstate, ['phone']: value };
+    });
+  }
 
   const handleChange = (event) => {
     event.preventDefault();
@@ -75,14 +82,13 @@ export default function UserForm() {
         handleChange={handleChange}
         inputValue={userData.date_of_birth}
       />
-      <InputForm
-        pattern="[0-9]{9}"
+      <label htmlFor="phone">Phone</label>
+      <PhoneInput
         name="phone"
-        type="tel"
-        labelName="Phone"
-        handleChange={handleChange}
-        inputValue={userData.phone}
+        value={userData.phone}
+        onChange={handleChangePhone}
       />
+
       <Link to="/profil" className="btn-primary">
         Go back
       </Link>

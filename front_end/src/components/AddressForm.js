@@ -5,6 +5,9 @@ import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Form from "./Form";
 import InputForm from "./InputForm";
+import { useAlert } from 'react-alert'
+import 'react-phone-number-input/style.css'
+import PhoneInput from 'react-phone-number-input'
 
 export default function AddressForm() {
   const [addressData, setAddressData] = useState({
@@ -17,6 +20,7 @@ export default function AddressForm() {
   });
   const { user } = useContext(UserContext);
   const history = useHistory();
+  const alerts = useAlert();
 
   const handleChange = (event) => {
     event.preventDefault();
@@ -26,11 +30,17 @@ export default function AddressForm() {
     });
   };
 
+  const handleChangePhone = (value) => {
+    setAddressData((prevstate) => {
+      return { ...prevstate, ['phone']: value };
+    });
+  }
+
   async function handleSubmit(event) {
     event.preventDefault();
     try {
-       await axios.post(
-        "api/address/",
+      await axios.post(
+        "/api/address/",
         JSON.stringify({ ...addressData, users: [parseInt(user.id)] }),
         {
           headers: {
@@ -40,15 +50,27 @@ export default function AddressForm() {
           },
         }
       );
-      history.push("/profil");  
+      history.push("/profil");
     } catch (error) {
-      throw error;
+      console.log(error.response);
+      if (error.response.status === 400) {
+        alerts.show('Invalid information', {
+          timeout: 0,
+          type: 'error'
+        })
+      } else if (error.response.status === 401) {
+        alerts.show('you must be login', {
+          timeout: 0,
+          type: 'error'
+        })
+      }
     }
   }
+console.log(addressData);
 
   return (
     <Form
-      submitButton="Add new category"
+      submitButton="Add new"
       name="Category"
       handleSubmit={handleSubmit}
     >
@@ -88,13 +110,13 @@ export default function AddressForm() {
         handleChange={handleChange}
         value={addressData.city}
       />
-      <InputForm
+
+      <label htmlFor="phone">Phone</label>
+      <PhoneInput
         name="phone"
-        type="text"
-        labelName="Phone"
-        handleChange={handleChange}
         value={addressData.phone}
-      />
+        onChange={handleChangePhone} />
+
       <Link className="btn-primary" to="/profil">
         Go back
       </Link>
