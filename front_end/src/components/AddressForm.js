@@ -113,6 +113,7 @@ console.log(addressData);
 
       <label htmlFor="phone">Phone</label>
       <PhoneInput
+        className='phone-input'
         name="phone"
         value={addressData.phone}
         onChange={handleChangePhone} />

@@ -77,7 +77,6 @@ class CartItem(models.Model):
 
 class Category(models.Model):
     category_id = models.AutoField(primary_key=True)
-
     name = models.CharField(_('name'), max_length=100)
 
     class Meta:

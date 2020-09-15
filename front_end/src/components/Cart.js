@@ -91,6 +91,7 @@ export default function Cart() {
       setCartItems({ cart: cartItems.cart, isFetching: true });
     }
   };
+
   useEffect(() => {
     fetchCartItems();
   }, []);

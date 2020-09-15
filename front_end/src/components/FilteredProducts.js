@@ -17,7 +17,7 @@ export default function FilteredProducts({ categoryName, priceRange }) {
     try {
       setDataProducts({ products: dataProducts.products });
       const response = await axios.get(
-        `/api/products?category=${categoryName}&max_price=${priceRange.maxPrice}&min_price=${priceRange.minPrice}&page=${activePage}`
+        `/api/products/?category=${categoryName}&max_price=${priceRange.maxPrice}&min_price=${priceRange.minPrice}&page=${activePage}`
       );
       setDataProducts({ products: response.data.results, isFetching: false });
       setCount(response.data.count)

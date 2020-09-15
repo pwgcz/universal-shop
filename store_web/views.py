@@ -222,7 +222,7 @@ class ProductListStaff(APIView):
 
 class ProductDetailsStaff(APIView):
     
-    permission_classes = (IsAuthenticated, IsStaffUser)
+    # permission_classes = (IsAuthenticated, IsStaffUser)
 
     def put(self, request, pk, format=None):
         product = get_object_or_404(Product, pk=pk)

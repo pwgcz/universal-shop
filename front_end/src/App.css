@@ -54,6 +54,11 @@ a {
   padding: 2rem;
 }
 
+.phone-input{
+  width: 50%;
+  margin: 0 auto;
+}
+
 .btn-primary {
   display: inline-block;
   text-decoration: none;
@@ -604,22 +609,13 @@ footer {
   display: block;
 }
 
-/* .auth-conteiner input {
-  font-size: 1.5rem;
-  weight: 300;
-  text-align: center;
-  outline: 0;
-  border: 0;
-  background: transparent;
-  border-bottom: 2px solid var(--brightOrangeColor);
-} */
-
 .start-input  {
   font-size: 1.5rem;
   weight: 300;
   text-align: center;
   outline: 0;
   border: 0;
+  width: 85%;
   background: transparent;
   border-bottom: 2px solid var(--brightOrangeColor);
 }
@@ -661,7 +657,7 @@ footer {
 @media screen and (min-width: 1524px) {
   .auth-conteiner {
     margin: 9rem auto;
-    width: 50vw;
+    width: 60vw;
     display: flex;
     justify-content: space-between;
     padding: 2rem 5rem;
@@ -714,13 +710,14 @@ footer {
   text-transform: capitalize;
   letter-spacing: var(--mainSpacing);
 }
-.form-container input {
+.form-container input, select {
   font-size: 1.5rem;
   weight: 300;
   text-align: center;
   outline: 0;
   border: 0;
   background: transparent;
+  width: 50%;
   border-bottom: 2px solid var(--brightOrangeColor);
 }
 

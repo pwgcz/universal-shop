@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Title from "./Title";
 import { useHistory } from "react-router-dom";
 import Form from "./Form";
 import InputForm from "./InputForm";
+import CategorySelectBox from './CategorySelectBox';
 
-export default function ProductForm() {
+export default function ProductForm () {
+
   const history = useHistory();
   const [product, setProduct] = useState({
     name: "",
@@ -22,10 +24,17 @@ export default function ProductForm() {
       return { ...prevstate, [name]: value };
     });
   };
+
+  const handleChangeCategory = (event) => {
+    event.preventDefault();
+    const value = event.target.value;
+    setProduct((prevstate) => {
+      return { ...prevstate, ['category']: [value] };
+    });
+  };
+
   const handleImageChange = (event) => {
-
     setProduct({...product, images:event.target.files[0]});
-
   };
 
   async function handleSubmit(event) {
@@ -102,13 +111,9 @@ export default function ProductForm() {
         handleChange={handleChange}
         inputValue={product.description}
       />
-      <InputForm
-        name="category"
-        type="text"
-        labelName="Category"
-        handleChange={handleChange}
-        inputValue={product.category}
-      />
+
+      <CategorySelectBox handleChange={handleChangeCategory} />
+
       <Link className="btn-primary" to="/staff">
         Go back
       </Link>

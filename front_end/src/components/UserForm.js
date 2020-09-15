@@ -84,6 +84,7 @@ export default function UserForm () {
       />
       <label htmlFor="phone">Phone</label>
       <PhoneInput
+        className='phone-input'
         name="phone"
         value={userData.phone}
         onChange={handleChangePhone}

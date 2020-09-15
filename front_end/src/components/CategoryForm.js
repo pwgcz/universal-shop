@@ -31,8 +31,8 @@ export default function CategoryForm () {
         }
       );
       history.push("/staff");
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log(error);
     }
   }
 

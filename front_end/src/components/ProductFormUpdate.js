@@ -5,6 +5,7 @@ import Title from "./Title";
 import { useHistory } from "react-router-dom";
 import Form from "./Form";
 import InputForm from "./InputForm";
+import CategorySelectBox from './CategorySelectBox';
 
 export default function ProductFormUpdate (props) {
   const history = useHistory();
@@ -20,9 +21,8 @@ export default function ProductFormUpdate (props) {
   const fetchProduct = async () => {
     try {
       const response = await axios.get(
-        `/api/products/${props.match.params.id}`
+        `/api/products/${props.match.params.id}/`
       );
-      console.log(response.data);
       setProduct({
         name: response.data.name,
         price: response.data.price,
@@ -43,6 +43,15 @@ export default function ProductFormUpdate (props) {
     const { name, value } = event.target;
     setProduct((prevstate) => {
       return { ...prevstate, [name]: value };
+    });
+  };
+
+  const handleChangeCategory = (event) => {
+    event.preventDefault();
+    const value = event.target.value;
+    console.log(value);
+    setProduct((prevstate) => {
+      return { ...prevstate, ['category']: [value] };
     });
   };
 
@@ -70,8 +79,8 @@ export default function ProductFormUpdate (props) {
     console.log(formData);
 
     try {
-      const response = await axios.post(
-        "/api/staff/products/",
+      const response = await axios.put(
+        `/api/staff/products/${props.match.params.id}/`,
         formData,
         {
           headers: {
@@ -127,13 +136,8 @@ export default function ProductFormUpdate (props) {
         handleChange={handleChange}
         inputValue={product.description}
       />
-      <InputForm
-        name="category"
-        type="text"
-        labelName="Category"
-        handleChange={handleChange}
-        inputValue={product.category}
-      />
+      <CategorySelectBox onChange={handleChangeCategory} />
+
       <Link className="btn-primary" to="/staff">
         Go back
       </Link>

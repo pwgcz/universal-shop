@@ -8,31 +8,6 @@ export const UserContext = createContext({
 });
 
 const UserContextProvider = ({ children }) => {
-  const fetchCurrentUser = async () => {
-    try {
-      const response = await axios.get(`auth/current_user`, {
-        headers: {
-          Authorization: "JWT " + localStorage.getItem("access_token"),
-          "Content-Type": "application/json",
-          accept: "application/json",
-        },
-      });
-
-      setUserObject(response.data);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-  const isLoggedIn = () => {
-    setUserProperty(
-      "logged_in",
-      localStorage.getItem("access_token") ? true : false
-    );
-  };
-  useEffect(() => {
-    isLoggedIn();
-    fetchCurrentUser();
-  }, []);
 
   const [user, setUser] = useState({
     id: "",
@@ -46,14 +21,6 @@ const UserContextProvider = ({ children }) => {
     logged_in: localStorage.getItem("access_token") ? true : false,
     date_of_birth: "",
   });
-
-  const [addressId, setAddressId] = useState(null);
-
-  const setUserProperty = (name, value) => {
-    setUser((prevstate) => {
-      return { ...prevstate, [name]: value };
-    });
-  };
 
   const setUserObject = (props) => {
     setUser({
@@ -70,8 +37,47 @@ const UserContextProvider = ({ children }) => {
     });
   };
 
+  const fetchCurrentUser = async () => {
+    try {
+      const response = await axios.get(`/auth/current_user`, {
+        headers: {
+          Authorization: "JWT " + localStorage.getItem("access_token"),
+          "Content-Type": "application/json",
+          accept: "application/json",
+        },
+      });
+      setUserObject(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const isLoggedIn = () => {
+    if (!localStorage.getItem("access_token") ? true : false) {
+      handleLogout(false)
+    } else {
+      setUserProperty(
+        "logged_in", true
+      )
+    }
+  };
+  useEffect(() => {
+    isLoggedIn();
+    fetchCurrentUser();
+  }, []);
+
+
+  const [addressId, setAddressId] = useState(null);
+
+  const setUserProperty = (name, value) => {
+    setUser((prevstate) => {
+      return { ...prevstate, [name]: value };
+    });
+  };
+
+
   const alerts = useAlert()
-  const handleLogout = () => {
+  const handleLogout = (silent = false) => {
     localStorage.removeItem("access_token");
     setUser({
       id: "",
@@ -85,10 +91,13 @@ const UserContextProvider = ({ children }) => {
       loggedIn: false,
       dateOfBirth: "",
     });
-    alerts.show('successfully logout', {
-      timeout: 0,
-      type: 'success'
-    })
+
+    if (silent) {
+      alerts.show('successfully logout', {
+        timeout: 0,
+        type: 'success'
+      })
+    }
   };
 
   const value = {

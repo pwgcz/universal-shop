@@ -49,7 +49,7 @@ class TagSerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
 
-    category = serializers.SlugRelatedField(many=True, read_only=True, slug_field="name")
+    category = serializers.SlugRelatedField(many=True, queryset=Category.objects.all(), slug_field="name")
 
     class Meta:
         model = Product
