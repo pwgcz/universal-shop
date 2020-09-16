@@ -5,9 +5,9 @@ import Orders from "../components/Orders";
 
 export default function ProfilePage () {
   return (
-    <div className="profile-conteiner">
+    <div className="">
       <ProfileInfo />
-      <Addresses />
+      <Addresses title='Addresses' />
       <Orders />
     </div>
   )

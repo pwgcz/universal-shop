@@ -4,7 +4,8 @@ import { UserContext } from "../contexts/UserContext";
 import Title from "./Title";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import { useAlert } from 'react-alert'
+import { useAlert } from 'react-alert';
+import Addresses from './Addresses';
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState({ cart: [0], isFetching: true });
@@ -158,6 +159,7 @@ export default function Cart() {
     <>
       <Title title="Cart" />
       <div className="list-conteiner">{productGroup()}</div>
+      <Addresses title='choose address to send' />
     </>
   );
 }

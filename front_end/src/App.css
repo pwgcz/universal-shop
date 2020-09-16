@@ -75,6 +75,9 @@ a {
   background: transparent;
   color: var(--brightOrangeColor);
 }
+.btn-margin{
+    margin: 0 7rem;
+}
 .loading {
   text-transform: capitalize;
   text-align: center;
@@ -685,6 +688,10 @@ footer {
   text-align: center;
 }
 
+.btn-address{
+
+}
+
 .address-center {
   width: 90vw;
   margin: 0 auto;
@@ -710,7 +717,8 @@ footer {
   text-transform: capitalize;
   letter-spacing: var(--mainSpacing);
 }
-.form-container input, select {
+
+.form-container .select-category, input {
   font-size: 1.5rem;
   weight: 300;
   text-align: center;
@@ -746,7 +754,6 @@ footer {
   background: var(--mainGreyColor);
 }
 
-
 /* end of Form */
 
 /* list view */
@@ -754,7 +761,10 @@ footer {
   width: 70vw;
   margin: 1rem auto;
 }
+.select-status{
 
+  height: 2rem;
+}
 .list-conteiner {
   width: 70vw;
   margin: 1rem auto;

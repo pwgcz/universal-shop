@@ -30,26 +30,6 @@ export default function SingleProduct (props) {
   }, []);
 
   const alerts = useAlert()
-  const addOrderItem = async () => {
-    try {
-      const response = await axios.post(
-        `/api/order-item/`,
-        JSON.stringify({
-          product: parseInt(props.match.params.id),
-        }),
-        {
-          headers: {
-            Authorization: "JWT " + localStorage.getItem("access_token"),
-            "Content-Type": "application/json",
-            accept: "application/json",
-          },
-        }
-      );
-      history.push("/products");
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
   const addToCart = async () => {
     try {
@@ -57,7 +37,7 @@ export default function SingleProduct (props) {
         `/api/cart-items/`,
         JSON.stringify({
           product: parseInt(props.match.params.id),
-          users: [parseInt(user.id)],
+          users: [parseInt(user.id)]
         }),
         {
           headers: {
@@ -90,7 +70,7 @@ export default function SingleProduct (props) {
       </div>
     );
   }
-  const { product_id, category, name, price, image } = singleProduct.product;
+  const { product_id, category, name, price, image, quantity } = singleProduct.product;
   return (
     <section className="single-product">
       <div className="single-product-info">
@@ -102,10 +82,17 @@ export default function SingleProduct (props) {
           <p></p>
           <h3>category: {category}</h3>
           <h3>price: {price} zł</h3>
+          <h3>availability: {quantity}</h3>
           <div className="buttons">
-            <button onClick={addToCart} className="btn-primary footer">
-              Add to cart
-            </button>
+            {quantity >= 1 ?
+              <button onClick={addToCart} className="btn-primary footer">
+                Add to cart
+              </button>
+              :
+              <h3>
+              product is unapproachable
+              </h3>
+            }
             <Link to="/products" className="btn-primary footer">
               Go back shopping
             </Link>

@@ -25,7 +25,7 @@ export default function CategorySelectBox ({ onChange }) {
   return (
     <>
       <label htmlFor="category">Category</label>
-      <select name="category" onChange={onChange}>
+      <select className='select-category' name="category" onChange={onChange}>
         {categories.map((item) => {
           return (
             <option value={item.name} key={item.category_id}>

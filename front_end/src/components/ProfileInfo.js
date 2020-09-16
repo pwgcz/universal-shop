@@ -27,7 +27,7 @@ export default function ProfileInfo() {
         <p>Phone: {phone}</p>
       </div>
       <div className="seperator" />
-      <Link className="btn-primary" to="/profile-form">
+      <Link className="btn-primary btn-margin" to="/profile-form">
         Upadate profile
       </Link>
     </>

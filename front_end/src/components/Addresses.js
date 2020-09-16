@@ -5,7 +5,7 @@ import Title from "./Title";
 import { useHistory } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
 
-export default function Addresses() {
+export default function Addresses ({ title }) {
   const { addressId, setAddressId } = useContext(UserContext);
 
   const [addresses, setAdrresses] = useState({
@@ -108,10 +108,10 @@ export default function Addresses() {
   };
   return (
     <div className="conteiner">
-      <Title title="Adrresses" />
+      <Title title={title} />
       <section>{addressesGroup()}</section>
       <div className="seperator" />
-      <Link className="btn-primary" to="/adresses-form">
+      <Link className="btn-primary btn-margin" to="/adresses-form">
         Add new address
       </Link>
     </div>

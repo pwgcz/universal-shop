@@ -32,7 +32,17 @@ export default function Orders () {
   const handlePageChange = (pageNumber) => {
     setActivePage(pageNumber)
   }
-
+  const dateTimeFormater = (param) => {
+    console.log(new Date(param))
+    return new Intl.DateTimeFormat("en-GB", {
+      year: "numeric",
+      month: "short",
+      day: "2-digit",
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+    }).format(new Date(param))
+  }
   if (orders.orders.length === 0) {
     return (
       <>
@@ -49,8 +59,8 @@ export default function Orders () {
           {orders.orders.map((item, index) => {
             return (
               <li key={item.order_id} className="list-view">
-                <p>Ordered: {item.crate_date}</p>
-                <p>Modified: {item.modified_date}</p>
+                <p>Ordered: {dateTimeFormater(item.crate_date)}</p>
+                <p>Modified: {dateTimeFormater(item.modified_date)}</p>
                 <p>Status: {item.status}</p>
                 <Link
                   to={`/order-detail/${item.order_id}`}

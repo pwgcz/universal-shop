@@ -1,3 +1,4 @@
+from django.db.models import F
 from rest_framework.decorators import api_view
 from rest_framework.generics import ListAPIView, get_object_or_404
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, BasePermission
@@ -62,6 +63,14 @@ class OrdersListStaff(APIView):
 
 
 class OrdersDetailsStaff(APIView):
+
+    def patch(self, request, pk, format=None):
+        order = get_object_or_404(Orders, pk=pk)
+        serializer = OrdersSerializer(order, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
         order = get_object_or_404(Orders, pk=pk)
@@ -128,6 +137,10 @@ class CartItemList(APIView):
     def post(self, request, format=None):
         serializer = CartItemSerializer(data=request.data)
         if serializer.is_valid():
+            product_added_to_cart = Product.objects.get(pk=request.data.get('product', None))
+            product_added_to_cart.quantity = F('quantity') - 1
+            product_added_to_cart.save()
+
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -150,6 +163,9 @@ class CartItemDetails(APIView):
 
     def delete(self, request, pk, format=None):
         cart_item = get_object_or_404(CartItem, pk=pk)
+        product_removed_from_cart = cart_item.product
+        product_removed_from_cart.quantity = F('quantity') + 1
+        product_removed_from_cart.save()
         cart_item.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -175,7 +191,6 @@ class CategoryListStaff(APIView):
 
     def post(self, request, format=None):
         serializer = CategorySerializer(data=request.data)
-        print(request.user.is_staff)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -222,7 +237,7 @@ class ProductListStaff(APIView):
 
 class ProductDetailsStaff(APIView):
     
-    # permission_classes = (IsAuthenticated, IsStaffUser)
+    permission_classes = (IsAuthenticated, IsStaffUser)
 
     def put(self, request, pk, format=None):
         product = get_object_or_404(Product, pk=pk)
