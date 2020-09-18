@@ -6,8 +6,9 @@ import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { useAlert } from 'react-alert';
 import Addresses from './Addresses';
+import RowInList from './RowInList';
 
-export default function Cart() {
+export default function Cart () {
   const [cartItems, setCartItems] = useState({ cart: [0], isFetching: true });
   const { user, addressId } = useContext(UserContext);
   const history = useHistory();
@@ -19,8 +20,8 @@ export default function Cart() {
       const response = await axios.post(
         "api/orders/",
         JSON.stringify({
-          users: [parseInt(user.id)],
-          addresses: [addressId],
+          users: parseInt(user.id),
+          addresses: addressId,
         }),
         {
           headers: {
@@ -47,6 +48,7 @@ export default function Cart() {
             return {
               order: response.data.order_id,
               product: parseInt(item.product.product_id),
+              quantity: parseInt(item.quantity)
             };
           })
         ),
@@ -97,11 +99,11 @@ export default function Cart() {
     fetchCartItems();
   }, []);
 
-  async function handleDelete(event) {
+  async function handleDelete (event) {
     event.preventDefault();
-    let id = event.target.value;
+    let [cartItemId, productItemId, productCartQuantity] = event.target.value.split(',');
     try {
-      const response = await axios.delete(`api/cart-items/${id}/`, {
+      const response = await axios.delete(`api/cart-items/${cartItemId}/`, {
         headers: {
           Authorization: "JWT " + localStorage.getItem("access_token"),
           "Content-Type": "application/json",
@@ -109,12 +111,25 @@ export default function Cart() {
         },
       });
       fetchCartItems();
-      return response;
+    } catch (error) {
+      console.log(error);
+    }
+    try {
+      await axios.patch(`api/products/${productItemId}/`, {
+        quantity: parseInt(productCartQuantity)
+      },
+      {
+        headers: {
+          Authorization: "JWT " + localStorage.getItem("access_token"),
+          "Content-Type": "application/json",
+          accept: "application/json",
+        },
+      });
     } catch (error) {
       console.log(error);
     }
   }
-
+  let priceSum = 0;
   const productGroup = () => {
     if (cartItems.isFetching) {
       return <h3> Cart is feaching...</h3>;
@@ -133,13 +148,16 @@ export default function Cart() {
       <>
         <ul>
           {cartItems.cart.map((item, index) => {
+            priceSum += item.quantity * item.product.price
             return (
               <li key={item.cart_item_id} className="list-view">
                 <img src={item.product.image} alt={item.product.name} />
-                <h6>{item.product.name}</h6>
+                <RowInList title='Name:' content={item.product.name} />
+                <RowInList title='Quantity:' content={item.quantity} />
+                <RowInList title='Price:' content={`${item.product.price}zł`} />
                 <button
                   onClick={handleDelete}
-                  value={item.cart_item_id}
+                  value={[item.cart_item_id, item.product.product_id, item.quantity]}
                   className="btn-primary"
                 >
                   remove
@@ -148,6 +166,8 @@ export default function Cart() {
             );
           })}
         </ul>
+        <h3>summary</h3>
+        <RowInList title='Total price:' content={`${priceSum}zł`} />
         <button onClick={makeOrder} className="btn-primary">
           Buy
         </button>

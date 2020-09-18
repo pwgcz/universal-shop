@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import Title from "./Title";
 import { useHistory } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
+import RowInList from './RowInList';
+import classnames from 'classnames';
 
 export default function Addresses ({ title }) {
   const { addressId, setAddressId } = useContext(UserContext);
@@ -17,8 +19,8 @@ export default function Addresses ({ title }) {
   const changeAddress = async (event) => {
     try {
       await setAddressId(parseInt(event.target.value));
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log(error);
     }
   };
   const fetchAddresses = async () => {
@@ -32,9 +34,8 @@ export default function Addresses ({ title }) {
       });
 
       setAdrresses({ addresses: response.data, isFetching: false });
-    } catch (e) {
-      console.log(e);
-      setAdrresses({ adresses: addresses.adresses, isFetching: true });
+    } catch (error) {
+      console.log(error);
     }
   };
   useEffect(() => {
@@ -72,17 +73,16 @@ export default function Addresses ({ title }) {
           return (
             <article
               key={item.address_id}
-              className={
-                addressId === item.address_id ? "spacing background" : "spacing"
-              }
             >
-              {addressId === item.address_id ? <p> Order address</p> : ""}
-              <h6>Name: {item.name}</h6>
-              <p>Country: {item.country}</p>
-              <p>Street: {item.street}</p>
-              <p>Post code: {item.post_code}</p>
-              <p>City: {item.city}</p>
-              <p>Phone: {item.phone}</p>
+              <h3 className={classnames({ 'active-shipping': addressId === item.address_id, 'diaactive-shipping ': addressId !== item.address_id})}>Shipping Address <div /></h3>
+              <h6>
+                <RowInList isInline title='Name:' content={item.name} />
+              </h6>
+              <RowInList isInline title='Country:' content={item.country} />
+              <RowInList isInline title='Street:' content={item.street} />
+              <RowInList isInline title='City:' content={item.city} />
+              <RowInList isInline title='Post Code:' content={item.post_code} />
+              <RowInList isInline title='Phone:' content={item.phone} />
               {addressId === item.address_id ? null : (
                 <button
                   className="btn-primary"

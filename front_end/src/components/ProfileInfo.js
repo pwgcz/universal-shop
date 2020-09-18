@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import Title from "./Title";
 import { UserContext } from "../contexts/UserContext";
+import RowInList from './RowInList';
 
 export default function ProfileInfo() {
   const { user } = useContext(UserContext);
@@ -19,12 +20,13 @@ export default function ProfileInfo() {
     <>
       <div className="center-conteiner">
         <Title title="My profile" />
-        <h6>User: {user_name}</h6>
-        <p>email: {email}</p>
-        <p>First name: {first_name}</p>
-        <p>Last name: {last_name}</p>
-        <p>Birth: {date_of_birth}</p>
-        <p>Phone: {phone}</p>
+        <h6>
+          <RowInList isInline title='User:' content={user_name} />
+        </h6>
+        <RowInList isInline title='email:' content={email} />
+        <RowInList isInline title='First name:' content={last_name} />
+        <RowInList isInline title='Last name:' content={date_of_birth} />
+        <RowInList isInline title='Phone:' content={phone} />
       </div>
       <div className="seperator" />
       <Link className="btn-primary btn-margin" to="/profile-form">

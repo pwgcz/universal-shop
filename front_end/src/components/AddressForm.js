@@ -9,7 +9,7 @@ import { useAlert } from 'react-alert'
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 
-export default function AddressForm() {
+export default function AddressForm () {
   const [addressData, setAddressData] = useState({
     name: "",
     country: "",

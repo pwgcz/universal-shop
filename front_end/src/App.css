@@ -55,8 +55,16 @@ a {
 }
 
 .phone-input{
-  width: 50%;
+  width: 60%;
   margin: 0 auto;
+  font-size: 1.5rem;
+  weight: 300;
+  text-align: center;
+  outline: 0;
+  border: 0;
+  width: 60%;
+  background: transparent;
+  border-bottom: 2px solid var(--brightOrangeColor);
 }
 
 .btn-primary {
@@ -600,7 +608,7 @@ footer {
 
 .auth-conteiner {
   margin: 9rem auto;
-  width: 80vw;
+  width: 90vw;
   justify-content: space-between;
   background: var(--mainLightColor);
   color: var(--mainBlack);
@@ -618,7 +626,7 @@ footer {
   text-align: center;
   outline: 0;
   border: 0;
-  width: 85%;
+  width: 60%;
   background: transparent;
   border-bottom: 2px solid var(--brightOrangeColor);
 }
@@ -660,7 +668,7 @@ footer {
 @media screen and (min-width: 1524px) {
   .auth-conteiner {
     margin: 9rem auto;
-    width: 60vw;
+    width: 80vw;
     display: flex;
     justify-content: space-between;
     padding: 2rem 5rem;
@@ -672,7 +680,7 @@ footer {
     margin: auto 0;
   }
   .auth-form {
-    padding: auto;
+  width: 40vw;
   }
 }
 
@@ -688,10 +696,6 @@ footer {
   text-align: center;
 }
 
-.btn-address{
-
-}
-
 .address-center {
   width: 90vw;
   margin: 0 auto;
@@ -700,6 +704,22 @@ footer {
   grid-row-gap: 1rem;
   grid-column-gap: 50px;
 }
+.diaactive-shipping {
+  visibility: hidden;
+}
+.active-shipping{
+  transition: var(--mainTransition);
+  visibility: visible;
+  color: green;
+}
+.active-shipping div {
+  height: 12px;
+  width: 12px;
+  background-color: green;
+  border-radius: 50%;
+  display: inline-block;
+}
+
 
 @media screen and (min-width: 1524px) {
 }
@@ -718,14 +738,14 @@ footer {
   letter-spacing: var(--mainSpacing);
 }
 
-.form-container .select-category, input {
+.form-container .select-category {
   font-size: 1.5rem;
   weight: 300;
   text-align: center;
   outline: 0;
   border: 0;
   background: transparent;
-  width: 50%;
+  width: 60%;
   border-bottom: 2px solid var(--brightOrangeColor);
 }
 
@@ -762,9 +782,15 @@ footer {
   margin: 1rem auto;
 }
 .select-status{
-
   height: 2rem;
 }
+.select-status label{
+    font-weight: 600;
+}
+.select-status select{
+  display: block;
+}
+
 .list-conteiner {
   width: 70vw;
   margin: 1rem auto;
@@ -779,6 +805,7 @@ footer {
 .list-conteiner .list-view {
   display: flex;
   justify-content: space-around;
+  margin: 2rem;
 }
 .list-conteiner h6 {
   display: inline;
@@ -827,3 +854,50 @@ footer {
   background-color: var(--brightOrangeColor);
 }
 /* end of pagination */
+
+
+/* Row in list */
+.row label{
+  font-weight: 600;
+}
+.row-inline{
+  margin: 6px;
+  display: inline-block;
+}
+/* end Row in list */
+
+/* QuantityInput */
+
+.quantity{
+   display:flex;
+   width:160px;
+}
+
+/*it will support Chrome, Safari, Edge, Opera */
+.quantity input::-webkit-outer-spin-button,
+.quantity input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.quantity input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.quantity input,.quantity button{
+   width:50px;
+   padding:.5em;
+   font-size:1.2rem;
+   text-align:center;
+   font-weight:900;
+   background:white;
+   border:1px solid #aaa;
+}
+
+.quantity input{
+   border-left:none;
+   border-right:none;
+}
+
+/* end of QuantityInput */

@@ -137,10 +137,15 @@ class CartItemList(APIView):
     def post(self, request, format=None):
         serializer = CartItemSerializer(data=request.data)
         if serializer.is_valid():
-            product_added_to_cart = Product.objects.get(pk=request.data.get('product', None))
-            product_added_to_cart.quantity = F('quantity') - 1
-            product_added_to_cart.save()
-
+            quantity = request.data.get('quantity', None)
+            if CartItem.objects.filter(users=request.data.get('users', None)[0], product=request.data.get('product', None)).exists():
+                cart_item = CartItem.objects.filter(users=request.data.get('users', None)[0], product=request.data.get('product', None)).get()
+                return Response(data={
+                    'message': 'product is in cart',
+                    'cart_item_id': cart_item.cart_item_id,
+                    'quantity': quantity
+                },
+                    status=status.HTTP_400_BAD_REQUEST)
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -161,11 +166,17 @@ class CartItemList(APIView):
 
 class CartItemDetails(APIView):
 
+    def patch(self, request, pk, format=None):
+        cart_item = get_object_or_404(CartItem, pk=pk)
+        serializer = CartItemSerializer(cart_item, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.validated_data['quantity'] = serializer.validated_data.get('quantity', None) + cart_item.quantity
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     def delete(self, request, pk, format=None):
         cart_item = get_object_or_404(CartItem, pk=pk)
-        product_removed_from_cart = cart_item.product
-        product_removed_from_cart.quantity = F('quantity') + 1
-        product_removed_from_cart.save()
         cart_item.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -223,6 +234,16 @@ class ProductDetails(APIView):
         serializer = ProductSerializer(products)
         return Response(serializer.data)
 
+    ''' patch use to add quantity to currant value  '''
+    def patch(self, request, pk, format=None):
+        product = get_object_or_404(Product, pk=pk)
+        serializer = ProductSerializer(product, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.validated_data['quantity'] = product.quantity + serializer.validated_data.get('quantity', None)
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class ProductListStaff(APIView):
     permission_classes = (IsAuthenticated, IsStaffUser)
@@ -267,7 +288,6 @@ class TagDetails(APIView):
         tag = Tag.objects.get(pk=pk)
         serializer = TagSerializer(tag)
         return Response(serializer.data)
-
 
 
 @api_view(['GET'])

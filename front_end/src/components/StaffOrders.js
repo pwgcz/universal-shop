@@ -3,6 +3,8 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import Paginator from '../components/Paginator';
 import StatusOrderSelectcBox from './StatusOrderSelectcBox';
+import RowInList from './RowInList';
+
 
 export default function StaffProducts () {
 
@@ -37,14 +39,12 @@ export default function StaffProducts () {
     );
   }
   const dateTimeFormater = (param) => {
-    console.log(new Date(param))
     return new Intl.DateTimeFormat("en-GB", {
       year: "numeric",
       month: "short",
       day: "2-digit",
       hour: 'numeric',
       minute: 'numeric',
-      second: 'numeric',
     }).format(new Date(param))
   }
   return (
@@ -54,8 +54,8 @@ export default function StaffProducts () {
           {orders.map((item, index) => {
             return (
               <li key={item.order_id} className="list-view">
-                <p>Ordered: {dateTimeFormater(item.crate_date)}</p>
-                <p>Modified: {dateTimeFormater(item.modified_date)}</p>
+                <RowInList title='Ordered:' content={dateTimeFormater(item.crate_date)} />
+                <RowInList title='Modified:' content={dateTimeFormater(item.modified_date)} />
                 <StatusOrderSelectcBox orderId={item.order_id} fetchOrders={fetchOrders} currentValue={item.status} />
                 <Link
                   to={`/order-detail/${item.order_id}`}

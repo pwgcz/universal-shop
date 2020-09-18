@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Paginator from '../components/Paginator';
+import RowInList from './RowInList';
 
 export default function StaffProducts () {
   const [products, setProducts] = useState([]);
@@ -40,8 +41,8 @@ export default function StaffProducts () {
 
       fetchProducts();
       return response;
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -61,14 +62,14 @@ export default function StaffProducts () {
             return (
               <li key={item.product_id} className="list-view">
                 <img src={item.image} alt={item.name} />
-                <p>name: {item.name }</p>
-                <p>price: {item.price}</p>
-                <p>catgory: {item.category}</p>
+                <RowInList title='Name:' content={item.name} />
+                <RowInList title='Price:' content={item.price} />
+                <RowInList title='Category:' content={item.category} />
                 <Link
                   to={`/products/${item.product_id}`}
                   className="btn-primary"
                 >
-                  Ditails
+                  Details
                 </Link>
 
                 <Link

@@ -7,6 +7,10 @@ class OrdersSerializer(serializers.ModelSerializer):
         model = Orders
         fields = "__all__"
 
+    def to_representation(self, instance):
+        self.fields['addresses'] = AddressSerializer(read_only=True)
+        return super(OrdersSerializer, self).to_representation(instance)
+
 
 class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:

@@ -28,14 +28,20 @@ export default function ProductForm () {
   const handleChangeCategory = (event) => {
     event.preventDefault();
     const value = event.target.value;
+    console.log(value);
     setProduct((prevstate) => {
       return { ...prevstate, ['category']: [value] };
     });
+    console.log(product);
   };
 
   const handleImageChange = (event) => {
+    console.log(event.target.files);
     setProduct({...product, images:event.target.files[0]});
+
   };
+
+  console.log(product);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -67,8 +73,8 @@ export default function ProductForm () {
       );
       history.push("/staff");
       return response;
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log(error.response);
     }
   }
 
@@ -91,7 +97,7 @@ export default function ProductForm () {
       />
       <InputForm
         name="quantity"
-        type="text"
+        type="number"
         labelName="Quantity"
         handleChange={handleChange}
         inputValue={product.quantity}
@@ -102,7 +108,7 @@ export default function ProductForm () {
         type="file"
         labelName="Image"
         handleChange={handleImageChange}
-        inputValue={product.images}
+        inputValue={product.image}
       />
       <InputForm
         name="description"
@@ -112,7 +118,7 @@ export default function ProductForm () {
         inputValue={product.description}
       />
 
-      <CategorySelectBox handleChange={handleChangeCategory} />
+      <CategorySelectBox onChange={handleChangeCategory} />
 
       <Link className="btn-primary" to="/staff">
         Go back

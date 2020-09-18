@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Paginator from '../components/Paginator';
+import RowInList from './RowInList';
 
 export default function StaffCategories () {
 
@@ -64,7 +65,7 @@ export default function StaffCategories () {
           {categories.map((item, index) => {
             return (
               <li key={item.category_id} className="list-view">
-                <p>name: {item.name} </p>
+                <RowInList title="Name" content={item.name} />
                 <button value={item.category_id} onClick={handleDelete} className='btn-primary'>Delete</button>
               </li>
             );

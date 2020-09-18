@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
 import { useHistory } from "react-router-dom";
 import { useAlert } from 'react-alert';
+import QuantityInput from '../components/QuantityInput';
 
 export default function SingleProduct (props) {
   const { user } = useContext(UserContext);
@@ -11,6 +12,8 @@ export default function SingleProduct (props) {
     product: [],
     isFetching: true
   });
+  const [productCartQuantity, setProductCartQuantity] = useState(1)
+  const [postError, setPostError] = useState({})
   const history = useHistory();
 
   const fetchProduct = async () => {
@@ -29,15 +32,15 @@ export default function SingleProduct (props) {
     fetchProduct();
   }, []);
 
+
   const alerts = useAlert()
 
-  const addToCart = async () => {
+  const patchCartItem = async () => {
     try {
-      await axios.post(
-        `/api/cart-items/`,
+      await axios.patch(
+        `/api/cart-items/${postError.itemCartId}/`,
         JSON.stringify({
-          product: parseInt(props.match.params.id),
-          users: [parseInt(user.id)]
+          quantity: postError.quantity
         }),
         {
           headers: {
@@ -50,16 +53,90 @@ export default function SingleProduct (props) {
       history.push("/products");
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  const addToCart = async () => {
+    try {
+      await axios.post(
+        `/api/cart-items/`,
+        JSON.stringify({
+          product: parseInt(props.match.params.id),
+          users: [parseInt(user.id)],
+          quantity: productCartQuantity
+        }),
+        {
+          headers: {
+            Authorization: "JWT " + localStorage.getItem("access_token"),
+            "Content-Type": "application/json",
+            accept: "application/json",
+          },
+        }
+      );
+      history.push("/products");
+    } catch (error) {
+      console.log(error.response);
       if (error.response.status === 401) {
         alerts.show('you must login to add item to cart', {
           timeout: 0,
           type: 'info'
         })
+      } else if (error.response.data.message === 'product is in cart') {
+        try {
+          await axios.patch(
+            `/api/cart-items/${error.response.data.cart_item_id}/`,
+            JSON.stringify({
+              quantity: error.response.data.quantity
+            }),
+            {
+              headers: {
+                Authorization: "JWT " + localStorage.getItem("access_token"),
+                "Content-Type": "application/json",
+                accept: "application/json",
+              },
+            }
+          );
+          history.push("/products");
+        } catch (error) {
+          console.log(error);
+        }
+        try {
+          await axios.patch(
+            `/api/products/${props.match.params.id}/`,
+            {
+              quantity: -error.response.data.quantity
+            },
+            {
+              headers: {
+                Authorization: "JWT " + localStorage.getItem("access_token"),
+                "Content-Type": "application/json",
+                accept: "application/json",
+              },
+            }
+          );
+        } catch (error) {
+          console.log(error);
+        }
       }
-
+    }
+    try {
+      await axios.patch(
+        `/api/products/${props.match.params.id}/`,
+        {
+          quantity: -productCartQuantity
+        },
+        {
+          headers: {
+            Authorization: "JWT " + localStorage.getItem("access_token"),
+            "Content-Type": "application/json",
+            accept: "application/json",
+          },
+        }
+      );
+    } catch (error) {
+      console.log(error);
     }
   };
-
   if (singleProduct.product.length === 0) {
     return (
       <div className="error">
@@ -83,6 +160,7 @@ export default function SingleProduct (props) {
           <h3>category: {category}</h3>
           <h3>price: {price} zł</h3>
           <h3>availability: {quantity}</h3>
+          <QuantityInput quantityValue={quantity => setProductCartQuantity(quantity)} />
           <div className="buttons">
             {quantity >= 1 ?
               <button onClick={addToCart} className="btn-primary footer">

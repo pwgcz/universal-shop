@@ -30,8 +30,8 @@ export default function ProductFormUpdate (props) {
         quantity: response.data.quantity,
         description: response.data.description
       })
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log(error);
     }
   };
   useEffect(() => {

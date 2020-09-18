@@ -7,8 +7,8 @@ from authentication.models import User
 class Orders(models.Model):
     order_id = models.AutoField(primary_key=True)
 
-    users = models.ManyToManyField(User)
-    addresses = models.ManyToManyField('Address')
+    users = models.ForeignKey(User, on_delete=models.CASCADE)
+    addresses = models.ForeignKey('Address', on_delete=models.CASCADE)
 
     crate_date = models.DateTimeField(_('crate_date'), auto_now_add=True)
     modified_date = models.DateTimeField(_('modified_date'), auto_now=True)
