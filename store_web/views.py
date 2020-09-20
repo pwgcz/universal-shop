@@ -1,17 +1,16 @@
-from django.db.models import F
 from rest_framework.decorators import api_view
 from rest_framework.generics import ListAPIView, get_object_or_404
-from rest_framework.permissions import IsAuthenticated, IsAdminUser, BasePermission
+from rest_framework.permissions import IsAuthenticated, BasePermission
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.views import APIView
 
 
-from .models import Orders, OrderItem, Address, CartItem, Category, Tag, Product
+from .models import Orders, OrderItem, Address, CartItem, Category, Product
 from rest_framework import status
 
 from .serializers import OrdersSerializer, OrderItemSerializer, AddressSerializer, \
-    CartItemSerializer, CategorySerializer, TagSerializer, ProductSerializer
+    CartItemSerializer, CategorySerializer, ProductSerializer
 
 
 class IsStaffUser(BasePermission):
@@ -48,6 +47,7 @@ class OrdersDetails(APIView):
 
 
 class OrdersListStaff(APIView):
+    permission_classes = (IsAuthenticated, IsStaffUser)
 
     def get(self, request, format=None):
         orders = Orders.objects.all()
@@ -63,6 +63,7 @@ class OrdersListStaff(APIView):
 
 
 class OrdersDetailsStaff(APIView):
+    permission_classes = (IsAuthenticated, IsStaffUser)
 
     def patch(self, request, pk, format=None):
         order = get_object_or_404(Orders, pk=pk)
@@ -79,6 +80,7 @@ class OrdersDetailsStaff(APIView):
 
 
 class OrderItemList(APIView):
+    permission_classes = (IsAuthenticated,)
 
     def post(self, request, format=None):
         serializer = OrderItemSerializer(data=request.data, many=True)
@@ -89,6 +91,7 @@ class OrderItemList(APIView):
 
 
 class OrderItemDetails(APIView):
+    permission_classes = (IsAuthenticated,)
 
     def get(self, request, pk, format=None):
         order_item = OrderItem.objects.filter(order=pk)
@@ -165,6 +168,7 @@ class CartItemList(APIView):
 
 
 class CartItemDetails(APIView):
+    permission_classes = (IsAuthenticated,)
 
     def patch(self, request, pk, format=None):
         cart_item = get_object_or_404(CartItem, pk=pk)
@@ -274,22 +278,6 @@ class ProductDetailsStaff(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class TagList(APIView):
-
-    def get(self, request, format=None):
-        tag = Tag.objects.all()
-        serializer = TagSerializer(tag, many=True)
-        return Response(serializer.data)
-
-
-class TagDetails(APIView):
-
-    def get(self, request, pk, format=None):
-        tag = Tag.objects.get(pk=pk)
-        serializer = TagSerializer(tag)
-        return Response(serializer.data)
-
-
 @api_view(['GET'])
 def api_root(request, format=None):
     return Response({
@@ -298,7 +286,6 @@ def api_root(request, format=None):
         'address': reverse('address-list', request=request, format=format),
         'cart_items': reverse('cart-items-list', request=request, format=format),
         'category': reverse('categories-list', request=request, format=format),
-        'tags': reverse('tags-list', request=request, format=format),
         'products': reverse('products-list', request=request, format=format),
     })
 

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, Orders, OrderItem, Address, Category, Tag, CartItem
+from .models import Product, Orders, OrderItem, Address, Category, CartItem
 
 
 class CartItemAdmin(admin.ModelAdmin):
@@ -38,17 +38,11 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
 
-class TagAdmin(admin.ModelAdmin):
-    empty_value_display = 'unknown'
-    fields = ('name', 'products')
-
-
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Orders, OrdersAdmin)
 admin.site.register(OrderItem, OrderItemAdmin)
 admin.site.register(Address, AddressAdmin)
 admin.site.register(Category, CategoryAdmin)
-admin.site.register(Tag, TagAdmin)
 admin.site.register(CartItem, CartItemAdmin)
 
 

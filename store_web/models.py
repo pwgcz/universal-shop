@@ -63,7 +63,6 @@ class CartItem(models.Model):
     users = models.ManyToManyField(User)
     product = models.ForeignKey('Product', on_delete=models.CASCADE)
 
-    saved_for_later = models.BooleanField(_('saved_for_later'), default=False)
     quantity = models.IntegerField(_('quantity'), default=1)
     time_added = models.DateTimeField(_('time_added'), auto_now_add=True)
 
@@ -85,20 +84,6 @@ class Category(models.Model):
 
     def __str__(self):
         return f'<id: {self.category_id}, name: {self.name}'
-
-
-class Tag(models.Model):
-    tag_id = models.AutoField(primary_key=True)
-    products = models.ManyToManyField('Product')
-
-    tag = models.CharField(_('tag'), max_length=100)
-
-    class Meta:
-        verbose_name = _('tag')
-        verbose_name_plural = _('tags')
-
-    def __str__(self):
-        return f'id: {self.tag_id}, tag: {self.tag}'
 
 
 class Product(models.Model):

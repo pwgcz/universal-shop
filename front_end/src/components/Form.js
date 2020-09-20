@@ -1,9 +1,10 @@
-import React, { useEffect, useContext, useState } from "react";
+import React from "react";
+import ImageBackground from '../components/ImageBackground';
 
 
-export default function Form({ children, submitButton, handleSubmit }) {
+export default function Form ({ children, submitButton, handleSubmit }) {
   return (
-    <>
+    <ImageBackground>
       <div className="container">
         <form className="form-container" onSubmit={handleSubmit}>
           {children}
@@ -13,6 +14,6 @@ export default function Form({ children, submitButton, handleSubmit }) {
           </button>
         </form>
       </div>
-    </>
+    </ImageBackground>
   );
 }

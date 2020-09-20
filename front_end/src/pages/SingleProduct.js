@@ -147,36 +147,43 @@ export default function SingleProduct (props) {
       </div>
     );
   }
-  const { product_id, category, name, price, image, quantity } = singleProduct.product;
+  const { product_id, category, name, price, image, quantity, description } = singleProduct.product;
   return (
-    <section className="single-product">
-      <div className="single-product-info">
-        <article className="image">
-          <img src={image} alt={name} />
-        </article>
-        <article className="info">
-          <h1>{name}</h1>
-          <p></p>
-          <h3>category: {category}</h3>
-          <h3>price: {price} zł</h3>
-          <h3>availability: {quantity}</h3>
-          <QuantityInput quantityValue={quantity => setProductCartQuantity(quantity)} />
-          <div className="buttons">
-            {quantity >= 1 ?
-              <button onClick={addToCart} className="btn-primary footer">
-                Add to cart
-              </button>
-              :
-              <h3>
-              product is unapproachable
-              </h3>
-            }
-            <Link to="/products" className="btn-primary footer">
-              Go back shopping
-            </Link>
-          </div>
-        </article>
-      </div>
-    </section>
+    <>
+      <section className="single-product">
+        <div className="single-product-info">
+          <article className="image">
+            <img src={image} alt={name} />
+          </article>
+          <article className="info">
+            <h1>{name}</h1>
+            <p />
+            <h3>category: {category}</h3>
+            <h3>price: {price} zł</h3>
+            <h3>availability: {quantity}</h3>
+            <QuantityInput quantityValue={quantity => setProductCartQuantity(quantity)} />
+            <div className="buttons">
+              {quantity >= 1 ?
+                <button onClick={addToCart} className="btn-primary footer">
+                  Add to cart
+                </button>
+                :
+                <h3>
+                product is unapproachable
+                </h3>
+              }
+              <Link to="/products" className="btn-primary footer">
+                Go back shopping
+              </Link>
+            </div>
+          </article>
+          <article className="description">
+            <h3>Description</h3>
+            {description}
+          </article>
+        </div>
+      </section>
+
+    </>
   );
 }

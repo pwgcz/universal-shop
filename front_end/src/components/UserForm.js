@@ -5,8 +5,8 @@ import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Form from "./Form";
 import InputForm from "./InputForm";
-import 'react-phone-number-input/style.css'
-import PhoneInput from 'react-phone-number-input'
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
 
 export default function UserForm () {
   const { user, fetchCurrentUser } = useContext(UserContext);
@@ -84,7 +84,9 @@ export default function UserForm () {
       />
       <label htmlFor="phone">Phone</label>
       <PhoneInput
-        className='phone-input'
+        containerClass='phone-conteiner'
+        inputClass='phone-input'
+        buttonClass='phone-button'
         name="phone"
         value={userData.phone}
         onChange={handleChangePhone}

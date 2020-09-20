@@ -4,7 +4,6 @@ venv/
 __pycache__
 .idea/
 
-
 # dependencies
 front_end/node_modules
 front_end/.pnp
@@ -13,8 +12,6 @@ front_end/.pnp
 # testing
 front_end/coverage
 
-# production
-front_end/build
 
 # misc
 .DS_Store

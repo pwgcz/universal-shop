@@ -6,7 +6,7 @@ import axios from 'axios';
 
 export default function Login() {
   const [userLog, setUserLog] = useState({ email: "", password: "" });
-  const { user, setUser } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
   const history = useHistory();
 
   const handleChange = (event) => {

@@ -14,14 +14,10 @@ export default function Addresses ({ title }) {
     addresses: [],
     isFetching: true,
   });
-  const history = useHistory();
 
-  const changeAddress = async (event) => {
-    try {
-      await setAddressId(parseInt(event.target.value));
-    } catch (error) {
-      console.log(error);
-    }
+  const changeAddress = (event) => {
+    event.preventDefault()
+    setAddressId(parseInt(event.target.value));
   };
   const fetchAddresses = async () => {
     try {
@@ -74,7 +70,7 @@ export default function Addresses ({ title }) {
             <article
               key={item.address_id}
             >
-              <h3 className={classnames({ 'active-shipping': addressId === item.address_id, 'diaactive-shipping ': addressId !== item.address_id})}>Shipping Address <div /></h3>
+              <h3 className={addressId === item.address_id ? 'active-shipping' : 'diaactive-shipping'}>Shipping Address <div /></h3>
               <h6>
                 <RowInList isInline title='Name:' content={item.name} />
               </h6>
@@ -89,7 +85,7 @@ export default function Addresses ({ title }) {
                   value={item.address_id}
                   onClick={changeAddress}
                 >
-                  Order addrres
+                  Order address
                 </button>
               )}
 

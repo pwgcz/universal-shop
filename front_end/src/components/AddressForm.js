@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 import Form from "./Form";
 import InputForm from "./InputForm";
 import { useAlert } from 'react-alert'
-import 'react-phone-number-input/style.css'
-import PhoneInput from 'react-phone-number-input'
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
 
 export default function AddressForm () {
   const [addressData, setAddressData] = useState({
@@ -113,10 +113,14 @@ console.log(addressData);
 
       <label htmlFor="phone">Phone</label>
       <PhoneInput
-        className='phone-input'
+        containerClass='phone-conteiner'
+        inputClass='phone-input'
+        buttonClass='phone-button'
         name="phone"
         value={addressData.phone}
-        onChange={handleChangePhone} />
+        onChange={handleChangePhone}
+        placeholder=' '
+      />
 
       <Link className="btn-primary" to="/profil">
         Go back

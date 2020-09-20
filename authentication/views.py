@@ -21,6 +21,7 @@ class CreateUser(APIView):
 
 
 class UpdateUser(APIView):
+    permission_classes = (IsAuthenticated,)
 
     def put(self, request, pk, format=None):
         user = request.user

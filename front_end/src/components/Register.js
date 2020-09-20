@@ -4,6 +4,8 @@ import classnames from 'classnames';
 import Cookies from 'js-cookie';
 import { useAlert } from 'react-alert'
 import CSRFToken from './CSRFToken';
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
 
 export default function Register () {
   const alerts = useAlert();
@@ -16,7 +18,6 @@ export default function Register () {
   });
 
   const [userErr, setUserErr] = useState({
-    phoneErr: "",
     passwordErr: "",
     secondPasswordErr: "",
     userEmailErr: "",
@@ -71,20 +72,17 @@ const [secondPassword, setSecondPassword] = useState("");
           return { ...pravestate, ['userEmailErr'] : !emailRegExp.test(value) ? ' Invalid Email' : '' };
         })
         break;
-
-      case 'phone':
-        setUser((prevstate) => {
-          return { ...prevstate, [name]: value };
-        });
-        setUserErr((pravestate) => {
-          return { ...pravestate, ['phoneErr'] : value.length !== 9 ? 'Invalid phone number' : '' };
-        })
-        break;
       default:
         break;
     }
 
   };
+
+  const handleChangePhone = (value) => {
+    setUser((prevstate) => {
+      return { ...prevstate, ['phone']: value };
+    });
+  }
 
   const checkIsInvalid = (value) => {
     return value !== '' ;
@@ -184,15 +182,15 @@ const [secondPassword, setSecondPassword] = useState("");
       <small className='invalid'>{userErr.userEmailErr}</small>
 
       <label htmlFor="phone">Phone</label>
-      <input
-        className={classnames('start-input', { 'is-invalid': userErr.phoneErr, 'is-valid': !userErr.phoneErr && user.phone.length })}
-        type="tel"
+      <PhoneInput
+        containerClass='phone-conteiner'
+        inputClass='phone-input'
+        buttonClass='phone-button'
         name="phone"
         value={user.phone}
-        onChange={handleChange}
-        pattern="[0-9]{9}"
+        onChange={handleChangePhone}
+        placeholder=' '
       />
-      <small className='invalid'>{userErr.phoneErr}</small>
 
       <button type="submit" className="btn-primary">
         {" "}

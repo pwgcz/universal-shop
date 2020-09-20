@@ -54,18 +54,6 @@ a {
   padding: 2rem;
 }
 
-.phone-input{
-  width: 60%;
-  margin: 0 auto;
-  font-size: 1.5rem;
-  weight: 300;
-  text-align: center;
-  outline: 0;
-  border: 0;
-  width: 60%;
-  background: transparent;
-  border-bottom: 2px solid var(--brightOrangeColor);
-}
 
 .btn-primary {
   display: inline-block;
@@ -78,6 +66,7 @@ a {
   transition: var(--mainTransition);
   text-transform: uppercase;
   cursor: pointer;
+  border-radius: 1rem;
 }
 .btn-primary:hover {
   background: transparent;
@@ -104,6 +93,16 @@ a {
   letter-spacing: var(--mainSpacing);
 }
 /* end of globals */
+
+/* Image background */
+.img-back{
+  min-height: calc(100vh - 66px);
+  background: url("./images/berry.jpeg") center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* end ofImage backgrond */
 
 /* Navbar */
 .navbar {
@@ -271,7 +270,7 @@ a {
   padding: 5rem 0;
 }
 .services {
-  background: var(--mainGreyColor);
+  background: var(--mainLightColor);
   text-align: center;
 }
 .services-center {
@@ -386,7 +385,7 @@ a {
 
 .image,
 .info,
-footer {
+ {
   margin: 1rem 0;
 }
 .footer {
@@ -394,7 +393,8 @@ footer {
 }
 
 .info h3,
-.info h1 {
+.info h1,
+.description h3 {
   text-transform: capitalize;
   letter-spacing: var(--mainSpacing);
 }
@@ -421,28 +421,10 @@ footer {
 .buttons .btn-primary {
   padding: 0.1rem 0.3rem;
 }
-.product-extras {
-  width: 80vw;
-  margin: 0 auto 3rem auto;
-}
-.product-extras h1 {
-  text-transform: capitalize;
-  letter-spacing: var(--mainSpacing);
-}
-.extras {
-  list-style-type: none;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
-  grid-column-gap: 2rem;
-  grid-row-gap: 1rem;
-}
 @media screen and (min-width: 992px) {
-  .single-product-info,
-  .product-extras {
+  .single-product-info{
     width: 95vw;
     max-width: 1170px;
-  }
-  .single-product-info {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-column-gap: 2rem;
@@ -607,12 +589,11 @@ footer {
 /* Auth  */
 
 .auth-conteiner {
-  margin: 9rem auto;
+  margin: 5rem auto;
   width: 90vw;
   justify-content: space-between;
-  background: var(--mainLightColor);
-  color: var(--mainBlack);
-  padding: 1rem 1rem;
+  background: rgba(0, 0, 0, 0.8);
+  color: var(--mainWhite);
   text-transform: capitalize;
   letter-spacing: var(--mainSpacing);
 }
@@ -621,9 +602,10 @@ footer {
 }
 
 .start-input  {
+  color: var(--mainWhite);
   font-size: 1.5rem;
   weight: 300;
-  text-align: center;
+  padding: 2px ;
   outline: 0;
   border: 0;
   width: 60%;
@@ -662,12 +644,12 @@ footer {
   background: var(--mainGreyColor);
 }
 .auth-form .auth-desc{
-  color: var(--mainBlack);
+  color: var(--mainWhite);
 }
 
 @media screen and (min-width: 1524px) {
   .auth-conteiner {
-    margin: 9rem auto;
+    margin: 3rem auto;
     width: 80vw;
     display: flex;
     justify-content: space-between;
@@ -728,11 +710,11 @@ footer {
 
 /* Form */
 .form-container {
-  margin: 9rem auto;
+  margin: 6rem auto;
   width: 70vw;
   justify-content: space-between;
-  background: var(--mainLightColor);
-  color: var(--mainBlack);
+  background: rgba(0, 0, 0, 0.8);
+  color: var(--mainWhite);
   padding: 1rem 1rem;
   text-transform: capitalize;
   letter-spacing: var(--mainSpacing);
@@ -901,3 +883,29 @@ footer {
 }
 
 /* end of QuantityInput */
+
+/* phone input */
+
+.phone-conteiner{
+  width: 60% !important ;
+  margin: 0 auto;
+  text-align: left;
+  background: transparent;
+  border-bottom: 2px solid var(--brightOrangeColor);
+}
+.phone-input {
+  font-size: 1.5rem !important;
+  weight: 300 !important;
+  outline: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: var(--mainWhite);
+  margin: 0 !important;
+  text-align: left !important;
+}
+.phone-button {
+  background: transparent !important;
+  border: 0 !important;
+
+}
+/* end of phone input */

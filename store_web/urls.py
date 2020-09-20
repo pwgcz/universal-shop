@@ -22,9 +22,6 @@ urlpatterns = [
     path('staff/categories/', views.CategoryListStaff.as_view(), name='categories-list'),
     path('staff/categories/<int:pk>/', views.CategoryDetailsStaff.as_view()),
 
-    path('tags/', views.TagList.as_view(), name='tags-list'),
-    path('tags/<int:pk>/', views.TagDetails.as_view()),
-
     path('products/', views.ProductList.as_view(), name='products-list'),
     path('products/<int:pk>/', views.ProductDetails.as_view()),
 
