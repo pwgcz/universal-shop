@@ -4,25 +4,21 @@ import axios from "axios";
 import Paginator from "./Paginator";
 
 
-export default function FilteredProducts({ categoryName, priceRange }) {
-  const [dataProducts, setDataProducts] = useState({
-    products: [],
-    isFetching: true,
-  });
+export default function FilteredProducts ({ categoryName, priceRange }) {
+  const [products, setProducts] = useState([]);
 
   const [activePage, setActivePage] = useState(1);
   const [count, setCount] = useState(0);
 
   const fetchProducts = async () => {
     try {
-      setDataProducts({ products: dataProducts.products });
       const response = await axios.get(
         `/api/products/?category=${categoryName}&max_price=${priceRange.maxPrice}&min_price=${priceRange.minPrice}&page=${activePage}`
       );
-      setDataProducts({ products: response.data.results, isFetching: false });
+      setProducts(response.data.results);
       setCount(response.data.count)
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -37,7 +33,7 @@ export default function FilteredProducts({ categoryName, priceRange }) {
   }
 
 
-  if (dataProducts.products.length === 0) {
+  if (products.length === 0) {
     return (
       <div className="error">
         <h3>No matches to given parameters</h3>
@@ -45,7 +41,7 @@ export default function FilteredProducts({ categoryName, priceRange }) {
     );
   }
 
-  const filteredProducts = dataProducts.products.map((item) => {
+  const filteredProducts = products.map((item) => {
     return <Product key={item.product_id} product={item} />
   });
 

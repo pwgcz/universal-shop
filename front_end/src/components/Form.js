@@ -9,8 +9,7 @@ export default function Form ({ children, submitButton, handleSubmit }) {
         <form className="form-container" onSubmit={handleSubmit}>
           {children}
           <button type="submit" className="btn-primary">
-            {" "}
-            {submitButton}{" "}
+            {submitButton}
           </button>
         </form>
       </div>

@@ -1,5 +1,18 @@
-### ```WIP```
-# store-universal
-App will be a e-commerce app where admin will present their product in this app and easily customize application. 
-I'm using django rest framework for backend and react.js for frontend
-  
+
+# Store-Universal
+#####Link to working application: 
+#### Purpose:
+_Application was created to demonstrate my knowledge of used technologies._
+
+### Features
+
+### DataStructure
+
+### Authentication 
+
+### Filtering 
+
+### Security
+
+### Shop administrator panel
+
