@@ -13,7 +13,6 @@ export default function SingleProduct (props) {
     isFetching: true
   });
   const [productCartQuantity, setProductCartQuantity] = useState(1)
-  const [postError, setPostError] = useState({})
   const history = useHistory();
 
   const fetchProduct = async () => {
@@ -35,26 +34,6 @@ export default function SingleProduct (props) {
 
   const alerts = useAlert()
 
-  const patchCartItem = async () => {
-    try {
-      await axios.patch(
-        `/api/cart-items/${postError.itemCartId}/`,
-        JSON.stringify({
-          quantity: postError.quantity
-        }),
-        {
-          headers: {
-            Authorization: "JWT " + localStorage.getItem("access_token"),
-            "Content-Type": "application/json",
-            accept: "application/json",
-          },
-        }
-      );
-      history.push("/products");
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
   const addToCart = async () => {
     try {
@@ -137,6 +116,14 @@ export default function SingleProduct (props) {
       console.log(error);
     }
   };
+  const currencyFormater = (param) => {
+    return new Intl.NumberFormat("pl",{
+      style:'currency',
+      minimumIntegerDigits:1,
+      currency: 'PLN',
+      currencyDisplay: 'symbol'
+    }).format(param);
+  }
   if (singleProduct.product.length === 0) {
     return (
       <div className="error">
@@ -159,7 +146,7 @@ export default function SingleProduct (props) {
             <h1>{name}</h1>
             <p />
             <h3>category: {category}</h3>
-            <h3>price: {price} zł</h3>
+            <h3>price: {currencyFormater(price)}</h3>
             <h3>availability: {quantity}</h3>
             <QuantityInput quantityValue={quantity => setProductCartQuantity(quantity)} />
             <div className="buttons">

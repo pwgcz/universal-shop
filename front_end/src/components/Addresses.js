@@ -21,7 +21,7 @@ export default function Addresses ({ title }) {
   };
   const fetchAddresses = async () => {
     try {
-      const response = await axios.get(`/api/address`, {
+      const response = await axios.get(`/api/address/`, {
         headers: {
           Authorization: "JWT " + localStorage.getItem("access_token"),
           "Content-Type": "application/json",
@@ -52,8 +52,8 @@ export default function Addresses ({ title }) {
 
       fetchAddresses();
       return response;
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -68,9 +68,10 @@ export default function Addresses ({ title }) {
         {addresses.addresses.map((item) => {
           return (
             <article
+              className='address-box'
               key={item.address_id}
             >
-              <h3 className={addressId === item.address_id ? 'active-shipping' : 'diaactive-shipping'}>Shipping Address <div /></h3>
+              <h5 className={addressId === item.address_id ? 'active-shipping' : 'diaactive-shipping'}>Shipping Address <div /></h5>
               <h6>
                 <RowInList isInline title='Name:' content={item.name} />
               </h6>
@@ -103,13 +104,15 @@ export default function Addresses ({ title }) {
     );
   };
   return (
-    <div className="conteiner">
+    <>
       <Title title={title} />
       <section>{addressesGroup()}</section>
       <div className="seperator" />
-      <Link className="btn-primary btn-margin" to="/adresses-form">
-        Add new address
-      </Link>
-    </div>
+      <div className='wrapper'>
+        <Link className="btn-primary btn-margin" to="/adresses-form">
+          Add new address
+        </Link>
+      </div>
+    </>
   );
 }

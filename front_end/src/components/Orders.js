@@ -44,10 +44,10 @@ export default function Orders () {
   }
   if (orders.orders.length === 0) {
     return (
-      <>
+      <div className='wrapper'>
         <Title title="My orders" />
         <h3> You do not had any orders</h3>
-      </>
+      </div>
     );
   }
   return (

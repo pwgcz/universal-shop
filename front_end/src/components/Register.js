@@ -18,6 +18,7 @@ export default function Register () {
   });
 
   const [userErr, setUserErr] = useState({
+    phoneErr:"",
     passwordErr: "",
     secondPasswordErr: "",
     userEmailErr: "",
@@ -32,6 +33,10 @@ const [secondPassword, setSecondPassword] = useState("");
 
   const paswordRegExp = RegExp(
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
+  );
+
+  const phoneRegExp = RegExp(
+    /^\+?\(?([0-9]{2,4})?\)?([0-9]{9})$/
   );
 
   const handleChange = (event) => {
@@ -82,6 +87,9 @@ const [secondPassword, setSecondPassword] = useState("");
     setUser((prevstate) => {
       return { ...prevstate, ['phone']: value };
     });
+    setUserErr((pravestate) => {
+      return { ...pravestate, ['phoneErr'] : !phoneRegExp.test(value) ? ' Invalid Phone number' : '' };
+    })
   }
 
   const checkIsInvalid = (value) => {
@@ -173,7 +181,7 @@ const [secondPassword, setSecondPassword] = useState("");
 
       <label htmlFor="email">Email</label>
       <input
-        className={classnames('start-input', { 'is-invalid': userErr.userNameErr, 'is-valid': !userErr.userEmailErr && user.email.length })}
+        className={classnames('start-input', { 'is-invalid': userErr.userEmailErr, 'is-valid': !userErr.userEmailErr && user.email.length })}
         type="email"
         name="email"
         value={user.email}
@@ -183,7 +191,7 @@ const [secondPassword, setSecondPassword] = useState("");
 
       <label htmlFor="phone">Phone</label>
       <PhoneInput
-        containerClass='phone-conteiner'
+        containerClass={classnames('phone-conteiner', { 'phone-invalid': userErr.phoneErr, 'phone-valid': !userErr.phoneErr && user.phone.length })}
         inputClass='phone-input'
         buttonClass='phone-button'
         name="phone"
@@ -191,6 +199,7 @@ const [secondPassword, setSecondPassword] = useState("");
         onChange={handleChangePhone}
         placeholder=' '
       />
+      <small className='invalid'>{userErr.phoneErr}</small>
 
       <button type="submit" className="btn-primary">
         {" "}

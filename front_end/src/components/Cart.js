@@ -129,6 +129,16 @@ export default function Cart () {
       console.log(error);
     }
   }
+
+  const currencyFormater = (param) => {
+    return new Intl.NumberFormat("pl",{
+      style:'currency',
+      minimumIntegerDigits:1,
+      currency: 'PLN',
+      currencyDisplay: 'symbol'
+    }).format(param);
+  }
+
   let priceSum = 0;
   const productGroup = () => {
     if (cartItems.isFetching) {
@@ -145,7 +155,7 @@ export default function Cart () {
       );
     }
     return (
-      <>
+      <div className='products-wraper'>
         <ul>
           {cartItems.cart.map((item, index) => {
             priceSum += item.quantity * item.product.price
@@ -167,19 +177,19 @@ export default function Cart () {
           })}
         </ul>
         <h3>summary</h3>
-        <RowInList title='Total price:' content={`${priceSum}zł`} />
+        <RowInList title='Total price:' content={currencyFormater(priceSum)} />
         <button onClick={makeOrder} className="btn-primary">
           Buy
         </button>
-      </>
+      </div>
     );
   };
 
   return (
-    <>
+    <div className='wraper'>
       <Title title="Cart" />
       <div className="list-conteiner">{productGroup()}</div>
       <Addresses title='choose address to send' />
-    </>
+    </div>
   );
 }

@@ -31,6 +31,15 @@ export default function OrderDetail (props) {
     fetchOrderDetails();
   }, []);
 
+  const currencyFormater = (param) => {
+    return new Intl.NumberFormat("pl",{
+      style:'currency',
+      minimumIntegerDigits:1,
+      currency: 'PLN',
+      currencyDisplay: 'symbol'
+    }).format(param);
+  }
+
   const dateTimeFormater = (param) => {
     return new Intl.DateTimeFormat("en-GB", {
       year: "numeric",
@@ -45,12 +54,14 @@ export default function OrderDetail (props) {
     return <h3>There is no Order.</h3>;
   }
   return (
-    <>
+    <div className='wrapper'>
       <Title title="Order" />
       <div className="list-conteiner">
-        <RowInList title='Status:' content={order.orderInfo.status} />
-        <RowInList title='Order date:' content={dateTimeFormater(order.orderInfo.crate_date)} />
-        <RowInList title='Modified date:' content={dateTimeFormater(order.orderInfo.modified_date)} />
+        <div className='list-view'>
+          <RowInList title='Status:' content={order.orderInfo.status} />
+          <RowInList title='Order date:' content={dateTimeFormater(order.orderInfo.crate_date)} />
+          <RowInList title='Modified date:' content={dateTimeFormater(order.orderInfo.modified_date)} />
+        </div>
         <Title title="Ordered products" />
         <ul>
           {order.oderItems.map((item, index) => {
@@ -72,7 +83,8 @@ export default function OrderDetail (props) {
             );
           })}
         </ul>
-        <RowInList title='total price:' content={`${totalPrice} zł`} />
+        <h3>summary</h3>
+        <RowInList title='Total price:' content={currencyFormater(totalPrice)} />
         <Title title="Shipping address" />
         <div className='list-view'>
           <RowInList title='Name:' content={order.orderInfo.addresses.name} />
@@ -82,6 +94,6 @@ export default function OrderDetail (props) {
           <RowInList title='Street:' content={order.orderInfo.addresses.street} />
         </div>
       </div>
-    </>
+    </div>
   );
 }

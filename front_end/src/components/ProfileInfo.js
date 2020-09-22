@@ -18,8 +18,8 @@ export default function ProfileInfo() {
   } = user;
   return (
     <>
-      <div className="center-conteiner">
-        <Title title="My profile" />
+      <Title title="My profile" />
+      <div className="profile-conteiner">
         <h6>
           <RowInList isInline title='User:' content={user_name} />
         </h6>
