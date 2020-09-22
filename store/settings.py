@@ -111,9 +111,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, "front_end/build/static")
 MEDIA_URL = "/media/"
 MEDIA_ROOT = "media"
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "front_end/build/static"),
-]
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, "front_end/build/static"),
+# ]
 
 # REST Framework set-up
 
