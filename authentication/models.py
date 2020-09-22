@@ -41,13 +41,13 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_("email_address"), unique=True)
-    user_name = models.CharField(_("user_name"), max_length=30, blank=True)
+    user_name = models.CharField(_("user_name"), max_length=256, blank=True)
 
-    first_name = models.CharField(_("first_name"), max_length=30, blank=True)
-    last_name = models.CharField(_("last_name"), max_length=30, blank=True)
+    first_name = models.CharField(_("first_name"), max_length=256, blank=True)
+    last_name = models.CharField(_("last_name"), max_length=256, blank=True)
 
     date_of_birth = models.DateField(_("date_of_birth"), blank=True, null=True)
-    phone = models.CharField(_("phone"), max_length=30, blank=True, null=True)
+    phone = models.CharField(_("phone"), max_length=256, blank=True, null=True)
 
     date_joined = models.DateTimeField(_("date_joined"), auto_now_add=True)
     is_active = models.BooleanField(_("active"), default=True)

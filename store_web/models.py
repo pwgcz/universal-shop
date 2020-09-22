@@ -12,7 +12,7 @@ class Orders(models.Model):
 
     crate_date = models.DateTimeField(_("crate_date"), auto_now_add=True)
     modified_date = models.DateTimeField(_("modified_date"), auto_now=True)
-    status = models.CharField(_("status"), max_length=100, default="pending")
+    status = models.CharField(_("status"), max_length=256, default="pending")
     amount = models.IntegerField(_("amount"), default=1)
 
     class Meta:
@@ -76,7 +76,7 @@ class CartItem(models.Model):
 
 class Category(models.Model):
     category_id = models.AutoField(primary_key=True)
-    name = models.CharField(_("name"), max_length=100)
+    name = models.CharField(_("name"), max_length=256)
 
     class Meta:
         verbose_name = _("category")
@@ -90,8 +90,8 @@ class Product(models.Model):
     product_id = models.AutoField(primary_key=True)
     category = models.ManyToManyField(Category)
 
-    name = models.CharField(_("name"), max_length=100)
-    price = models.DecimalField(_("price"), max_digits=100, decimal_places=2)
+    name = models.CharField(_("name"), max_length=256)
+    price = models.DecimalField(_("price"), max_digits=256, decimal_places=2)
     quantity = models.IntegerField(_("quantity"), default=1)
     image = models.ImageField(
         _("image"), upload_to="images", default="/images/default.jpg"
