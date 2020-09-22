@@ -6,17 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('store_web', '0004_auto_20200902_1235'),
+        ("store_web", "0004_auto_20200902_1235"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='cartitem',
-            name='product',
+            model_name="cartitem",
+            name="product",
         ),
         migrations.AddField(
-            model_name='cartitem',
-            name='product',
-            field=models.ManyToManyField(to='store_web.Product'),
+            model_name="cartitem",
+            name="product",
+            field=models.ManyToManyField(to="store_web.Product"),
         ),
     ]

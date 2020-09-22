@@ -7,17 +7,25 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('store_web', '0013_auto_20200904_1220'),
+        ("store_web", "0013_auto_20200904_1220"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='orders',
-            options={'ordering': ['-crate_date'], 'verbose_name': 'order', 'verbose_name_plural': 'orders'},
+            name="orders",
+            options={
+                "ordering": ["-crate_date"],
+                "verbose_name": "order",
+                "verbose_name_plural": "orders",
+            },
         ),
         migrations.AlterField(
-            model_name='orderitem',
-            name='product',
-            field=models.OneToOneField(null=True, on_delete=django.db.models.deletion.CASCADE, to='store_web.Product'),
+            model_name="orderitem",
+            name="product",
+            field=models.OneToOneField(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="store_web.Product",
+            ),
         ),
     ]

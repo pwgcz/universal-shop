@@ -1,31 +1,31 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState } from 'react';
+import axios from 'axios';
 import classnames from 'classnames';
 import Cookies from 'js-cookie';
-import { useAlert } from 'react-alert'
+import { useAlert } from 'react-alert';
 import CSRFToken from './CSRFToken';
-import PhoneInput from 'react-phone-input-2'
-import 'react-phone-input-2/lib/style.css'
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 
-export default function Register () {
+export default function Register() {
   const alerts = useAlert();
 
   const [user, setUser] = useState({
-    phone: "",
-    password: "",
-    email: "",
-    user_name: "",
+    phone: '',
+    password: '',
+    email: '',
+    user_name: '',
   });
 
   const [userErr, setUserErr] = useState({
-    phoneErr:"",
-    passwordErr: "",
-    secondPasswordErr: "",
-    userEmailErr: "",
-    userNameErr: "",
+    phoneErr: '',
+    passwordErr: '',
+    secondPasswordErr: '',
+    userEmailErr: '',
+    userNameErr: '',
   });
 
-const [secondPassword, setSecondPassword] = useState("");
+  const [secondPassword, setSecondPassword] = useState('');
 
   const emailRegExp = RegExp(
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -35,9 +35,7 @@ const [secondPassword, setSecondPassword] = useState("");
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
   );
 
-  const phoneRegExp = RegExp(
-    /^\+?\(?([0-9]{2,4})?\)?([0-9]{9})$/
-  );
+  const phoneRegExp = RegExp(/^\+?\(?([0-9]{2,4})?\)?([0-9]{9})$/);
 
   const handleChange = (event) => {
     event.preventDefault();
@@ -49,8 +47,11 @@ const [secondPassword, setSecondPassword] = useState("");
           return { ...prevstate, [name]: value };
         });
         setUserErr((pravestate) => {
-          return { ...pravestate, ['userNameErr'] : value.length < 3 ? 'at least 3 character' : '' };
-        })
+          return {
+            ...pravestate,
+            ['userNameErr']: value.length < 3 ? 'at least 3 character' : '',
+          };
+        });
         break;
 
       case 'password':
@@ -58,15 +59,24 @@ const [secondPassword, setSecondPassword] = useState("");
           return { ...prevstate, [name]: value };
         });
         setUserErr((pravestate) => {
-          return { ...pravestate, ['passwordErr'] : !paswordRegExp.test(value) ? 'password is not valid' : '' };
-        })
+          return {
+            ...pravestate,
+            ['passwordErr']: !paswordRegExp.test(value)
+              ? 'password is not valid'
+              : '',
+          };
+        });
         break;
 
       case 'secondPassword':
-        setSecondPassword(value)
+        setSecondPassword(value);
         setUserErr((pravestate) => {
-          return { ...pravestate, ['secondPasswordErr'] : value !== user.password ? 'Password do not mach' : '' };
-        })
+          return {
+            ...pravestate,
+            ['secondPasswordErr']:
+              value !== user.password ? 'Password do not mach' : '',
+          };
+        });
         break;
 
       case 'email':
@@ -74,13 +84,15 @@ const [secondPassword, setSecondPassword] = useState("");
           return { ...prevstate, [name]: value };
         });
         setUserErr((pravestate) => {
-          return { ...pravestate, ['userEmailErr'] : !emailRegExp.test(value) ? ' Invalid Email' : '' };
-        })
+          return {
+            ...pravestate,
+            ['userEmailErr']: !emailRegExp.test(value) ? ' Invalid Email' : '',
+          };
+        });
         break;
       default:
         break;
     }
-
   };
 
   const handleChangePhone = (value) => {
@@ -88,60 +100,62 @@ const [secondPassword, setSecondPassword] = useState("");
       return { ...prevstate, ['phone']: value };
     });
     setUserErr((pravestate) => {
-      return { ...pravestate, ['phoneErr'] : !phoneRegExp.test(value) ? ' Invalid Phone number' : '' };
-    })
-  }
+      return {
+        ...pravestate,
+        ['phoneErr']: !phoneRegExp.test(value) ? ' Invalid Phone number' : '',
+      };
+    });
+  };
 
   const checkIsInvalid = (value) => {
-    return value !== '' ;
-  }
+    return value !== '';
+  };
   const checkIsEmpty = (value) => {
-    return value === '' ;
-  }
+    return value === '';
+  };
 
   const csrftoken = Cookies.get('csrftoken');
-  async function handleSubmit (event) {
+  async function handleSubmit(event) {
     event.preventDefault();
 
-    if (!Object.values(userErr).some(checkIsInvalid) && !Object.values(user).some(checkIsEmpty)) {
+    if (
+      !Object.values(userErr).some(checkIsInvalid) &&
+      !Object.values(user).some(checkIsEmpty)
+    ) {
       try {
-        await axios.post(
-          `auth/users/`,
-          JSON.stringify(user), {
-            headers: {
-              "Content-Type": "application/json",
-              accept: "application/json",
-              'X-CSRFToken': csrftoken
-            },
-          });
+        await axios.post(`auth/users/`, JSON.stringify(user), {
+          headers: {
+            'Content-Type': 'application/json',
+            accept: 'application/json',
+            'X-CSRFToken': csrftoken,
+          },
+        });
         setUser({
-          phone: "",
-          password: "",
-          email: "",
-          user_name: "",
-        })
-        setSecondPassword('')
+          phone: '',
+          password: '',
+          email: '',
+          user_name: '',
+        });
+        setSecondPassword('');
         alerts.show('user created successfully', {
           timeout: 0,
-          type: 'success'
-        })
+          type: 'success',
+        });
       } catch (error) {
         console.log(error.response);
         if (error.response.status === 500) {
           alerts.show('user with this email exist', {
             timeout: 0,
-            type: 'error'
-          })
+            type: 'error',
+          });
         }
-
       }
     } else {
       alerts.show('Invalid Register Form', {
         timeout: 0,
-        type: 'error'
-      })
+        type: 'error',
+      });
     }
-
   }
 
   return (
@@ -150,60 +164,74 @@ const [secondPassword, setSecondPassword] = useState("");
       <h4>Register</h4>
       <label htmlFor="user_name">Username</label>
       <input
-        className={classnames('start-input', { 'is-invalid': userErr.userNameErr, 'is-valid': !userErr.userNameErr && user.user_name.length })}
+        className={classnames('start-input', {
+          'is-invalid': userErr.userNameErr,
+          'is-valid': !userErr.userNameErr && user.user_name.length,
+        })}
         type="text"
         name="user_name"
         value={user.user_name}
         onChange={handleChange}
       />
-      <small className='invalid'>{userErr.userNameErr}</small>
-
+      <small className="invalid">{userErr.userNameErr}</small>
 
       <label htmlFor="password">Password</label>
       <input
-        className={classnames('start-input', { 'is-invalid': userErr.passwordErr, 'is-valid': !userErr.passwordErr && user.password.length })}
+        className={classnames('start-input', {
+          'is-invalid': userErr.passwordErr,
+          'is-valid': !userErr.passwordErr && user.password.length,
+        })}
         type="password"
         name="password"
         value={user.password}
         onChange={handleChange}
       />
-      <small className='invalid'>{userErr.passwordErr}</small>
+      <small className="invalid">{userErr.passwordErr}</small>
 
       <label htmlFor="secondPassword">Repeat Password</label>
       <input
-        className={classnames('start-input', { 'is-invalid': userErr.secondPasswordErr, 'is-valid': !userErr.secondPasswordErr && secondPassword.length })}
+        className={classnames('start-input', {
+          'is-invalid': userErr.secondPasswordErr,
+          'is-valid': !userErr.secondPasswordErr && secondPassword.length,
+        })}
         type="password"
         name="secondPassword"
         value={secondPassword}
         onChange={handleChange}
       />
-      <small className='invalid'>{userErr.secondPasswordErr}</small>
+      <small className="invalid">{userErr.secondPasswordErr}</small>
 
       <label htmlFor="email">Email</label>
       <input
-        className={classnames('start-input', { 'is-invalid': userErr.userEmailErr, 'is-valid': !userErr.userEmailErr && user.email.length })}
+        className={classnames('start-input', {
+          'is-invalid': userErr.userEmailErr,
+          'is-valid': !userErr.userEmailErr && user.email.length,
+        })}
         type="email"
         name="email"
         value={user.email}
         onChange={handleChange}
       />
-      <small className='invalid'>{userErr.userEmailErr}</small>
+      <small className="invalid">{userErr.userEmailErr}</small>
 
       <label htmlFor="phone">Phone</label>
       <PhoneInput
-        containerClass={classnames('phone-conteiner', { 'phone-invalid': userErr.phoneErr, 'phone-valid': !userErr.phoneErr && user.phone.length })}
-        inputClass='phone-input'
-        buttonClass='phone-button'
+        containerClass={classnames('phone-conteiner', {
+          'phone-invalid': userErr.phoneErr,
+          'phone-valid': !userErr.phoneErr && user.phone.length,
+        })}
+        inputClass="phone-input"
+        buttonClass="phone-button"
         name="phone"
         value={user.phone}
         onChange={handleChangePhone}
-        placeholder=' '
+        placeholder=" "
       />
-      <small className='invalid'>{userErr.phoneErr}</small>
+      <small className="invalid">{userErr.phoneErr}</small>
 
       <button type="submit" className="btn-primary">
-        {" "}
-        Register{" "}
+        {' '}
+        Register{' '}
       </button>
       <small>
         <h3>Password must contein:</h3>

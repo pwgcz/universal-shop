@@ -6,23 +6,23 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('store_web', '0008_auto_20200903_1119'),
+        ("store_web", "0008_auto_20200903_1119"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='discount',
-            name='quantity',
-            field=models.IntegerField(default=1, verbose_name='quantity'),
+            model_name="discount",
+            name="quantity",
+            field=models.IntegerField(default=1, verbose_name="quantity"),
         ),
         migrations.AlterField(
-            model_name='orderitem',
-            name='quantity',
-            field=models.IntegerField(default=1, verbose_name='quantity'),
+            model_name="orderitem",
+            name="quantity",
+            field=models.IntegerField(default=1, verbose_name="quantity"),
         ),
         migrations.AlterField(
-            model_name='orders',
-            name='amount',
-            field=models.IntegerField(default=1, verbose_name='amount'),
+            model_name="orders",
+            name="amount",
+            field=models.IntegerField(default=1, verbose_name="amount"),
         ),
     ]

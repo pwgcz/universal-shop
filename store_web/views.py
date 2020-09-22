@@ -9,12 +9,17 @@ from rest_framework.views import APIView
 from .models import Orders, OrderItem, Address, CartItem, Category, Product
 from rest_framework import status
 
-from .serializers import OrdersSerializer, OrderItemSerializer, AddressSerializer, \
-    CartItemSerializer, CategorySerializer, ProductSerializer
+from .serializers import (
+    OrdersSerializer,
+    OrderItemSerializer,
+    AddressSerializer,
+    CartItemSerializer,
+    CategorySerializer,
+    ProductSerializer,
+)
 
 
 class IsStaffUser(BasePermission):
-
     def has_permission(self, request, view):
 
         return bool(request.user and request.user.is_staff)
@@ -140,15 +145,23 @@ class CartItemList(APIView):
     def post(self, request, format=None):
         serializer = CartItemSerializer(data=request.data)
         if serializer.is_valid():
-            quantity = request.data.get('quantity', None)
-            if CartItem.objects.filter(users=request.data.get('users', None)[0], product=request.data.get('product', None)).exists():
-                cart_item = CartItem.objects.filter(users=request.data.get('users', None)[0], product=request.data.get('product', None)).get()
-                return Response(data={
-                    'message': 'product is in cart',
-                    'cart_item_id': cart_item.cart_item_id,
-                    'quantity': quantity
-                },
-                    status=status.HTTP_400_BAD_REQUEST)
+            quantity = request.data.get("quantity", None)
+            if CartItem.objects.filter(
+                users=request.data.get("users", None)[0],
+                product=request.data.get("product", None),
+            ).exists():
+                cart_item = CartItem.objects.filter(
+                    users=request.data.get("users", None)[0],
+                    product=request.data.get("product", None),
+                ).get()
+                return Response(
+                    data={
+                        "message": "product is in cart",
+                        "cart_item_id": cart_item.cart_item_id,
+                        "quantity": quantity,
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -174,7 +187,9 @@ class CartItemDetails(APIView):
         cart_item = get_object_or_404(CartItem, pk=pk)
         serializer = CartItemSerializer(cart_item, data=request.data, partial=True)
         if serializer.is_valid():
-            serializer.validated_data['quantity'] = serializer.validated_data.get('quantity', None) + cart_item.quantity
+            serializer.validated_data["quantity"] = (
+                serializer.validated_data.get("quantity", None) + cart_item.quantity
+            )
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -186,7 +201,6 @@ class CartItemDetails(APIView):
 
 
 class CategoryList(APIView):
-
     def get(self, request, format=None):
         categories = Category.objects.all()
         serializer = CategorySerializer(categories, many=True)
@@ -194,7 +208,6 @@ class CategoryList(APIView):
 
 
 class CategoryDetailsStaff(APIView):
-
     def delete(self, request, pk, format=None):
         category = get_object_or_404(Category, pk=pk)
         category.delete()
@@ -223,8 +236,8 @@ class ProductList(ListAPIView):
         if category:
             queryset = queryset.filter(category__name=category)
 
-        max_price = self.request.query_params.get('max_price', None)
-        min_price = self.request.query_params.get('min_price', None)
+        max_price = self.request.query_params.get("max_price", None)
+        min_price = self.request.query_params.get("min_price", None)
         if max_price or min_price:
             queryset = queryset.filter(price__lte=max_price, price__gte=min_price)
 
@@ -232,18 +245,20 @@ class ProductList(ListAPIView):
 
 
 class ProductDetails(APIView):
-
     def get(self, request, pk, format=None):
         products = Product.objects.get(pk=pk)
         serializer = ProductSerializer(products)
         return Response(serializer.data)
 
-    ''' patch use to add quantity to currant value  '''
+    """ patch use to add quantity to currant value  """
+
     def patch(self, request, pk, format=None):
         product = get_object_or_404(Product, pk=pk)
         serializer = ProductSerializer(product, data=request.data, partial=True)
         if serializer.is_valid():
-            serializer.validated_data['quantity'] = product.quantity + serializer.validated_data.get('quantity', None)
+            serializer.validated_data[
+                "quantity"
+            ] = product.quantity + serializer.validated_data.get("quantity", None)
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -261,7 +276,7 @@ class ProductListStaff(APIView):
 
 
 class ProductDetailsStaff(APIView):
-    
+
     permission_classes = (IsAuthenticated, IsStaffUser)
 
     def put(self, request, pk, format=None):
@@ -278,14 +293,15 @@ class ProductDetailsStaff(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-@api_view(['GET'])
+@api_view(["GET"])
 def api_root(request, format=None):
-    return Response({
-        'orders': reverse('orders-list', request=request, format=format),
-        'order_items': reverse('order-items-list', request=request, format=format),
-        'address': reverse('address-list', request=request, format=format),
-        'cart_items': reverse('cart-items-list', request=request, format=format),
-        'category': reverse('categories-list', request=request, format=format),
-        'products': reverse('products-list', request=request, format=format),
-    })
-
+    return Response(
+        {
+            "orders": reverse("orders-list", request=request, format=format),
+            "order_items": reverse("order-items-list", request=request, format=format),
+            "address": reverse("address-list", request=request, format=format),
+            "cart_items": reverse("cart-items-list", request=request, format=format),
+            "category": reverse("categories-list", request=request, format=format),
+            "products": reverse("products-list", request=request, format=format),
+        }
+    )

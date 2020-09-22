@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('store_web', '0009_auto_20200903_1359'),
+        ("store_web", "0009_auto_20200903_1359"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='orders',
-            name='status',
-            field=models.CharField(default='pending', max_length=100, verbose_name='status'),
+            model_name="orders",
+            name="status",
+            field=models.CharField(
+                default="pending", max_length=100, verbose_name="status"
+            ),
         ),
     ]

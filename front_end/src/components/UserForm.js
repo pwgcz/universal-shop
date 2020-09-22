@@ -1,14 +1,14 @@
-import React, { useState, useContext } from "react";
-import axios from "axios";
-import { UserContext } from "../contexts/UserContext";
-import { useHistory } from "react-router-dom";
-import { Link } from "react-router-dom";
-import Form from "./Form";
-import InputForm from "./InputForm";
-import PhoneInput from 'react-phone-input-2'
-import 'react-phone-input-2/lib/style.css'
+import React, { useState, useContext } from 'react';
+import axios from 'axios';
+import { UserContext } from '../contexts/UserContext';
+import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import Form from './Form';
+import InputForm from './InputForm';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 
-export default function UserForm () {
+export default function UserForm() {
   const { user, fetchCurrentUser } = useContext(UserContext);
   const [userData, setUserData] = useState(user);
   const history = useHistory();
@@ -17,7 +17,7 @@ export default function UserForm () {
     setUserData((prevstate) => {
       return { ...prevstate, ['phone']: value };
     });
-  }
+  };
 
   const handleChange = (event) => {
     event.preventDefault();
@@ -34,22 +34,21 @@ export default function UserForm () {
         JSON.stringify(userData),
         {
           headers: {
-            Authorization: "JWT " + localStorage.getItem("access_token"),
-            "Content-Type": "application/json",
-            accept: "application/json",
+            Authorization: 'JWT ' + localStorage.getItem('access_token'),
+            'Content-Type': 'application/json',
+            accept: 'application/json',
           },
         }
       );
 
       fetchCurrentUser();
-      history.push("/profil");
+      history.push('/profil');
 
       return response;
     } catch (error) {
       console.log(error);
     }
   }
-
 
   return (
     <Form submitButton="Update Profile" handleSubmit={handleSubmit}>
@@ -84,9 +83,9 @@ export default function UserForm () {
       />
       <label htmlFor="phone">Phone</label>
       <PhoneInput
-        containerClass='phone-conteiner'
-        inputClass='phone-input'
-        buttonClass='phone-button'
+        containerClass="phone-conteiner"
+        inputClass="phone-input"
+        buttonClass="phone-button"
         name="phone"
         value={userData.phone}
         onChange={handleChangePhone}

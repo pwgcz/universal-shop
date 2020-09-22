@@ -9,15 +9,14 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name='index.html')),
-    path('admin/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls')),
-    path('api/', views.api_root),
-    path('token-auth/', obtain_jwt_token),
-    path('token-refresh/', refresh_jwt_token),
-    path('api/', include('store_web.urls')),
-    path('auth/', include('authentication.urls')),
-
+    path("", TemplateView.as_view(template_name="index.html")),
+    path("admin/", admin.site.urls),
+    path("api-auth/", include("rest_framework.urls")),
+    path("api/", views.api_root),
+    path("token-auth/", obtain_jwt_token),
+    path("token-refresh/", refresh_jwt_token),
+    path("api/", include("store_web.urls")),
+    path("auth/", include("authentication.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

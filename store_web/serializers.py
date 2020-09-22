@@ -8,7 +8,7 @@ class OrdersSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def to_representation(self, instance):
-        self.fields['addresses'] = AddressSerializer(read_only=True)
+        self.fields["addresses"] = AddressSerializer(read_only=True)
         return super(OrdersSerializer, self).to_representation(instance)
 
 
@@ -18,7 +18,7 @@ class OrderItemSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def to_representation(self, instance):
-        self.fields['product'] = ProductSerializer(read_only=True)
+        self.fields["product"] = ProductSerializer(read_only=True)
         return super(OrderItemSerializer, self).to_representation(instance)
 
 
@@ -29,13 +29,12 @@ class AddressSerializer(serializers.ModelSerializer):
 
 
 class CartItemSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = CartItem
         fields = "__all__"
 
     def to_representation(self, instance):
-        self.fields['product'] = ProductSerializer(read_only=True)
+        self.fields["product"] = ProductSerializer(read_only=True)
         return super(CartItemSerializer, self).to_representation(instance)
 
 
@@ -47,11 +46,10 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
 
-    category = serializers.SlugRelatedField(many=True, queryset=Category.objects.all(), slug_field="name")
+    category = serializers.SlugRelatedField(
+        many=True, queryset=Category.objects.all(), slug_field="name"
+    )
 
     class Meta:
         model = Product
         fields = "__all__"
-
-
-

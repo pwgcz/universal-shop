@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import Title from "./Title";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import Title from './Title';
+import { Link } from 'react-router-dom';
 import Paginator from '../components/Paginator';
 import RowInList from './RowInList';
 
-export default function Orders () {
+export default function Orders() {
   const [orders, setOtders] = useState({ orders: [], isFetching: true });
   const [activePage, setActivePage] = useState(1);
   const [count, setCount] = useState(0);
@@ -14,15 +14,15 @@ export default function Orders () {
     try {
       const response = await axios.get(`/api/orders?page=${activePage}`, {
         headers: {
-          Authorization: "JWT " + localStorage.getItem("access_token"),
-          "Content-Type": "application/json",
-          accept: "application/json",
+          Authorization: 'JWT ' + localStorage.getItem('access_token'),
+          'Content-Type': 'application/json',
+          accept: 'application/json',
         },
       });
       setOtders({ orders: response.data, isFetching: false });
       setCount(response.data.length);
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log(error);
       setOtders({ orders: orders.orders, isFetching: true });
     }
   };
@@ -31,20 +31,20 @@ export default function Orders () {
   }, [activePage]);
 
   const handlePageChange = (pageNumber) => {
-    setActivePage(pageNumber)
-  }
+    setActivePage(pageNumber);
+  };
   const dateTimeFormater = (param) => {
-    return new Intl.DateTimeFormat("en-GB", {
-      year: "numeric",
-      month: "short",
-      day: "2-digit",
+    return new Intl.DateTimeFormat('en-GB', {
+      year: 'numeric',
+      month: 'short',
+      day: '2-digit',
       hour: 'numeric',
-      minute: 'numeric'
-    }).format(new Date(param))
-  }
+      minute: 'numeric',
+    }).format(new Date(param));
+  };
   if (orders.orders.length === 0) {
     return (
-      <div className='wrapper'>
+      <div className="wrapper">
         <Title title="My orders" />
         <h3> You do not had any orders</h3>
       </div>
@@ -58,9 +58,15 @@ export default function Orders () {
           {orders.orders.map((item, index) => {
             return (
               <li key={item.order_id} className="list-view">
-                <RowInList title='Ordered:' content={dateTimeFormater(item.crate_date)} />
-                <RowInList title='Modified:' content={dateTimeFormater(item.modified_date)} />
-                <RowInList title='Status:' content={item.status} />
+                <RowInList
+                  title="Ordered:"
+                  content={dateTimeFormater(item.crate_date)}
+                />
+                <RowInList
+                  title="Modified:"
+                  content={dateTimeFormater(item.modified_date)}
+                />
+                <RowInList title="Status:" content={item.status} />
                 <Link
                   to={`/order-detail/${item.order_id}`}
                   className="btn-primary"
@@ -73,7 +79,11 @@ export default function Orders () {
         </ul>
       </div>
       <div className="seperator" />
-      <Paginator activePage={activePage} count={count} handlePageChange={handlePageChange} />
+      <Paginator
+        activePage={activePage}
+        count={count}
+        handlePageChange={handlePageChange}
+      />
     </>
   );
 }

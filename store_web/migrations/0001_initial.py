@@ -15,130 +15,204 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Address',
+            name="Address",
             fields=[
-                ('address_id', models.AutoField(primary_key=True, serialize=False)),
-                ('full_name', models.CharField(blank=True, max_length=100, verbose_name='full_name')),
-                ('address1', models.CharField(max_length=200, verbose_name='address1')),
-                ('address2', models.CharField(max_length=200, verbose_name='address2')),
-                ('post_code', models.CharField(max_length=5, verbose_name='post_code')),
-                ('city', models.CharField(max_length=100, verbose_name='city')),
-                ('phone', models.CharField(max_length=30, verbose_name='phone')),
-                ('users', models.ManyToManyField(to=settings.AUTH_USER_MODEL)),
+                ("address_id", models.AutoField(primary_key=True, serialize=False)),
+                (
+                    "full_name",
+                    models.CharField(
+                        blank=True, max_length=100, verbose_name="full_name"
+                    ),
+                ),
+                ("address1", models.CharField(max_length=200, verbose_name="address1")),
+                ("address2", models.CharField(max_length=200, verbose_name="address2")),
+                ("post_code", models.CharField(max_length=5, verbose_name="post_code")),
+                ("city", models.CharField(max_length=100, verbose_name="city")),
+                ("phone", models.CharField(max_length=30, verbose_name="phone")),
+                ("users", models.ManyToManyField(to=settings.AUTH_USER_MODEL)),
             ],
             options={
-                'verbose_name': 'address',
-                'verbose_name_plural': 'addresses',
+                "verbose_name": "address",
+                "verbose_name_plural": "addresses",
             },
         ),
         migrations.CreateModel(
-            name='Category',
+            name="Category",
             fields=[
-                ('category_id', models.AutoField(primary_key=True, serialize=False)),
-                ('name', models.CharField(max_length=100, verbose_name='name')),
+                ("category_id", models.AutoField(primary_key=True, serialize=False)),
+                ("name", models.CharField(max_length=100, verbose_name="name")),
             ],
             options={
-                'verbose_name': 'category',
-                'verbose_name_plural': 'categories',
+                "verbose_name": "category",
+                "verbose_name_plural": "categories",
             },
         ),
         migrations.CreateModel(
-            name='Discount',
+            name="Discount",
             fields=[
-                ('discount_id', models.AutoField(primary_key=True, serialize=False)),
-                ('name', models.CharField(blank=True, max_length=50, verbose_name='name')),
-                ('discount', models.DecimalField(decimal_places=2, max_digits=100, verbose_name='discount')),
-                ('crate_date', models.DateTimeField(auto_now_add=True, verbose_name='crate_date')),
-                ('valid_date', models.DateTimeField(verbose_name='valid_date')),
-                ('quantity', models.IntegerField(default=0, verbose_name='quantity')),
+                ("discount_id", models.AutoField(primary_key=True, serialize=False)),
+                (
+                    "name",
+                    models.CharField(blank=True, max_length=50, verbose_name="name"),
+                ),
+                (
+                    "discount",
+                    models.DecimalField(
+                        decimal_places=2, max_digits=100, verbose_name="discount"
+                    ),
+                ),
+                (
+                    "crate_date",
+                    models.DateTimeField(auto_now_add=True, verbose_name="crate_date"),
+                ),
+                ("valid_date", models.DateTimeField(verbose_name="valid_date")),
+                ("quantity", models.IntegerField(default=0, verbose_name="quantity")),
             ],
             options={
-                'verbose_name': 'discount',
-                'verbose_name_plural': 'discounts',
+                "verbose_name": "discount",
+                "verbose_name_plural": "discounts",
             },
         ),
         migrations.CreateModel(
-            name='Product',
+            name="Product",
             fields=[
-                ('product_id', models.AutoField(primary_key=True, serialize=False)),
-                ('name', models.CharField(max_length=100, verbose_name='name')),
-                ('price', models.DecimalField(decimal_places=2, max_digits=100, verbose_name='price')),
-                ('image', models.ImageField(default='/images/default.jpg', upload_to='images', verbose_name='image')),
-                ('category', models.ManyToManyField(to='store_web.Category')),
+                ("product_id", models.AutoField(primary_key=True, serialize=False)),
+                ("name", models.CharField(max_length=100, verbose_name="name")),
+                (
+                    "price",
+                    models.DecimalField(
+                        decimal_places=2, max_digits=100, verbose_name="price"
+                    ),
+                ),
+                (
+                    "image",
+                    models.ImageField(
+                        default="/images/default.jpg",
+                        upload_to="images",
+                        verbose_name="image",
+                    ),
+                ),
+                ("category", models.ManyToManyField(to="store_web.Category")),
             ],
             options={
-                'verbose_name': 'product',
-                'verbose_name_plural': 'products',
+                "verbose_name": "product",
+                "verbose_name_plural": "products",
             },
         ),
         migrations.CreateModel(
-            name='Tag',
+            name="Tag",
             fields=[
-                ('tag_id', models.AutoField(primary_key=True, serialize=False)),
-                ('tag', models.CharField(max_length=100, verbose_name='tag')),
-                ('products', models.ManyToManyField(to='store_web.Product')),
+                ("tag_id", models.AutoField(primary_key=True, serialize=False)),
+                ("tag", models.CharField(max_length=100, verbose_name="tag")),
+                ("products", models.ManyToManyField(to="store_web.Product")),
             ],
             options={
-                'verbose_name': 'tag',
-                'verbose_name_plural': 'tags',
+                "verbose_name": "tag",
+                "verbose_name_plural": "tags",
             },
         ),
         migrations.CreateModel(
-            name='ProductDetail',
+            name="ProductDetail",
             fields=[
-                ('product_detail_id', models.AutoField(primary_key=True, serialize=False)),
-                ('description', models.TextField(verbose_name='description')),
-                ('file', models.FileField(blank=True, null=True, upload_to='files', verbose_name='file')),
-                ('product', models.ManyToManyField(to='store_web.Product')),
+                (
+                    "product_detail_id",
+                    models.AutoField(primary_key=True, serialize=False),
+                ),
+                ("description", models.TextField(verbose_name="description")),
+                (
+                    "file",
+                    models.FileField(
+                        blank=True, null=True, upload_to="files", verbose_name="file"
+                    ),
+                ),
+                ("product", models.ManyToManyField(to="store_web.Product")),
             ],
             options={
-                'verbose_name': 'product_detail',
-                'verbose_name_plural': 'product_details',
+                "verbose_name": "product_detail",
+                "verbose_name_plural": "product_details",
             },
         ),
         migrations.CreateModel(
-            name='Orders',
+            name="Orders",
             fields=[
-                ('order_id', models.AutoField(primary_key=True, serialize=False)),
-                ('crate_date', models.DateTimeField(auto_now_add=True, verbose_name='crate_date')),
-                ('modified_date', models.DateTimeField(auto_now=True, verbose_name='modified_date')),
-                ('status', models.CharField(max_length=100, verbose_name='status')),
-                ('amount', models.IntegerField(default=0, verbose_name='amount')),
-                ('addresses', models.ManyToManyField(to='store_web.Address')),
-                ('discount', models.OneToOneField(null=True, on_delete=django.db.models.deletion.SET_NULL, to='store_web.Discount')),
-                ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL)),
+                ("order_id", models.AutoField(primary_key=True, serialize=False)),
+                (
+                    "crate_date",
+                    models.DateTimeField(auto_now_add=True, verbose_name="crate_date"),
+                ),
+                (
+                    "modified_date",
+                    models.DateTimeField(auto_now=True, verbose_name="modified_date"),
+                ),
+                ("status", models.CharField(max_length=100, verbose_name="status")),
+                ("amount", models.IntegerField(default=0, verbose_name="amount")),
+                ("addresses", models.ManyToManyField(to="store_web.Address")),
+                (
+                    "discount",
+                    models.OneToOneField(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="store_web.Discount",
+                    ),
+                ),
+                ("user", models.ManyToManyField(to=settings.AUTH_USER_MODEL)),
             ],
             options={
-                'verbose_name': 'order',
-                'verbose_name_plural': 'orders',
+                "verbose_name": "order",
+                "verbose_name_plural": "orders",
             },
         ),
         migrations.CreateModel(
-            name='OrderItem',
+            name="OrderItem",
             fields=[
-                ('order_item_id', models.AutoField(primary_key=True, serialize=False)),
-                ('quantity', models.IntegerField(default=0, verbose_name='quantity')),
-                ('order', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='store_web.Orders')),
-                ('product_detail', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='store_web.ProductDetail')),
+                ("order_item_id", models.AutoField(primary_key=True, serialize=False)),
+                ("quantity", models.IntegerField(default=0, verbose_name="quantity")),
+                (
+                    "order",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="store_web.Orders",
+                    ),
+                ),
+                (
+                    "product_detail",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="store_web.ProductDetail",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'order_item',
-                'verbose_name_plural': 'order_items',
+                "verbose_name": "order_item",
+                "verbose_name_plural": "order_items",
             },
         ),
         migrations.CreateModel(
-            name='CartItem',
+            name="CartItem",
             fields=[
-                ('cart_item_id', models.AutoField(primary_key=True, serialize=False)),
-                ('saved_for_later', models.BooleanField(blank=True, verbose_name='saved_for_later')),
-                ('quantity', models.IntegerField(default=0, verbose_name='quantity')),
-                ('time_added', models.DateTimeField(auto_now_add=True, verbose_name='time_added')),
-                ('product_detail', models.OneToOneField(null=True, on_delete=django.db.models.deletion.SET_NULL, to='store_web.ProductDetail')),
-                ('users', models.ManyToManyField(to=settings.AUTH_USER_MODEL)),
+                ("cart_item_id", models.AutoField(primary_key=True, serialize=False)),
+                (
+                    "saved_for_later",
+                    models.BooleanField(blank=True, verbose_name="saved_for_later"),
+                ),
+                ("quantity", models.IntegerField(default=0, verbose_name="quantity")),
+                (
+                    "time_added",
+                    models.DateTimeField(auto_now_add=True, verbose_name="time_added"),
+                ),
+                (
+                    "product_detail",
+                    models.OneToOneField(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="store_web.ProductDetail",
+                    ),
+                ),
+                ("users", models.ManyToManyField(to=settings.AUTH_USER_MODEL)),
             ],
             options={
-                'verbose_name': 'cart_item',
-                'verbose_name_plural': 'cart_items',
+                "verbose_name": "cart_item",
+                "verbose_name_plural": "cart_items",
             },
         ),
     ]

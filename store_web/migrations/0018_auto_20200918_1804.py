@@ -9,18 +9,22 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('store_web', '0017_auto_20200918_1803'),
+        ("store_web", "0017_auto_20200918_1803"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='orders',
-            name='addresses',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='store_web.Address'),
+            model_name="orders",
+            name="addresses",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="store_web.Address"
+            ),
         ),
         migrations.AlterField(
-            model_name='orders',
-            name='users',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+            model_name="orders",
+            name="users",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL
+            ),
         ),
     ]

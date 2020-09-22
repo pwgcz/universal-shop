@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-export default function InputForm ({
+export default function InputForm({
   pattern,
   name,
   labelName,
@@ -12,7 +12,7 @@ export default function InputForm ({
     <>
       <label htmlFor={name}>{labelName}</label>
       <input
-        className='start-input'
+        className="start-input"
         pattern={pattern}
         type={type}
         name={name}

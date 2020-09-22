@@ -1,23 +1,23 @@
-import React, { useState } from "react";
-import Title from "./Title";
-import { FaInfo } from "react-icons/fa";
+import React, { useState } from 'react';
+import Title from './Title';
+import { FaInfo } from 'react-icons/fa';
 
 export default function Informations() {
   const [informations, setInformation] = useState([
     {
       icon: <FaInfo />,
-      title: "Information about",
-      content: "You can pass some informations in this componenet",
+      title: 'Information about',
+      content: 'You can pass some informations in this componenet',
     },
     {
       icon: <FaInfo />,
-      title: "Information about",
-      content: "You can pass some informations in this componenet",
+      title: 'Information about',
+      content: 'You can pass some informations in this componenet',
     },
     {
       icon: <FaInfo />,
-      title: "Information about",
-      content: "You can pass some informations in this componenet",
+      title: 'Information about',
+      content: 'You can pass some informations in this componenet',
     },
   ]);
 

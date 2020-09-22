@@ -1,7 +1,7 @@
-import React, { useState, useContext } from "react";
-import { FaAlignJustify } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import { UserContext } from "../contexts/UserContext";
+import React, { useState, useContext } from 'react';
+import { FaAlignJustify } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import { UserContext } from '../contexts/UserContext';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,7 +29,7 @@ export default function Navbar() {
           ) : null}
         </div>
 
-        <ul className={isOpen ? "nav-links show-nav" : "nav-links"}>
+        <ul className={isOpen ? 'nav-links show-nav' : 'nav-links'}>
           <li>
             <Link to="/">Home</Link>
           </li>

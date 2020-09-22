@@ -7,17 +7,21 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('store_web', '0016_auto_20200918_1802'),
+        ("store_web", "0016_auto_20200918_1802"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='orders',
-            name='addresses',
+            model_name="orders",
+            name="addresses",
         ),
         migrations.AddField(
-            model_name='orders',
-            name='addresses',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='store_web.Address'),
+            model_name="orders",
+            name="addresses",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="store_web.Address",
+            ),
         ),
     ]

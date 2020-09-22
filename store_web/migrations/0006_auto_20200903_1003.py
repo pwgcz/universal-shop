@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('store_web', '0005_auto_20200903_1001'),
+        ("store_web", "0005_auto_20200903_1001"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='cartitem',
-            name='saved_for_later',
-            field=models.BooleanField(default=False, verbose_name='saved_for_later'),
+            model_name="cartitem",
+            name="saved_for_later",
+            field=models.BooleanField(default=False, verbose_name="saved_for_later"),
         ),
     ]

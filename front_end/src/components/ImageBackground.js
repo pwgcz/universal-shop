@@ -1,9 +1,5 @@
-import React from "react";
+import React from 'react';
 
-export default function ImageBackground ({ children }) {
-  return (
-    <header className="img-back">
-      {children}
-    </header>
-  );
+export default function ImageBackground({ children }) {
+  return <header className="img-back">{children}</header>;
 }

@@ -6,38 +6,38 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('store_web', '0003_address_name'),
+        ("store_web", "0003_address_name"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='address',
-            name='city',
-            field=models.CharField(max_length=256, null=True, verbose_name='city'),
+            model_name="address",
+            name="city",
+            field=models.CharField(max_length=256, null=True, verbose_name="city"),
         ),
         migrations.AlterField(
-            model_name='address',
-            name='country',
-            field=models.CharField(blank=True, max_length=256, verbose_name='country'),
+            model_name="address",
+            name="country",
+            field=models.CharField(blank=True, max_length=256, verbose_name="country"),
         ),
         migrations.AlterField(
-            model_name='address',
-            name='name',
-            field=models.CharField(blank=True, max_length=256, verbose_name='country'),
+            model_name="address",
+            name="name",
+            field=models.CharField(blank=True, max_length=256, verbose_name="country"),
         ),
         migrations.AlterField(
-            model_name='address',
-            name='phone',
-            field=models.CharField(max_length=256, null=True, verbose_name='phone'),
+            model_name="address",
+            name="phone",
+            field=models.CharField(max_length=256, null=True, verbose_name="phone"),
         ),
         migrations.AlterField(
-            model_name='address',
-            name='post_code',
-            field=models.CharField(max_length=256, null=True, verbose_name='post_code'),
+            model_name="address",
+            name="post_code",
+            field=models.CharField(max_length=256, null=True, verbose_name="post_code"),
         ),
         migrations.AlterField(
-            model_name='address',
-            name='street',
-            field=models.CharField(max_length=256, null=True, verbose_name='street'),
+            model_name="address",
+            name="street",
+            field=models.CharField(max_length=256, null=True, verbose_name="street"),
         ),
     ]

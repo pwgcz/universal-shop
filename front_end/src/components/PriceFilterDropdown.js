@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import Nouislider from "nouislider-react";
-import "nouislider/distribute/nouislider.css";
+import React, { useState } from 'react';
+import Nouislider from 'nouislider-react';
+import 'nouislider/distribute/nouislider.css';
 import Dropdown from './Dropdown';
 
-export default function PriceFilterDropdown ({ getPriceRange }) {
+export default function PriceFilterDropdown({ getPriceRange }) {
   const [priceRange, setPriceRange] = useState({ minPrice: 0, maxPrice: 200 });
 
   const handleChange = (event) => {
@@ -14,7 +14,7 @@ export default function PriceFilterDropdown ({ getPriceRange }) {
   };
 
   return (
-    <Dropdown name='price'>
+    <Dropdown name="price">
       <div className="slider">
         <Nouislider
           id="slider-custom"

@@ -1,24 +1,20 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Paginator from '../components/Paginator';
 import RowInList from './RowInList';
 
-export default function StaffCategories () {
-
+export default function StaffCategories() {
   const [categories, setCategories] = useState([]);
   const [activePage, setActivePage] = useState(1);
   const [count, setCount] = useState(0);
 
   const handlePageChange = (pageNumber) => {
-    setActivePage(pageNumber)
-  }
+    setActivePage(pageNumber);
+  };
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get(
-        `/api/categories?page=${activePage}`
-      );
+      const response = await axios.get(`/api/categories?page=${activePage}`);
       setCategories(response.data);
       setCount(response.data.length);
     } catch (e) {
@@ -29,16 +25,15 @@ export default function StaffCategories () {
     fetchCategories();
   }, [activePage]);
 
-
-  async function handleDelete (event) {
+  async function handleDelete(event) {
     event.preventDefault();
     let id = event.target.value;
     try {
       const response = await axios.delete(`api/staff/categories/${id}/`, {
         headers: {
-          Authorization: "JWT " + localStorage.getItem("access_token"),
-          "Content-Type": "application/json",
-          accept: "application/json",
+          Authorization: 'JWT ' + localStorage.getItem('access_token'),
+          'Content-Type': 'application/json',
+          accept: 'application/json',
         },
       });
 
@@ -57,7 +52,6 @@ export default function StaffCategories () {
     );
   }
 
-
   return (
     <>
       <div className="list-conteiner">
@@ -66,14 +60,24 @@ export default function StaffCategories () {
             return (
               <li key={item.category_id} className="list-view">
                 <RowInList title="Name" content={item.name} />
-                <button value={item.category_id} onClick={handleDelete} className='btn-primary'>Delete</button>
+                <button
+                  value={item.category_id}
+                  onClick={handleDelete}
+                  className="btn-primary"
+                >
+                  Delete
+                </button>
               </li>
             );
           })}
         </ul>
       </div>
       <div className="seperator" />
-      <Paginator activePage={activePage} count={count} handlePageChange={handlePageChange} />
+      <Paginator
+        activePage={activePage}
+        count={count}
+        handlePageChange={handlePageChange}
+      />
     </>
   );
 }

@@ -1,6 +1,6 @@
-import React, { createContext, useState, useEffect } from "react";
-import axios from "axios";
-import { useAlert } from 'react-alert'
+import React, { createContext, useState, useEffect } from 'react';
+import axios from 'axios';
+import { useAlert } from 'react-alert';
 
 export const UserContext = createContext({
   user: {},
@@ -8,18 +8,17 @@ export const UserContext = createContext({
 });
 
 const UserContextProvider = ({ children }) => {
-
   const [user, setUser] = useState({
-    id: "",
-    email: "",
-    user_name: "",
-    first_name: "",
-    last_name: "",
-    phone: "",
-    date_joined: "",
+    id: '',
+    email: '',
+    user_name: '',
+    first_name: '',
+    last_name: '',
+    phone: '',
+    date_joined: '',
     is_staff: false,
-    logged_in: localStorage.getItem("access_token") ? true : false,
-    date_of_birth: "",
+    logged_in: localStorage.getItem('access_token') ? true : false,
+    date_of_birth: '',
   });
 
   const setUserObject = (props) => {
@@ -32,7 +31,7 @@ const UserContextProvider = ({ children }) => {
       phone: props.phone,
       date_joined: props.date_joined,
       is_staff: props.is_staff,
-      loggedIn: localStorage.getItem("access_token") ? true : false,
+      loggedIn: localStorage.getItem('access_token') ? true : false,
       date_of_birth: props.date_of_birth,
     });
   };
@@ -41,9 +40,9 @@ const UserContextProvider = ({ children }) => {
     try {
       const response = await axios.get(`/auth/current_user`, {
         headers: {
-          Authorization: "JWT " + localStorage.getItem("access_token"),
-          "Content-Type": "application/json",
-          accept: "application/json",
+          Authorization: 'JWT ' + localStorage.getItem('access_token'),
+          'Content-Type': 'application/json',
+          accept: 'application/json',
         },
       });
       setUserObject(response.data);
@@ -53,19 +52,16 @@ const UserContextProvider = ({ children }) => {
   };
 
   const isLoggedIn = () => {
-    if (!localStorage.getItem("access_token") ? true : false) {
-      handleLogout(false)
+    if (!localStorage.getItem('access_token') ? true : false) {
+      handleLogout(false);
     } else {
-      setUserProperty(
-        "logged_in", true
-      )
+      setUserProperty('logged_in', true);
     }
   };
   useEffect(() => {
     isLoggedIn();
     fetchCurrentUser();
   }, []);
-
 
   const [addressId, setAddressId] = useState(null);
 
@@ -75,28 +71,27 @@ const UserContextProvider = ({ children }) => {
     });
   };
 
-
-  const alerts = useAlert()
+  const alerts = useAlert();
   const handleLogout = (silent = false) => {
-    localStorage.removeItem("access_token");
+    localStorage.removeItem('access_token');
     setUser({
-      id: "",
-      email: "",
-      userName: "",
-      firstName: "",
-      lastName: "",
-      phone: "",
-      dateJoined: "",
+      id: '',
+      email: '',
+      userName: '',
+      firstName: '',
+      lastName: '',
+      phone: '',
+      dateJoined: '',
       isStaff: false,
       loggedIn: false,
-      dateOfBirth: "",
+      dateOfBirth: '',
     });
 
     if (silent) {
       alerts.show('successfully logout', {
         timeout: 0,
-        type: 'success'
-      })
+        type: 'success',
+      });
     }
   };
 

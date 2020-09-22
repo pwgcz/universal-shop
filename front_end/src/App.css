@@ -19,7 +19,7 @@
 /* globals */
 body {
   padding-top: 66px;
-  font-family: "Exo", sans-serif;
+  font-family: 'Exo', sans-serif;
   background: var(--mainWhite);
   line-height: 2.2;
 }
@@ -53,18 +53,17 @@ a {
 .spacing {
   padding: 2rem;
 }
-.wrapper{
+.wrapper {
   width: 90vw;
   margin: 1rem auto;
 }
-.wrapper h3{
+.wrapper h3 {
   margin-top: 1rem;
   font-size: 2rem;
   text-transform: capitalize;
   font-weight: 600;
   letter-spacing: var(--mainSpacing);
 }
-
 
 .btn-primary {
   display: inline-block;
@@ -83,8 +82,8 @@ a {
   background: transparent;
   color: var(--brightOrangeColor);
 }
-.btn-margin{
-    margin: 0 7rem;
+.btn-margin {
+  margin: 0 7rem;
 }
 .loading {
   text-transform: capitalize;
@@ -106,9 +105,9 @@ a {
 /* end of globals */
 
 /* Image background */
-.img-back{
+.img-back {
   min-height: calc(100vh - 66px);
-  background: url("./images/berry.jpeg") center/cover no-repeat;
+  background: url('./images/berry.jpeg') center/cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -204,7 +203,6 @@ a {
   }
 }
 /* end of Navbar */
-
 
 /* End of Hero */
 
@@ -387,8 +385,7 @@ a {
 }
 
 .image,
-.info,
- {
+.info {
   margin: 1rem 0;
 }
 .footer {
@@ -425,7 +422,7 @@ a {
   padding: 0.1rem 0.3rem;
 }
 @media screen and (min-width: 992px) {
-  .single-product-info{
+  .single-product-info {
     width: 95vw;
     max-width: 1170px;
     display: grid;
@@ -487,7 +484,6 @@ a {
 
 /*category */
 
-
 .category p {
   margin: 1rem 0;
   text-align: left;
@@ -527,21 +523,21 @@ a {
 /* end of sidebar category */
 
 /* products */
-.products-wraper{
+.products-wraper {
   margin: 0 3rem;
 }
-.products-wraper h3{
+.products-wraper h3 {
   margin-top: 1rem;
   font-size: 2rem;
   text-transform: capitalize;
   font-weight: 600;
   letter-spacing: var(--mainSpacing);
 }
-.products-filters{
+.products-filters {
   display: block;
 }
 @media screen and (min-width: 971px) {
-  .products-filters{
+  .products-filters {
     display: flex;
   }
 }
@@ -562,20 +558,19 @@ a {
 }
 
 ::-webkit-datetime-edit {
-   margin-left: 3.5rem;
- }
+  margin-left: 3.5rem;
+}
 ::-webkit-calendar-picker-indicator {
   position: absolute;
   border-radius: 3px;
   background-color: var(--mainWhite);
+}
 
- }
-
-.start-input  {
+.start-input {
   color: var(--mainWhite);
   font-size: 1.5rem;
   weight: 300;
-  padding: 2px ;
+  padding: 2px;
   outline: 0;
   border: 0;
   width: 60%;
@@ -588,8 +583,8 @@ a {
   border-bottom: 2px solid red;
 }
 
-.is-valid{
-    border-bottom: 2px solid green ;
+.is-valid {
+  border-bottom: 2px solid green;
 }
 
 .auth-conteiner button {
@@ -602,10 +597,9 @@ a {
   text-align: center;
 }
 
-.auth-form .invalid{
+.auth-form .invalid {
   display: block;
   color: red;
-
 }
 
 .auth-seperator {
@@ -614,7 +608,7 @@ a {
   margin: 0 auto;
   background: var(--mainGreyColor);
 }
-.auth-form .auth-desc{
+.auth-form .auth-desc {
   color: var(--mainWhite);
 }
 
@@ -633,7 +627,7 @@ a {
     margin: auto 0;
   }
   .auth-form {
-  width: 40vw;
+    width: 40vw;
   }
 }
 
@@ -645,12 +639,11 @@ a {
   padding: 3rem;
   margin: 3rem auto;
   width: 80vw;
-  box-shadow:  0 .125rem .25rem  rgba(0, 0, 0, 0.75);
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.75);
 }
 .center-conteiner {
   text-align: center;
 }
-
 
 .address-center {
   width: 90vw;
@@ -661,18 +654,18 @@ a {
   grid-column-gap: 50px;
 }
 
-.address-box{
-  box-shadow:  0 .125rem .25rem  rgba(0, 0, 0, 0.75);
+.address-box {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.75);
   padding: 2rem;
 }
-.address-center button{
+.address-center button {
   margin: 0 1rem;
 }
 
 .diaactive-shipping {
   visibility: hidden;
 }
-.active-shipping{
+.active-shipping {
   transition: var(--mainTransition);
   visibility: visible;
   color: green;
@@ -684,7 +677,6 @@ a {
   border-radius: 50%;
   display: inline-block;
 }
-
 
 @media screen and (min-width: 1524px) {
 }
@@ -704,6 +696,7 @@ a {
 }
 
 .form-container .select-category {
+  color: var(--mainWhite);
   font-size: 1.5rem;
   weight: 300;
   text-align: center;
@@ -742,18 +735,18 @@ a {
 /* end of Form */
 
 /* list view */
-.list-wraper{
+.list-wraper {
   padding: 5rem;
   margin: 1rem auto;
 }
-.select-status{
-  padding-bottom: 5rem ;
+.select-status {
+  padding-bottom: 5rem;
   height: 2rem;
 }
-.select-status label{
-    font-weight: 600;
+.select-status label {
+  font-weight: 600;
 }
-.select-status select{
+.select-status select {
   display: block;
 }
 
@@ -794,7 +787,7 @@ a {
 }
 
 @media screen and (min-width: 754px) {
-  .list-conteiner .list-view{
+  .list-conteiner .list-view {
     width: 90vw;
     margin: 1rem auto;
     display: flex;
@@ -810,18 +803,15 @@ a {
 }
 
 @media screen and (min-width: 1524px) {
-  .list-conteiner .list-view{
+  .list-conteiner .list-view {
     width: 70vw;
-
   }
 }
 
-
 /* end of list view */
 
-
 /* pagination */
-.pagination-ul{
+.pagination-ul {
   margin: 3rem auto;
   width: 20vw;
   display: flex;
@@ -829,34 +819,30 @@ a {
   list-style-type: none;
 }
 
-.pagination-a{
+.pagination-a {
   font-size: 1rem;
   weight: 300;
   padding: 0.5rem 1rem;
   color: var(--mainBlack);
   border-radius: 50%;
   border: 3px solid var(--brightOrangeColor);
-
-
 }
 
-.active-page{
+.active-page {
   padding: 0.5rem 1rem;
   border-radius: 50%;
   background-color: var(--brightOrangeColor);
 }
 /* end of pagination */
 
-
 /* Row in list */
-.row{
+.row {
   min-width: 100px;
-
 }
-.row label{
+.row label {
   font-weight: 600;
 }
-.row-inline{
+.row-inline {
   margin: 6px;
   display: inline-block;
 }
@@ -865,9 +851,9 @@ a {
 
 /* QuantityInput */
 
-.quantity{
-   display:flex;
-   width:160px;
+.quantity {
+  display: flex;
+  width: 160px;
 }
 
 /*it will support Chrome, Safari, Edge, Opera */
@@ -878,30 +864,31 @@ a {
 }
 
 /* Firefox */
-.quantity input[type=number] {
+.quantity input[type='number'] {
   -moz-appearance: textfield;
 }
 
-.quantity input,.quantity button{
-   width:50px;
-   padding:.5em;
-   font-size:1.2rem;
-   text-align:center;
-   font-weight:900;
-   background:white;
-   border:1px solid #aaa;
+.quantity input,
+.quantity button {
+  width: 50px;
+  padding: 0.5em;
+  font-size: 1.2rem;
+  text-align: center;
+  font-weight: 900;
+  background: white;
+  border: 1px solid #aaa;
 }
 
-.quantity input{
-   border-left:none;
-   border-right:none;
+.quantity input {
+  border-left: none;
+  border-right: none;
 }
 
 /* end of QuantityInput */
 
 /* phone input */
 
-.phone-conteiner{
+.phone-conteiner {
   width: 60% !important ;
   margin: 0 auto;
   text-align: left;
@@ -909,10 +896,10 @@ a {
   border-bottom: 2px solid var(--brightOrangeColor);
 }
 
-.phone-invalid{
+.phone-invalid {
   border-bottom: 2px solid red;
 }
-.phone-valid{
+.phone-valid {
   border-bottom: 2px solid green;
 }
 .phone-input {
@@ -929,22 +916,20 @@ a {
 .phone-button {
   background: transparent !important;
   border: 0 !important;
-
 }
 /* end of phone input */
 
 /* Dropdown */
 
-.dropdown-conteiner{
-  margin: 1rem ;
+.dropdown-conteiner {
+  margin: 1rem;
   position: relative;
   max-width: 40rem;
-
 }
-.dropdown-button{
+.dropdown-button {
   padding: 0.4rem 0.9rem;
   position: relative;
-  box-shadow:  0 .125rem .25rem  rgba(0, 0, 0, 0.75);
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.75);
   font-size: 1.3rem;
   color: var(--mainBlack);
   text-decoration: none;
@@ -956,7 +941,7 @@ a {
   cursor: pointer;
   outline: none;
 }
-.dropdown-content{
+.dropdown-content {
   width: 100%;
   max-width: 40rem;
   padding: 0.75rem 2rem;
@@ -965,10 +950,10 @@ a {
   position: absolute;
   transition: var(--mainTransition);
   background: var(--mainWhite);
-  box-shadow:  0 .125rem .25rem  rgba(0, 0, 0, 0.75);
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.75);
 }
 @media screen and (min-width: 971px) {
-  .dropdown-conteiner{
+  .dropdown-conteiner {
     position: inherit;
   }
 }

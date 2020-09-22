@@ -1,20 +1,18 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
-import Title from "./Title";
-import { useHistory } from "react-router-dom";
-import Form from "./Form";
-import InputForm from "./InputForm";
+import React, { useState } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import Form from './Form';
+import InputForm from './InputForm';
 import CategorySelectBox from './CategorySelectBox';
 
-export default function ProductForm () {
-
+export default function ProductForm() {
   const history = useHistory();
   const [product, setProduct] = useState({
-    name: "",
-    price: "",
-    category: "",
-    images:null,
+    name: '',
+    price: '',
+    category: '',
+    images: null,
   });
 
   const handleChange = (event) => {
@@ -32,21 +30,17 @@ export default function ProductForm () {
     setProduct((prevstate) => {
       return { ...prevstate, ['category']: [value] };
     });
-    console.log(product);
   };
 
   const handleImageChange = (event) => {
     console.log(event.target.files);
-    setProduct({...product, images:event.target.files[0]});
-
+    setProduct({ ...product, images: event.target.files[0] });
   };
-
-  console.log(product);
 
   async function handleSubmit(event) {
     event.preventDefault();
 
-    let formData = new FormData();
+    const formData = new FormData();
 
     if (product.images) {
       formData.append('image', product.images, product.images.name);
@@ -57,21 +51,15 @@ export default function ProductForm () {
     formData.append('description', product.description);
     formData.append('category', product.category);
 
-    console.log(formData);
-
     try {
-      const response = await axios.post(
-        "/api/staff/products/",
-        formData,
-        {
-          headers: {
-            Authorization: "JWT " + localStorage.getItem("access_token"),
-            "Content-Type": 'multipart/form-data',
-            accept: "application/json",
-          },
-        }
-      );
-      history.push("/staff");
+      const response = await axios.post('/api/staff/products/', formData, {
+        headers: {
+          Authorization: 'JWT ' + localStorage.getItem('access_token'),
+          'Content-Type': 'multipart/form-data',
+          accept: 'application/json',
+        },
+      });
+      history.push('/staff');
       return response;
     } catch (error) {
       console.log(error.response);

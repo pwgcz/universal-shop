@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import DropDown from './Dropdown';
 
-export default function CategoriesDropdown ({ getCategoryName, isOpen }) {
+export default function CategoriesDropdown({ getCategoryName, isOpen }) {
   const [categories, setCategories] = useState([]);
 
   const fetchProducts = async () => {
@@ -27,17 +27,21 @@ export default function CategoriesDropdown ({ getCategoryName, isOpen }) {
   }
   return (
     <div className="category">
-      <DropDown name='Category'>
+      <DropDown name="Category">
         <ul>
           <li>
-            <button onClick={getCategoryName} value=''>
+            <button onClick={getCategoryName} value="">
               All
             </button>
           </li>
           {categories.map((category) => {
             return (
-              <li key={category.category_id} >
-                <button type='button' onClick={getCategoryName} value={category.name}>
+              <li key={category.category_id}>
+                <button
+                  type="button"
+                  onClick={getCategoryName}
+                  value={category.name}
+                >
                   {category.name}
                 </button>
               </li>
@@ -45,7 +49,6 @@ export default function CategoriesDropdown ({ getCategoryName, isOpen }) {
           })}
         </ul>
       </DropDown>
-
     </div>
   );
 }

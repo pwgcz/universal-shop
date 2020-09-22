@@ -1,18 +1,18 @@
-import React, { useState, useEffect, useContext } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
-import { UserContext } from "../contexts/UserContext";
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect, useContext } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { UserContext } from '../contexts/UserContext';
+import { useHistory } from 'react-router-dom';
 import { useAlert } from 'react-alert';
 import QuantityInput from '../components/QuantityInput';
 
-export default function SingleProduct (props) {
+export default function SingleProduct(props) {
   const { user } = useContext(UserContext);
   const [singleProduct, setSingleProduct] = useState({
     product: [],
-    isFetching: true
+    isFetching: true,
   });
-  const [productCartQuantity, setProductCartQuantity] = useState(1)
+  const [productCartQuantity, setProductCartQuantity] = useState(1);
   const history = useHistory();
 
   const fetchProduct = async () => {
@@ -22,8 +22,8 @@ export default function SingleProduct (props) {
         `/api/products/${props.match.params.id}`
       );
       setSingleProduct({ product: response.data, isFetching: false });
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log(error);
       setSingleProduct({ product: singleProduct.product, isFetching: false });
     }
   };
@@ -31,9 +31,7 @@ export default function SingleProduct (props) {
     fetchProduct();
   }, []);
 
-
-  const alerts = useAlert()
-
+  const alerts = useAlert();
 
   const addToCart = async () => {
     try {
@@ -42,40 +40,40 @@ export default function SingleProduct (props) {
         JSON.stringify({
           product: parseInt(props.match.params.id),
           users: [parseInt(user.id)],
-          quantity: productCartQuantity
+          quantity: productCartQuantity,
         }),
         {
           headers: {
-            Authorization: "JWT " + localStorage.getItem("access_token"),
-            "Content-Type": "application/json",
-            accept: "application/json",
+            Authorization: 'JWT ' + localStorage.getItem('access_token'),
+            'Content-Type': 'application/json',
+            accept: 'application/json',
           },
         }
       );
-      history.push("/products");
+      history.push('/products');
     } catch (error) {
       console.log(error.response);
       if (error.response.status === 401) {
         alerts.show('you must login to add item to cart', {
           timeout: 0,
-          type: 'info'
-        })
+          type: 'info',
+        });
       } else if (error.response.data.message === 'product is in cart') {
         try {
           await axios.patch(
             `/api/cart-items/${error.response.data.cart_item_id}/`,
             JSON.stringify({
-              quantity: error.response.data.quantity
+              quantity: error.response.data.quantity,
             }),
             {
               headers: {
-                Authorization: "JWT " + localStorage.getItem("access_token"),
-                "Content-Type": "application/json",
-                accept: "application/json",
+                Authorization: 'JWT ' + localStorage.getItem('access_token'),
+                'Content-Type': 'application/json',
+                accept: 'application/json',
               },
             }
           );
-          history.push("/products");
+          history.push('/products');
         } catch (error) {
           console.log(error);
         }
@@ -83,13 +81,13 @@ export default function SingleProduct (props) {
           await axios.patch(
             `/api/products/${props.match.params.id}/`,
             {
-              quantity: -error.response.data.quantity
+              quantity: -error.response.data.quantity,
             },
             {
               headers: {
-                Authorization: "JWT " + localStorage.getItem("access_token"),
-                "Content-Type": "application/json",
-                accept: "application/json",
+                Authorization: 'JWT ' + localStorage.getItem('access_token'),
+                'Content-Type': 'application/json',
+                accept: 'application/json',
               },
             }
           );
@@ -102,13 +100,13 @@ export default function SingleProduct (props) {
       await axios.patch(
         `/api/products/${props.match.params.id}/`,
         {
-          quantity: -productCartQuantity
+          quantity: -productCartQuantity,
         },
         {
           headers: {
-            Authorization: "JWT " + localStorage.getItem("access_token"),
-            "Content-Type": "application/json",
-            accept: "application/json",
+            Authorization: 'JWT ' + localStorage.getItem('access_token'),
+            'Content-Type': 'application/json',
+            accept: 'application/json',
           },
         }
       );
@@ -117,13 +115,13 @@ export default function SingleProduct (props) {
     }
   };
   const currencyFormater = (param) => {
-    return new Intl.NumberFormat("pl",{
-      style:'currency',
-      minimumIntegerDigits:1,
+    return new Intl.NumberFormat('pl', {
+      style: 'currency',
+      minimumIntegerDigits: 1,
       currency: 'PLN',
-      currencyDisplay: 'symbol'
+      currencyDisplay: 'symbol',
     }).format(param);
-  }
+  };
   if (singleProduct.product.length === 0) {
     return (
       <div className="error">
@@ -134,7 +132,15 @@ export default function SingleProduct (props) {
       </div>
     );
   }
-  const { product_id, category, name, price, image, quantity, description } = singleProduct.product;
+  const {
+    product_id,
+    category,
+    name,
+    price,
+    image,
+    quantity,
+    description,
+  } = singleProduct.product;
   return (
     <>
       <section className="single-product">
@@ -148,17 +154,17 @@ export default function SingleProduct (props) {
             <h3>category: {category}</h3>
             <h3>price: {currencyFormater(price)}</h3>
             <h3>availability: {quantity}</h3>
-            <QuantityInput quantityValue={quantity => setProductCartQuantity(quantity)} />
+            <QuantityInput
+              quantityValue={(quantity) => setProductCartQuantity(quantity)}
+            />
             <div className="buttons">
-              {quantity >= 1 ?
+              {quantity >= 1 ? (
                 <button onClick={addToCart} className="btn-primary footer">
                   Add to cart
                 </button>
-                :
-                <h3>
-                product is unapproachable
-                </h3>
-              }
+              ) : (
+                <h3>product is unapproachable</h3>
+              )}
               <Link to="/products" className="btn-primary footer">
                 Go back shopping
               </Link>
@@ -170,7 +176,6 @@ export default function SingleProduct (props) {
           </article>
         </div>
       </section>
-
     </>
   );
 }
