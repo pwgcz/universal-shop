@@ -36,7 +36,7 @@ export default function ProductForm() {
     console.log(event.target.files);
     setProduct({ ...product, images: event.target.files[0] });
   };
-
+  console.log(product);
   async function handleSubmit(event) {
     event.preventDefault();
 
@@ -59,6 +59,7 @@ export default function ProductForm() {
           accept: 'application/json',
         },
       });
+
       history.push('/staff');
       return response;
     } catch (error) {

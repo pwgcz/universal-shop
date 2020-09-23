@@ -24,8 +24,9 @@ export default function ProfileInfo() {
           <RowInList isInline title="User:" content={user_name} />
         </h6>
         <RowInList isInline title="email:" content={email} />
-        <RowInList isInline title="First name:" content={last_name} />
-        <RowInList isInline title="Last name:" content={date_of_birth} />
+        <RowInList isInline title="First name:" content={first_name} />
+        <RowInList isInline title="Last name:" content={last_name} />
+        <RowInList isInline title="Date of birth:" content={date_of_birth} />
         <RowInList isInline title="Phone:" content={phone} />
       </div>
       <div className="seperator" />
