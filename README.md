@@ -1,6 +1,6 @@
 
 # Store-Universal
-##### Link to working application: 
+##### Link to working application: https://berry-shop.herokuapp.com
 #### Purpose:
 _Application was created to demonstrate my knowledge of used technologies._
 
