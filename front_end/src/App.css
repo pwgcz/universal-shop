@@ -377,11 +377,11 @@ a {
 /* single product*/
 
 .single-product {
-  padding: 5rem 0 0 0;
+
   width: 80vw;
   display: grid;
   grid-template-columns: 1fr;
-  margin: 2rem auto;
+  margin: 5rem auto ;
   justify-content: center;
 }
 
@@ -412,16 +412,18 @@ a {
   font-weight: 300;
 }
 .image img {
-  width: 400px;
+  width: 80vw;;
   display: block;
-  margin: auto;
+  margin: auto 0;
 }
 .buttons {
+  width: 100%;
   display: flex;
   justify-content: space-around;
 }
 .buttons .btn-primary {
   padding: 0.1rem 0.3rem;
+  margin: 0.5rem;
 }
 @media screen and (min-width: 992px) {
   .single-product-info {
@@ -433,6 +435,10 @@ a {
   }
   .info {
     padding-left: 3rem;
+  }
+  .image img {
+    margin-top: 3rem;
+    width: 30vw;
   }
 }
 /* end of single product*/
@@ -775,6 +781,7 @@ a {
   margin: 2rem;
 }
 .list-conteiner img {
+  width: 50vw;
   margin-bottom: 1px;
   display: inline;
   transition: var(--mainTransition);
