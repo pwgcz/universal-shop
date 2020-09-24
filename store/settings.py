@@ -13,6 +13,7 @@ DEBUG = config("DEBUG", default=True, cast=bool)
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", ".herokuapp.com"]
 
 
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -28,6 +29,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    # 'whitenoise.middleware.WhiteNoiseMiddleware',
     "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -106,15 +108,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = "/static/"
-STATIC_ROOT = "static"
+STATIC_ROOT = 'static'
 
-MEDIA_URL = "/static/media/"
-MEDIA_ROOT = "static/media"
+MEDIA_URL = "/media/"
+MEDIA_ROOT = "media"
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "front_end/build/static"),
-]
-
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, "front_end/build/static"),
+# ]
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # REST Framework set-up
 
 
