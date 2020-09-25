@@ -1,5 +1,5 @@
 
-# Store-Universal
+# Universal-shop
 ##### Link to working application: https://berry-shop.herokuapp.com
 #### Purpose:
 _Application was created to demonstrate my knowledge of used technologies. Application is a e-commerce website 
@@ -11,7 +11,7 @@ which offers berry seedlings. It is easy to change to sell any products_
 * React 16.13.1
 
 ### Features
-User who is not log in can see products available, but only logedin user can ad items to Cart and make orders. Application provided staff user who can add new products and changes status of orders every user. Staff permissions can grant only super user provided by Django.
+User who is not log in can see products available, but only login user can ad items to Cart and make orders. Application provided staff user who can add new products and changes status of orders every user. Staff permissions can grant only super user provided by Django.
  
 ### DataStructure
 Database was created using PostgreSQL based on graph schema presented here 
@@ -21,7 +21,7 @@ Database was created using PostgreSQL based on graph schema presented here
 
 ### Shop Staff panel
 In Shop staff panel Staff User can management all products and orders using forms.  
-To check Staff panel func login with this data:
+To check Staff panel functionality login with this data:
 * Email: admin@gmail.com
 * Password: ADMINadmin123
 

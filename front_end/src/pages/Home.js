@@ -1,7 +1,6 @@
 import React from 'react';
 import Banner from '../components/Banner';
 import { Link } from 'react-router-dom';
-import Informations from '../components/Informations';
 import ImageBackground from '../components/ImageBackground';
 
 const Home = () => {
@@ -19,7 +18,6 @@ const Home = () => {
           </Banner>
         </div>
       </ImageBackground>
-      <Informations />
     </>
   );
 };

@@ -71,7 +71,7 @@ export default function Orders() {
                   to={`/order-detail/${item.order_id}`}
                   className="btn-primary"
                 >
-                  Ditails
+                  Details
                 </Link>
               </li>
             );
