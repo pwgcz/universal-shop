@@ -234,7 +234,7 @@ export default function Register() {
         Register{' '}
       </button>
       <small>
-        <h3>Password must contein:</h3>
+        <h3>Password must contain:</h3>
         <p>at least 8 character</p>
         <p>one uppercase character</p>
         <p>one lowercase character</p>

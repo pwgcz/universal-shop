@@ -558,7 +558,6 @@ a {
   justify-content: space-between;
   background: rgba(0, 0, 0, 0.8);
   color: var(--mainWhite);
-  text-transform: capitalize;
   letter-spacing: var(--mainSpacing);
 }
 .auth-conteiner label {
