@@ -5,6 +5,8 @@ import { useHistory } from 'react-router-dom';
 import Form from './Form';
 import InputForm from './InputForm';
 import CategorySelectBox from './CategorySelectBox';
+import CSRFToken from './CSRFToken';
+import Cookies from 'js-cookie';
 
 export default function ProductForm() {
   const history = useHistory();
@@ -31,7 +33,7 @@ export default function ProductForm() {
       return { ...prevstate, ['category']: [value] };
     });
   };
-
+  const csrftoken = Cookies.get('csrftoken');
   const handleImageChange = (event) => {
     console.log(event.target.files);
     setProduct({ ...product, images: event.target.files[0] });
@@ -69,6 +71,7 @@ export default function ProductForm() {
 
   return (
     <Form submitButton="Add" handleSubmit={handleSubmit}>
+
       <h4>Product</h4>
       <InputForm
         name="name"

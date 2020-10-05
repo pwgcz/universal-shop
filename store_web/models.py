@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from authentication.models import User
+from store.settings import PUBLIC_MEDIA_LOCATION, AWS_S3_CUSTOM_DOMAIN
 
 
 class Orders(models.Model):
@@ -94,7 +95,7 @@ class Product(models.Model):
     price = models.DecimalField(_("price"), max_digits=256, decimal_places=2)
     quantity = models.IntegerField(_("quantity"), default=1)
     image = models.ImageField(
-        _("image"), upload_to="images", default="/images/default.jpg"
+        _("image"), upload_to="images", default='images/default.jpg'
     )
     description = models.TextField(_("description"), null=True)
 
