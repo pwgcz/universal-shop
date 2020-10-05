@@ -18,6 +18,7 @@ export default function FilteredProducts({ categoryName, priceRange }) {
       setCount(response.data.count);
     } catch (error) {
       console.log(error);
+      console.log(error.response);
     }
   };
 
