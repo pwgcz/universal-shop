@@ -9,6 +9,7 @@ which offers berry seedlings. It is easy to change to sell any products_
 * Django 3.1.1
 * Django Rest Framework 3.11.0
 * React 16.13.1
+* AWS S3
 
 ### Features
 User who is not log in can see products available, but only login user can ad items to Cart and make orders. Application provided staff user who can add new products and changes status of orders every user. Staff permissions can grant only super user provided by Django.
